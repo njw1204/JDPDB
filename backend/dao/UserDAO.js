@@ -11,7 +11,7 @@ class UserDAO {
                 if (err) callback(false);
 
                 if (results.length) {
-                    console.log("login success id : " + results[0].id);
+                    console.log("login success (id) : " + results[0].id);
                     callback(true);
                     return;
                 }
