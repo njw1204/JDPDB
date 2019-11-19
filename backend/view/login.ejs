@@ -10,13 +10,16 @@
   <a href="/">index</a>
   <% if (session.user) { %>
     <h3>Hello, <%= session.user %></h3>
-    <a href="/logout"><button type="button">logout</button></a>
+    <a href="/logout"><button type="button">로그아웃</button></a>
   <% } else { %>
     <h1>Let's Login</h1>
     <form method="POST" action="/login">
       <p><input type="email" name="email" placeholder="이메일"></input></p>
       <p><input type="password" name="password" placeholder="비밀번호"></input></p>
-      <p><input type="submit" value="로그인"></input></p>
+      <p>
+        <input type="submit" value="로그인"></input>
+        <a href="/signup"><button type="button">회원가입</button></a>
+      </p>
     </form>
   <% } %>
 
