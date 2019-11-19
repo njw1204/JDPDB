@@ -9,10 +9,12 @@ class UserDAO {
                 "SELECT id FROM animals_user WHERE email=? AND password=PASSWORD(?)",
                 [user.email, user.password],
                 function(err, results, fields) {
+                    console.log("<authUser>");
+                    console.log(results);
+
                     if (err || results.length < 1)
                         return resolve(false);
 
-                    console.log("login success (id) : " + results[0].id);
                     resolve(true);
                 }
             );
@@ -25,6 +27,9 @@ class UserDAO {
                 "INSERT INTO animals_user(email,password,nickname,point) VALUES(?,PASSWORD(?),?,0)",
                 [user.email, user.password, user.nickname],
                 function(err, results, fields) {
+                    console.log("<createUser>");
+                    console.log(results);
+
                     if (err || results.affectedRows < 1)
                         return resolve(false);
 
@@ -40,6 +45,9 @@ class UserDAO {
                 "SELECT id FROM animals_user WHERE email=?",
                 [email],
                 function(err, results, fields) {
+                    console.log("<checkExistedEmail>");
+                    console.log(results);
+
                     if (err || results.length < 1)
                         return resolve(false);
 
@@ -55,6 +63,9 @@ class UserDAO {
                 "SELECT id FROM animals_user WHERE nickname=?",
                 [nickname],
                 function(err, results, fields) {
+                    console.log("<checkExistedNickname>");
+                    console.log(results);
+
                     if (err || results.length < 1)
                         return resolve(false);
 

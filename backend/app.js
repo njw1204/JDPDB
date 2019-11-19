@@ -5,6 +5,7 @@ const helmet = require("helmet");
 const logger = require("morgan");
 const session = require("express-session");
 const mainRouter = require("./router/main-router");
+const pageRouter = require("./router/page-router");
 
 
 const app = express();
@@ -29,6 +30,7 @@ app.use(function(req, res, next) {
 
 
 app.use("/", mainRouter);
+app.use("/page", pageRouter);
 app.use(function(req, res, next) {
     res.status(404).render("error/404");
 });

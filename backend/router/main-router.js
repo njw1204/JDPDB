@@ -11,6 +11,10 @@ router.get("/", function(req, res) {
     res.render("index");
 });
 
+router.get("/favicon.ico", function(req, res) {
+    res.status(404).end();
+})
+
 
 // login
 router.get("/login", function(req, res) {
