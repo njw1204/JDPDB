@@ -3,66 +3,67 @@ const pool = require("./helper/pool");
 const sqlHelper = require("./helper/sql-helper");
 
 class UserDAO {
-    authUser(user, callback) {
-        sqlHelper.query(
-            "SELECT id FROM animals_user WHERE email=? AND password=PASSWORD(?)",
-            [user.email, user.password],
-            function(err, results, fields) {
-                if (err || results.length < 1) {
-                    callback(false);
-                    return;
-                }
+    authUser(user) {
+        return new Promise(function(resolve, reject) {
+            sqlHelper.query(
+                "SELECT id FROM animals_user WHERE email=? AND password=PASSWORD(?)",
+                [user.email, user.password],
+                function(err, results, fields) {
+                    if (err || results.length < 1)
+                        return resolve(false);
 
-                console.log("login success (id) : " + results[0].id);
-                callback(true);
-            }
-        );
+                    console.log("login success (id) : " + results[0].id);
+                    resolve(true);
+                }
+            );
+        });
     }
 
-    createUser(user, callback) {
-        sqlHelper.query(
-            "INSERT INTO animals_user(email,password,nickname,point) VALUES(?,PASSWORD(?),?,0)",
-            [user.email, user.password, user.nickname],
-            function(err, results, fields) {
-                if (err || results.affectedRows < 1) {
-                    callback(false);
-                    return;
-                }
+    createUser(user) {
+        return new Promise(function(resolve, reject) {
+            sqlHelper.query(
+                "INSERT INTO animals_user(email,password,nickname,point) VALUES(?,PASSWORD(?),?,0)",
+                [user.email, user.password, user.nickname],
+                function(err, results, fields) {
+                    if (err || results.affectedRows < 1)
+                        return resolve(false);
 
-                callback(true);
-            }
-        );
+                    resolve(true);
+                }
+            );
+        });
     }
 
-    checkExistedEmail(email, callback) {
-        sqlHelper.query(
-            "SELECT id FROM animals_user WHERE email=?",
-            [email],
-            function(err, results, fields) {
-                if (err || results.length < 1) {
-                    callback(false);
-                    return;
-                }
+    checkExistedEmail(email) {
+        return new Promise(function(resolve, reject) {
+            sqlHelper.query(
+                "SELECT id FROM animals_user WHERE email=?",
+                [email],
+                function(err, results, fields) {
+                    if (err || results.length < 1)
+                        return resolve(false);
 
-                callback(true);
-            }
-        );
+                    resolve(true);
+                }
+            );
+        });
     }
 
-    checkExistedNickname(nickname, callback) {
-        sqlHelper.query(
-            "SELECT id FROM animals_user WHERE nickname=?",
-            [nickname],
-            function(err, results, fields) {
-                if (err || results.length < 1) {
-                    callback(false);
-                    return;
-                }
+    checkExistedNickname(nickname) {
+        return new Promise(function(resolve, reject) {
+            sqlHelper.query(
+                "SELECT id FROM animals_user WHERE nickname=?",
+                [nickname],
+                function(err, results, fields) {
+                    if (err || results.length < 1)
+                        return resolve(false);
 
-                callback(true);
-            }
-        );
+                    resolve(true);
+                }
+            );
+        });
     }
 }
 
-module.exports = UserDAO;
+const userDAO = new UserDAO();
+module.exports = userDAO;
