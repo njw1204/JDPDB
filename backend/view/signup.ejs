@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Sign Up</title>
+</head>
+<body>
+  <a href="/">index</a> | <a href="/login">login</a>
+  <h1>Sign Up</h1>
+  <form method="POST" action="/signup">
+    <p><input type="email" name="email" placeholder="이메일"></input></p>
+    <p><input type="password" name="password" placeholder="비밀번호"></input></p>
+    <p><input type="password" name="password2" placeholder="비밀번호 확인"></input></p>
+    <p><input type="text" name="nickname" placeholder="닉네임"></input></p>
+    <p><input type="submit" value="회원가입"></input></p>
+  </form>
+
+  <% if (typeof message !== "undefined") { %>
+    <script>alert("<%- message %>");</script>
+  <% } %>
+</body>
+</html>
