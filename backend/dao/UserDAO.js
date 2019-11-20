@@ -6,7 +6,7 @@ class UserDAO {
     authUser(user) {
         return new Promise(function(resolve, reject) {
             sqlHelper.query(
-                "SELECT id,nickname,email FROM animals_user WHERE email=? AND password=PASSWORD(?)",
+                "SELECT id,nickname,email FROM animals_user WHERE email=? AND password=SHA2(?, 256)",
                 [user.email, user.password],
                 function(err, results, fields) {
                     console.log("<authUser>");
@@ -24,7 +24,7 @@ class UserDAO {
     createUser(user) {
         return new Promise(function(resolve, reject) {
             sqlHelper.query(
-                "INSERT INTO animals_user(email,password,nickname,point) VALUES(?,PASSWORD(?),?,0)",
+                "INSERT INTO animals_user(email,password,nickname,point) VALUES(?,SHA2(?, 256),?,0)",
                 [user.email, user.password, user.nickname],
                 function(err, results, fields) {
                     console.log("<createUser>");
