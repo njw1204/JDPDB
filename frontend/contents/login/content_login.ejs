@@ -1,0 +1,27 @@
+<div class="container col-md-3 col-md-offset-3 " >
+    <!-- 추후 삭제 -->
+    <% if (session.user) { %>
+        <h3>Hello, <%= session.user %></h3>
+        <a href="/logout"><button type="button">logout</button></a>
+    <% } else { %>
+        <form class="form-signin">
+            <a class="text-center" href="/">index</a>
+            <h1 class="h3 mb-3 font-weight-normal text-center" >Animals 로그인</h1>
+            <label for="inputEmail">이메일</label>
+            <input type="email"  name="email" class="form-control mb-3" placeholder="이메일" required autofocus>
+            <label for="inputPassword" >비밀번호</label>
+            <input type="password"  name="password" class="form-control mb-3" placeholder="비밀번호" required>
+            <button class="btn btn-lg btn-primary btn-block" type="submit">로그인</button>
+            <p class="mt-5 mb-3 text-muted text-center">&copy; 2019-2019</p>
+        </form>
+    <% } %>
+
+    <!-- ejs -->
+    <% if (typeof success !== "undefined") { %>
+        <% if (success === true) { %>
+            <script>alert("<%- email %> 로그인 성공");</script>
+        <% } else if (success === false) { %>
+            <script>alert("아이디 또는 비밀번호를 틀렸습니다.");</script>
+        <% } %>
+    <% } %>
+</div>
