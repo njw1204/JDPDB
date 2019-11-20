@@ -21,15 +21,16 @@ router.get("/login", function(req, res) {
     res.render("login");
 });
 
+
 router.post("/login", asyncHandler(async (req, res) => {
     let user = {
         email: req.body.email,
         password: req.body.password
     };
 
-    let isAuth = await userDAO.authUser(user);
-    if (isAuth) req.session.user = user.email;
-    res.render("login", {success: isAuth, email: user.email});
+    let acceptedUser = await userDAO.authUser(user);
+    req.session.user = acceptedUser || null;
+    res.render("login", {success: (acceptedUser ? true : false), email: user.email});
 }));
 
 
@@ -65,7 +66,7 @@ router.post("/signup", asyncHandler(async (req, res) => {
         return res.render("signup", {message: "이미 존재하는 닉네임입니다."});
 
     if (await userDAO.createUser(user)) {
-        req.session.user = user.email;
+        req.session.user = (await userDAO.authUser(user)) || null;
         res.redirect("/login");
     }
     else

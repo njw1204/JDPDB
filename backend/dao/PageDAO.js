@@ -44,6 +44,22 @@ class PageDAO {
             );
         });
     }
+
+    getUserToPageBasicInfo(userId, pageId) {
+        return new Promise((resolve, reject) => {
+            sqlHelper.query(
+                `SELECT total_donate, class_level, subscribe FROM animals_user_to_page_info WHERE user_id = ? AND page_id = ?`,
+                [userId, pageId],
+                function(err, results, fields) {
+                    console.log("<getUserToPageBasicInfo>");
+                    console.log(results);
+
+                    if (err) return reject(err);
+                    resolve(results[0]);
+                }
+            );
+        });
+    }
 }
 
 const pageDAO = new PageDAO();

@@ -6,16 +6,16 @@ class UserDAO {
     authUser(user) {
         return new Promise(function(resolve, reject) {
             sqlHelper.query(
-                "SELECT id FROM animals_user WHERE email=? AND password=PASSWORD(?)",
+                "SELECT id,nickname,email FROM animals_user WHERE email=? AND password=PASSWORD(?)",
                 [user.email, user.password],
                 function(err, results, fields) {
                     console.log("<authUser>");
                     console.log(results);
 
                     if (err || results.length < 1)
-                        return resolve(false);
+                        return resolve(null);
 
-                    resolve(true);
+                    resolve(results[0]);
                 }
             );
         });
