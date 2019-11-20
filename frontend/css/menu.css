@@ -1,11 +1,15 @@
 #search{
     background-color: gray;
     border-color: gray;
+    color: #ffffff;
 }
 #search:focus{
     background-color: white;
-    border-color: white;
+    color: #0C0E10;
 }
 #search::placeholder{
-    color:lightgrey;
+    color:#ffffff;
+}
+#search:focus::placeholder{
+    color: #0C0E10;
 }

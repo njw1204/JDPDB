@@ -1,12 +1,13 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <%include common/header.ejs %>
+    <%include common/header.ejs %>
     <link rel="stylesheet" type="text/css" href="css/sign.css"/>
-  <title>Login</title>
+    <title>signup</title>
 </head>
 <body>
-<%include contents/login/form_login.ejs%>
+<% include common/top.ejs %>
+<% include contents/signup/form_signup.ejs %>
 
 <!-- ejs -->
 <% if (typeof success !== "undefined") { %>

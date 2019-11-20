@@ -1,5 +1,5 @@
-<div class="border-bottom shadow-sm">
-    <div class="d-flex flex-column flex-md-row align-items-center p-2 px-md-4 mb-0 bg-white container">
+<div class="border-bottom shadow-sm bg-white">
+    <div class="d-flex flex-column flex-md-row align-items-center p-2 px-md-4 mb-0 container">
         <h6 class="my-0 font-weight-bold mr-md-auto">
             <a class="text-dark" href="/">
                 Animals
@@ -7,7 +7,7 @@
         </h6>
         <% if(session.user == null){%>
             <a class="btn btn-white mr-md-2" href="/login">Sign in</a>
-            <a class="btn btn-outline-dark" href="#">Sign up</a>
+            <a class="btn btn-outline-dark" href="/signup">Sign up</a>
         <% }else {%>
             <a class="mr-md-2" href="/">내 동물 페이지</a>
             <input id="btn_point" class="btn btn-outline-dark" type="button" value="월랫 잔액 +">
