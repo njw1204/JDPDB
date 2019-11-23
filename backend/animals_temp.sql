@@ -53,15 +53,15 @@ CREATE TABLE animals_page
 
 ALTER TABLE animals_page
     ADD CONSTRAINT FK_animals_page_creator_id_animals_user_id FOREIGN KEY (creator_id)
-        REFERENCES animals_user (id) ON DELETE RESTRICT ON UPDATE RESTRICT;
+        REFERENCES animals_user (id) ON DELETE CASCADE ON UPDATE CASCADE;
 
 ALTER TABLE animals_page
     ADD CONSTRAINT FK_animals_page_profile_picture_animals_file_id FOREIGN KEY (profile_picture)
-        REFERENCES animals_file (id) ON DELETE RESTRICT ON UPDATE RESTRICT;
+        REFERENCES animals_file (id) ON DELETE CASCADE ON UPDATE CASCADE;
 
 ALTER TABLE animals_page
     ADD CONSTRAINT FK_animals_page_category_animals_category_id FOREIGN KEY (category)
-        REFERENCES animals_category (id) ON DELETE RESTRICT ON UPDATE RESTRICT;
+        REFERENCES animals_category (id) ON DELETE CASCADE ON UPDATE CASCADE;
 
 
 -- animals_user Table Create SQL
@@ -78,7 +78,7 @@ CREATE TABLE animals_post
 
 ALTER TABLE animals_post
     ADD CONSTRAINT FK_animals_post_page_id_animals_page_id FOREIGN KEY (page_id)
-        REFERENCES animals_page (id) ON DELETE RESTRICT ON UPDATE RESTRICT;
+        REFERENCES animals_page (id) ON DELETE CASCADE ON UPDATE CASCADE;
 
 
 -- animals_user Table Create SQL
@@ -114,11 +114,11 @@ CREATE TABLE animals_comment
 
 ALTER TABLE animals_comment
     ADD CONSTRAINT FK_animals_comment_post_id_animals_post_id FOREIGN KEY (post_id)
-        REFERENCES animals_post (id) ON DELETE RESTRICT ON UPDATE RESTRICT;
+        REFERENCES animals_post (id) ON DELETE CASCADE ON UPDATE CASCADE;
 
 ALTER TABLE animals_comment
     ADD CONSTRAINT FK_animals_comment_user_id_animals_user_id FOREIGN KEY (user_id)
-        REFERENCES animals_user (id) ON DELETE RESTRICT ON UPDATE RESTRICT;
+        REFERENCES animals_user (id) ON DELETE CASCADE ON UPDATE CASCADE;
 
 
 -- animals_user Table Create SQL
@@ -132,11 +132,11 @@ CREATE TABLE animals_post_files
 
 ALTER TABLE animals_post_files
     ADD CONSTRAINT FK_animals_post_files_post_id_animals_post_id FOREIGN KEY (post_id)
-        REFERENCES animals_post (id) ON DELETE RESTRICT ON UPDATE RESTRICT;
+        REFERENCES animals_post (id) ON DELETE CASCADE ON UPDATE CASCADE;
 
 ALTER TABLE animals_post_files
     ADD CONSTRAINT FK_animals_post_files_file_id_animals_file_id FOREIGN KEY (file_id)
-        REFERENCES animals_file (id) ON DELETE RESTRICT ON UPDATE RESTRICT;
+        REFERENCES animals_file (id) ON DELETE CASCADE ON UPDATE CASCADE;
 
 
 -- animals_user Table Create SQL
@@ -150,11 +150,11 @@ CREATE TABLE animals_product_pictures
 
 ALTER TABLE animals_product_pictures
     ADD CONSTRAINT FK_animals_product_pictures_file_id_animals_file_id FOREIGN KEY (file_id)
-        REFERENCES animals_file (id) ON DELETE RESTRICT ON UPDATE RESTRICT;
+        REFERENCES animals_file (id) ON DELETE CASCADE ON UPDATE CASCADE;
 
 ALTER TABLE animals_product_pictures
     ADD CONSTRAINT FK_animals_product_pictures_product_id_animals_product_id FOREIGN KEY (product_id)
-        REFERENCES animals_product (id) ON DELETE RESTRICT ON UPDATE RESTRICT;
+        REFERENCES animals_product (id) ON DELETE CASCADE ON UPDATE CASCADE;
 
 
 -- animals_user Table Create SQL
@@ -168,11 +168,11 @@ CREATE TABLE animals_post_tags
 
 ALTER TABLE animals_post_tags
     ADD CONSTRAINT FK_animals_post_tags_post_id_animals_post_id FOREIGN KEY (post_id)
-        REFERENCES animals_post (id) ON DELETE RESTRICT ON UPDATE RESTRICT;
+        REFERENCES animals_post (id) ON DELETE CASCADE ON UPDATE CASCADE;
 
 ALTER TABLE animals_post_tags
     ADD CONSTRAINT FK_animals_post_tags_tag_id_animals_tag_id FOREIGN KEY (tag_id)
-        REFERENCES animals_tag (id) ON DELETE RESTRICT ON UPDATE RESTRICT;
+        REFERENCES animals_tag (id) ON DELETE CASCADE ON UPDATE CASCADE;
 
 
 -- animals_user Table Create SQL
@@ -189,15 +189,15 @@ CREATE TABLE animals_donate_product
 
 ALTER TABLE animals_donate_product
     ADD CONSTRAINT FK_animals_donate_product_from_user_id_animals_user_id FOREIGN KEY (from_user_id)
-        REFERENCES animals_user (id) ON DELETE RESTRICT ON UPDATE RESTRICT;
+        REFERENCES animals_user (id) ON DELETE CASCADE ON UPDATE CASCADE;
 
 ALTER TABLE animals_donate_product
     ADD CONSTRAINT FK_animals_donate_product_product_id_animals_product_id FOREIGN KEY (product_id)
-        REFERENCES animals_product (id) ON DELETE RESTRICT ON UPDATE RESTRICT;
+        REFERENCES animals_product (id) ON DELETE CASCADE ON UPDATE CASCADE;
 
 ALTER TABLE animals_donate_product
     ADD CONSTRAINT FK_animals_donate_product_to_page_id_animals_page_id FOREIGN KEY (to_page_id)
-        REFERENCES animals_page (id) ON DELETE RESTRICT ON UPDATE RESTRICT;
+        REFERENCES animals_page (id) ON DELETE CASCADE ON UPDATE CASCADE;
 
 
 -- animals_user Table Create SQL
@@ -213,11 +213,11 @@ CREATE TABLE animals_donate_money
 
 ALTER TABLE animals_donate_money
     ADD CONSTRAINT FK_animals_donate_money_from_user_id_animals_user_id FOREIGN KEY (from_user_id)
-        REFERENCES animals_user (id) ON DELETE RESTRICT ON UPDATE RESTRICT;
+        REFERENCES animals_user (id) ON DELETE CASCADE ON UPDATE CASCADE;
 
 ALTER TABLE animals_donate_money
     ADD CONSTRAINT FK_animals_donate_money_to_page_id_animals_page_id FOREIGN KEY (to_page_id)
-        REFERENCES animals_page (id) ON DELETE RESTRICT ON UPDATE RESTRICT;
+        REFERENCES animals_page (id) ON DELETE CASCADE ON UPDATE CASCADE;
 
 
 -- animals_user Table Create SQL
@@ -232,11 +232,11 @@ CREATE TABLE animals_required_products
 
 ALTER TABLE animals_required_products
     ADD CONSTRAINT FK_animals_required_products_page_id_animals_page_id FOREIGN KEY (page_id)
-        REFERENCES animals_page (id) ON DELETE RESTRICT ON UPDATE RESTRICT;
+        REFERENCES animals_page (id) ON DELETE CASCADE ON UPDATE CASCADE;
 
 ALTER TABLE animals_required_products
     ADD CONSTRAINT FK_animals_required_products_product_id_animals_product_id FOREIGN KEY (product_id)
-        REFERENCES animals_product (id) ON DELETE RESTRICT ON UPDATE RESTRICT;
+        REFERENCES animals_product (id) ON DELETE CASCADE ON UPDATE CASCADE;
 
 ALTER TABLE animals_required_products
     ADD CONSTRAINT UC_product_id UNIQUE (product_id);
@@ -256,7 +256,7 @@ CREATE TABLE animals_page_donate_class
 
 ALTER TABLE animals_page_donate_class
     ADD CONSTRAINT FK_animals_page_donate_class_page_id_animals_page_id FOREIGN KEY (page_id)
-        REFERENCES animals_page (id) ON DELETE RESTRICT ON UPDATE RESTRICT;
+        REFERENCES animals_page (id) ON DELETE CASCADE ON UPDATE CASCADE;
 
 
 -- animals_user Table Create SQL
@@ -273,10 +273,10 @@ CREATE TABLE animals_user_to_page_info
 
 ALTER TABLE animals_user_to_page_info
     ADD CONSTRAINT FK_animals_user_to_page_info_user_id_animals_user_id FOREIGN KEY (user_id)
-        REFERENCES animals_user (id) ON DELETE RESTRICT ON UPDATE RESTRICT;
+        REFERENCES animals_user (id) ON DELETE CASCADE ON UPDATE CASCADE;
 
 ALTER TABLE animals_user_to_page_info
     ADD CONSTRAINT FK_animals_user_to_page_info_page_id_animals_page_id FOREIGN KEY (page_id)
-        REFERENCES animals_page (id) ON DELETE RESTRICT ON UPDATE RESTRICT;
+        REFERENCES animals_page (id) ON DELETE CASCADE ON UPDATE CASCADE;
 
 
