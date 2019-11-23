@@ -14,10 +14,24 @@
     &nbsp;
     <a href="/logout?next=/"><button type="button">로그아웃</button></a>
     <a href="/point"><button type="button">포인트 충전</button></a>
+    <% if (user.my_page_id) { %>
+      <a href="/page/<%= user.my_page_id %>"><button type="button">나의 페이지</button></a>
+    <% } else { %>
+      <a href="/create-page"><button type="button">페이지 만들기</button></a>
+    <% } %>
   <% } %>
+
   <ul>
     <li><a href="/login">Let's Login</a></li>
-    <li><a href="/page/1">Page 1</a></li>
   </ul>
+
+  <hr>
+
+  <ul>
+    <% for (let page of pageIdList) { %>
+      <li><a href="/page/<%= page %>">Page <%= page %></a></li>
+    <% } %>
+  </ul>
+
 </body>
 </html>

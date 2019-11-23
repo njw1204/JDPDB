@@ -8,6 +8,9 @@
   <title>Page <%= id %></title>
 </head>
 <body>
+  <a href="/">index</a>
+  <h1>Page <%= id %></h1>
+
   login :
   <% if (session.user) { %>
     <%= session.user.nickname %> (<%= session.user.email %>)

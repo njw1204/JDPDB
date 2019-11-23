@@ -3,6 +3,62 @@ const pool = require("./helper/pool");
 const sqlHelper = require("./helper/sql-helper");
 
 class PageDAO {
+    createPage(userId, animalName, description, categoryId) {
+        return new Promise((resolve, reject) => {
+            sqlHelper.query(
+                `INSERT INTO animals_page(creator_id, animal_name, description, category)
+                 VALUES(?,?,?,?)
+                `,
+                [userId, animalName, description, categoryId],
+                function(err, results, fields) {
+                    console.log("<createPage>");
+                    console.log(results);
+
+                    if (err) return reject(err);
+                    resolve(true);
+                }
+            );
+        });
+    }
+
+    getPageIdList() {
+        return new Promise((resolve, reject) => {
+            sqlHelper.simpleQuery(
+                `SELECT id FROM animals_page`,
+                function(err, results, fields) {
+                    console.log("<getPageIdList>");
+                    console.log(results);
+
+                    if (err) return reject(err);
+
+                    let ret = [];
+                    for (let i of results) {
+                        ret.push(i.id);
+                    }
+                    resolve(ret);
+                }
+            );
+        });
+    }
+
+    getPageIdOfUser(userId) {
+        return new Promise((resolve, reject) => {
+            sqlHelper.query(
+                `SELECT id FROM animals_page WHERE creator_id = ?`,
+                [userId],
+                function(err, results, fields) {
+                    console.log("<getPageIdOfUser>");
+                    console.log(results);
+
+                    if (err || results.length < 1)
+                        return resolve(null);
+
+                    resolve(results[0].id);
+                }
+            );
+        });
+    }
+
     getPageBasicInfo(id) {
         return new Promise((resolve, reject) => {
             sqlHelper.query(

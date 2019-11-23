@@ -104,7 +104,7 @@ class UserDAO {
                     console.log("<addPointToUser>");
                     console.log(results);
 
-                    if (err) return reject();
+                    if (err) return reject(err);
                     resolve(true);
                 }
             );

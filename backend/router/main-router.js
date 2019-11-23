@@ -4,6 +4,8 @@ const asyncHandler = require("express-async-handler");
 const router = express.Router();
 
 const userDAO = require("../dao/UserDAO");
+const pageDAO = require("../dao/PageDAO");
+const categoryDAO = require("../dao/CategoryDAO");
 
 
 
@@ -14,8 +16,16 @@ router.get("/", asyncHandler(async (req, res) => {
         let user = await userDAO.getUser(req.session.user.id);
         if (user) {
             data.user = user;
+
+            let pageId = await pageDAO.getPageIdOfUser(user.id);
+            data.user.my_page_id = pageId;
+        }
+        else {
+            req.session.user = null;
         }
     }
+
+    data.pageIdList = await pageDAO.getPageIdList();
 
     res.render("index", data);
 }));
@@ -23,6 +33,25 @@ router.get("/", asyncHandler(async (req, res) => {
 router.get("/favicon.ico", function(req, res) {
     res.status(404).end();
 })
+
+
+// 페이지 만들기
+router.get("/create-page", asyncHandler(async (req, res) => {
+    if (req.session.user) {
+        let user = await userDAO.getUser(req.session.user.id);
+        let categoryList = await categoryDAO.getCategoryList();
+        res.render("create-page", {user, categoryList});
+    }
+    else {
+        res.redirect("/");
+    }
+}));
+
+router.post("/create-page", asyncHandler(async (req, res) => {
+    await pageDAO.createPage(req.session.user.id, req.body.animal_name, req.body.description, req.body.category);
+    let pageId = await pageDAO.getPageIdOfUser(req.session.user.id);
+    res.redirect("/page/" + pageId);
+}));
 
 
 // 포인트 충전
