@@ -19,17 +19,13 @@
   <% } %>
 
   <br>
-
   admin : <%= isAdmin ? true : false %>
-
   <br><br>
-
   total donate from me : <%= total_donate_from_me || 0 %>
   <br>
   my donate class level : <%= my_class_level || 0 %>
   <br>
   am i subscriber : <%= subscribe %>
-
   <br>
 
   <ul>
@@ -41,6 +37,27 @@
     <li>profile picture : <%= profile_picture || "null" %></li>
     <li>subscribe count : <%= subscribe_count %></li>
   </ul>
+
+  <hr>
+
+  <% if (donate_classes.length > 0) { %>
+    <h2>Donate Classes</h2>
+    <% let rewards = []; %>
+    <% for (let cls of donate_classes) { %>
+      <% rewards.push(cls.reward_description); %>
+
+      <h3>Lv<%= cls.class_level %>. <%= cls.class_name %> (후원금액 <%= commaNumber(cls.cost) %>원 이상)</h3>
+      <ul>
+        <li><%= cls.class_level %>레벨 게시물 공개</li>
+        <% for (let reward of rewards) { %>
+          <li><%= reward %></li>
+        <% } %>
+      </ul>
+    <% } %>
+  <% } else { %>
+    <h2>Donate Classes</h2>
+    그런 거 없다.
+  <% } %>
 
   <hr>
 
@@ -57,10 +74,14 @@
         <li>1개당 <%= product.cost %>원이에요.</li>
       </ul>
     <% } %>
-    <hr>
+  <% } else { %>
+    <h2>Required Products</h2>
+    그런 거 없다.
   <% } %>
 
+  <hr>
 
+  <h2>Posts</h2>
   <% for (let post of posts) { %>
     <table border="1" style="width: 1000px; margin: 30px 0;">
         <tr>

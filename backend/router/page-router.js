@@ -5,6 +5,7 @@ const router = express.Router();
 
 const pageDAO = require("../dao/PageDAO");
 const postDAO = require("../dao/PostDAO");
+const donateDAO = require("../dao/DonateDAO");
 
 
 // url example : http://127.0.0.1:3000/page/1
@@ -28,7 +29,12 @@ router.get("/:id", asyncHandler(async (req, res, next) => {
         }
 
         pageInfo.required = await pageDAO.getPageRequiredProducts(pageId);
+        pageInfo.donate_classes = await donateDAO.getDonateClassesOfPage(pageId);
         pageInfo.posts = await postDAO.getPostsFromPage(pageId);
+        pageInfo.commaNumber = (num) => {
+            return num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+        }
+
         res.render("page", pageInfo);
     }
     else next();

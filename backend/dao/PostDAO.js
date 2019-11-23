@@ -61,7 +61,7 @@ class PostDAO {
                             conn.query(`COMMIT`, (err) => {
                                 if (err) throw err;
 
-                                console.log("<getPostsFromPage>");
+                                console.log("\n<getPostsFromPage>");
                                 console.log(util.inspect(values, {depth: null, colors: true}));
                                 resolve(values);
                             });

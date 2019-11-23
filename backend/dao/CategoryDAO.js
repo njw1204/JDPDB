@@ -9,7 +9,7 @@ class CategoryDAO {
                 `SELECT id, name FROM animals_category WHERE id = ?`,
                 [id],
                 function(err, results, fields) {
-                    console.log("<getCategory>");
+                    console.log("\n<getCategory>");
                     console.log(results);
 
                     if (err || results.length < 1)
@@ -26,7 +26,7 @@ class CategoryDAO {
             sqlHelper.simpleQuery(
                 `SELECT id, name FROM animals_category`,
                 function(err, results, fields) {
-                    console.log("<getCategoryList>");
+                    console.log("\n<getCategoryList>");
                     console.log(results);
 
                     if (err) return reject(err);
@@ -42,7 +42,7 @@ class CategoryDAO {
                 `INSERT INTO animals_category(name) VALUES(name)`,
                 [name],
                 function(err, results, fields) {
-                    console.log("<addCategory>");
+                    console.log("\n<addCategory>");
                     console.log(results);
 
                     if (err) return reject(err);

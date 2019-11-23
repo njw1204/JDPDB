@@ -11,7 +11,7 @@ class PageDAO {
                 `,
                 [userId, animalName, description, categoryId],
                 function(err, results, fields) {
-                    console.log("<createPage>");
+                    console.log("\n<createPage>");
                     console.log(results);
 
                     if (err) return reject(err);
@@ -26,7 +26,7 @@ class PageDAO {
             sqlHelper.simpleQuery(
                 `SELECT id FROM animals_page`,
                 function(err, results, fields) {
-                    console.log("<getPageIdList>");
+                    console.log("\n<getPageIdList>");
                     console.log(results);
 
                     if (err) return reject(err);
@@ -47,7 +47,7 @@ class PageDAO {
                 `SELECT id FROM animals_page WHERE creator_id = ?`,
                 [userId],
                 function(err, results, fields) {
-                    console.log("<getPageIdOfUser>");
+                    console.log("\n<getPageIdOfUser>");
                     console.log(results);
 
                     if (err || results.length < 1)
@@ -71,7 +71,7 @@ class PageDAO {
                 `,
                 [id],
                 function(err, results, fields) {
-                    console.log("<getPageBasicInfo>");
+                    console.log("\n<getPageBasicInfo>");
                     console.log(results);
 
                     if (err) return reject(err);
@@ -92,7 +92,7 @@ class PageDAO {
                 `,
                 [id],
                 function(err, results, fields) {
-                    console.log("<getPageRequiredProducts>");
+                    console.log("\n<getPageRequiredProducts>");
                     console.log(results);
 
                     if (err) return reject(err);
@@ -112,7 +112,7 @@ class PageDAO {
                 `,
                 [id],
                 function(err, results, fields) {
-                    console.log("<getPageSubscribers>");
+                    console.log("\n<getPageSubscribers>");
                     console.log(results);
 
                     if (err) return reject(err);
@@ -128,7 +128,7 @@ class PageDAO {
                 `SELECT total_donate, class_level, subscribe FROM animals_user_to_page_info WHERE user_id = ? AND page_id = ?`,
                 [userId, pageId],
                 function(err, results, fields) {
-                    console.log("<getUserToPageBasicInfo>");
+                    console.log("\n<getUserToPageBasicInfo>");
                     console.log(results);
 
                     if (err) return reject(err);

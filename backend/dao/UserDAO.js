@@ -9,7 +9,7 @@ class UserDAO {
                 "SELECT id,nickname,email,point FROM animals_user WHERE id=?",
                 [id],
                 function(err, results, fields) {
-                    console.log("<getUser>");
+                    console.log("\n<getUser>");
                     console.log(results);
 
                     if (err || results.length < 1)
@@ -27,7 +27,7 @@ class UserDAO {
                 "SELECT id,nickname,email FROM animals_user WHERE email=? AND password=SHA2(?, 256)",
                 [user.email, user.password],
                 function(err, results, fields) {
-                    console.log("<authUser>");
+                    console.log("\n<authUser>");
                     console.log(results);
 
                     if (err || results.length < 1)
@@ -45,7 +45,7 @@ class UserDAO {
                 "INSERT INTO animals_user(email,password,nickname,point) VALUES(?,SHA2(?, 256),?,0)",
                 [user.email, user.password, user.nickname],
                 function(err, results, fields) {
-                    console.log("<createUser>");
+                    console.log("\n<createUser>");
                     console.log(results);
 
                     if (err || results.affectedRows < 1)
@@ -63,7 +63,7 @@ class UserDAO {
                 "SELECT id FROM animals_user WHERE email=?",
                 [email],
                 function(err, results, fields) {
-                    console.log("<checkExistedEmail>");
+                    console.log("\n<checkExistedEmail>");
                     console.log(results);
 
                     if (err || results.length < 1)
@@ -81,7 +81,7 @@ class UserDAO {
                 "SELECT id FROM animals_user WHERE nickname=?",
                 [nickname],
                 function(err, results, fields) {
-                    console.log("<checkExistedNickname>");
+                    console.log("\n<checkExistedNickname>");
                     console.log(results);
 
                     if (err || results.length < 1)
@@ -101,7 +101,7 @@ class UserDAO {
                 `,
                 [point, id],
                 function(err, results, fields) {
-                    console.log("<addPointToUser>");
+                    console.log("\n<addPointToUser>");
                     console.log(results);
 
                     if (err) return reject(err);
