@@ -44,6 +44,23 @@
 
   <hr>
 
+  <% if (required.length > 0) { %>
+    <h2>Required Products</h2>
+    <% for (let product of required) { %>
+      <h3><%= product.name %></h3>
+      <% if (product.url) { %>
+        <img src="<%= product.url %>" style="max-height: 100px;" />
+      <% } %>
+      <ul>
+        <li><%= product.description %></li>
+        <li><%= product.product_count %>개 필요해요.</li>
+        <li>1개당 <%= product.cost %>원이에요.</li>
+      </ul>
+    <% } %>
+    <hr>
+  <% } %>
+
+
   <% for (let post of posts) { %>
     <table border="1" style="width: 1000px; margin: 30px 0;">
         <tr>

@@ -27,6 +27,7 @@ router.get("/:id", asyncHandler(async (req, res, next) => {
             pageInfo.subscribe = false;
         }
 
+        pageInfo.required = await pageDAO.getPageRequiredProducts(pageId);
         pageInfo.posts = await postDAO.getPostsFromPage(pageId);
         res.render("page", pageInfo);
     }

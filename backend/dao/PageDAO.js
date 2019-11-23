@@ -81,6 +81,27 @@ class PageDAO {
         });
     }
 
+    getPageRequiredProducts(id) {
+        return new Promise((resolve, reject) => {
+            sqlHelper.query(
+                `SELECT required.product_id, product.name, product.description, product.cost, required.product_count, file.url
+                 FROM animals_required_products AS required
+                 INNER JOIN animals_product AS product ON required.product_id = product.id
+                 LEFT OUTER JOIN animals_file AS file ON product.picture_file_id = file.id
+                 WHERE required.page_id = ?
+                `,
+                [id],
+                function(err, results, fields) {
+                    console.log("<getPageRequiredProducts>");
+                    console.log(results);
+
+                    if (err) return reject(err);
+                    resolve(results);
+                }
+            );
+        });
+    }
+
     getPageSubscribers(id) {
         return new Promise((resolve, reject) => {
             sqlHelper.query(
