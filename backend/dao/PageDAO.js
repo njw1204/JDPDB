@@ -55,7 +55,17 @@ class PageDAO {
                     console.log(results);
 
                     if (err) return reject(err);
-                    resolve(results[0]);
+
+                    if (results.length > 0) {
+                        resolve(results[0]);
+                    }
+                    else {
+                        resolve({
+                            total_donate: 0,
+                            class_level: 0,
+                            subscribe: 0
+                        });
+                    }
                 }
             );
         });
