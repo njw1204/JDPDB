@@ -37,5 +37,41 @@
     <li>profile picture : <%= profile_picture || "null" %></li>
     <li>subscribe count : <%= subscribe_count %></li>
   </ul>
+
+  <hr>
+
+  <% for (let post of posts) { %>
+    <table border="1" style="width: 1000px; margin: 30px 0;">
+        <tr>
+          <td>id : <%= post.id %></td>
+          <td>title : <%= post.title %></td>
+          <td>content : <%= post.content %></td>
+          <td>created_time : <%= post.created_time %></td>
+          <td>min_class_level : <%= post.min_class_level %></td>
+          <td>
+            tags :
+            <% for (let tag of post.tags) { %>
+              <%= tag.name %> |
+            <% } %>
+          </td>
+        </tr>
+        <tr><td colspan="6">Files</td></tr>
+        <tr>
+          <td colspan="6">
+            <% for (let file of post.files) { %>
+              <img src="<%= file.url %>" style="height: 150px;" />
+            <% } %>
+          </td>
+        </tr>
+        <tr><td colspan="6">Comments</td></tr>
+        <tr>
+          <td colspan="6">
+            <% for (let comment of post.comments) { %>
+              <%= JSON.stringify(comment) %>
+            <% } %>
+          </td>
+        </tr>
+    </table>
+  <% } %>
 </body>
 </html>

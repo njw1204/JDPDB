@@ -4,6 +4,8 @@ const asyncHandler = require("express-async-handler");
 const router = express.Router();
 
 const pageDAO = require("../dao/PageDAO");
+const postDAO = require("../dao/PostDAO");
+
 
 // url example : http://127.0.0.1:3000/page/1
 router.get("/:id", asyncHandler(async (req, res, next) => {
@@ -25,6 +27,7 @@ router.get("/:id", asyncHandler(async (req, res, next) => {
             pageInfo.subscribe = false;
         }
 
+        pageInfo.posts = await postDAO.getPostsFromPage(pageId);
         res.render("page", pageInfo);
     }
     else next();
