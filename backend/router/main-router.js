@@ -7,13 +7,42 @@ const userDAO = require("../dao/UserDAO");
 
 
 
-router.get("/", function(req, res) {
-    res.render("index");
-});
+router.get("/", asyncHandler(async (req, res) => {
+    let data = {};
+
+    if (req.session.user) {
+        let user = await userDAO.getUser(req.session.user.id);
+        if (user) {
+            data.user = user;
+        }
+    }
+
+    res.render("index", data);
+}));
 
 router.get("/favicon.ico", function(req, res) {
     res.status(404).end();
 })
+
+
+// 포인트 충전
+router.get("/point", asyncHandler(async (req, res) => {
+    if (req.session.user) {
+        let user = await userDAO.getUser(req.session.user.id);
+        res.render("point", {user: user});
+    }
+    else {
+        res.redirect("/");
+    }
+}));
+
+router.post("/point", asyncHandler(async (req, res) => {
+    if (req.session.user) {
+        await userDAO.addPointToUser(req.session.user.id, req.body.amount);
+    }
+
+    res.redirect("/");
+}));
 
 
 // login
@@ -37,7 +66,13 @@ router.post("/login", asyncHandler(async (req, res) => {
 // logout
 router.get("/logout", function(req, res) {
     req.session.user = null;
-    res.redirect("/login");
+
+    if (req.query.next) {
+        res.redirect(req.query.next);
+    }
+    else {
+        res.redirect("/login");
+    }
 });
 
 

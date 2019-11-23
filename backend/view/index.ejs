@@ -8,7 +8,16 @@
 </head>
 <body>
   <h1>Index</h1>
-  <a href="/login">Let's Login</a><br>
-  <a href="/page/1">Page 1</a>
+  <% if (typeof user !== "undefined") { %>
+    <%= user.nickname %>
+    (point : <%= user.point %>)
+    &nbsp;
+    <a href="/logout?next=/"><button type="button">로그아웃</button></a>
+    <a href="/point"><button type="button">포인트 충전</button></a>
+  <% } %>
+  <ul>
+    <li><a href="/login">Let's Login</a></li>
+    <li><a href="/page/1">Page 1</a></li>
+  </ul>
 </body>
 </html>
