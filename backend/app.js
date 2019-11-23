@@ -4,6 +4,7 @@ const compression = require("compression");
 const helmet = require("helmet");
 const logger = require("morgan");
 const session = require("express-session");
+const prettyJsonToHtml = require("json-pretty-html").default;
 const mainRouter = require("./router/main-router");
 const pageRouter = require("./router/page-router");
 
@@ -37,7 +38,7 @@ app.use(function(req, res, next) {
 });
 app.use(function(err, req, res, next) {
     console.log(err);
-    res.status(500).send("Internal Server Error");
+    res.status(500).send("<head><link rel='stylesheet' href='/css/json.css'></head><h1>500 Internal Server Error</h1>" + prettyJsonToHtml(err));
 });
 
 
