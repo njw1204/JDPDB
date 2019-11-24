@@ -3,7 +3,7 @@ const pool = require("./helper/pool");
 const sqlHelper = require("./helper/sql-helper");
 
 class FileDAO {
-    addFile(url) {
+    addFileAndGetId(url) {
         return new Promise((resolve, reject) => {
             sqlHelper.query(
                 `START TRANSACTION;

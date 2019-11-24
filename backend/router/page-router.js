@@ -4,6 +4,7 @@ const asyncHandler = require("express-async-handler");
 const router = express.Router();
 
 const pageDAO = require("../dao/PageDAO");
+const commentDAO = require("../dao/CommentDAO");
 const postDAO = require("../dao/PostDAO");
 const donateDAO = require("../dao/DonateDAO");
 
@@ -38,6 +39,29 @@ router.get("/:id", asyncHandler(async (req, res, next) => {
         res.render("page", pageInfo);
     }
     else next();
+}));
+
+
+// 댓글 작성
+router.post("/comment", asyncHandler(async (req, res) => {
+    console.log(req.body);
+    if (req.session.user) {
+        await commentDAO.addComment(req.session.user.id, req.body.post_id, req.body.content);
+    }
+
+    res.redirect(req.query.next || "/");
+}));
+
+// 댓글 삭제
+router.post("/uncomment", asyncHandler(async (req, res) => {
+    console.log(req.body);
+    let comment = await commentDAO.getComment(req.body.id);
+
+    if (comment && req.session.user.id === comment.user_id) {
+        await commentDAO.removeComment(req.body.id);
+    }
+
+    res.redirect(req.query.next || "/");
 }));
 
 

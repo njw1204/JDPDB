@@ -36,7 +36,7 @@ router.get("/", (req, res) => {
 
 router.post("/", upload.single("file"), asyncHandler(async (req, res) => {
     let fileUrl = "/media/" + req.file.filename;
-    let fileId = await fileDAO.addFile(fileUrl);
+    let fileId = await fileDAO.addFileAndGetId(fileUrl);
     res.json({
         id: fileId,
         url: fileUrl
