@@ -166,6 +166,48 @@ class PageDAO {
             );
         });
     }
+
+    getPagesOrderBySubscribe(limit) {
+        return new Promise((resolve, reject) => {
+            sqlHelper.query(
+                `SELECT animals_page.id, SUM(u2p.subscribe) AS sub FROM animals_page
+                 INNER JOIN animals_user_to_page_info AS u2p ON animals_page.id = u2p.page_id
+                 GROUP BY animals_page.id
+                 ORDER BY sub DESC, id ASC
+                 LIMIT ?
+                 `,
+                [limit],
+                function(err, results, fields) {
+                    console.log("\n<getPageIdListOrderBySubscribe>");
+                    console.log(results);
+
+                    if (err) return reject(err);
+                    resolve(results);
+                }
+            );
+        });
+    }
+
+    getPagesOrderByNewPost(limit) {
+        return new Promise((resolve, reject) => {
+            sqlHelper.query(
+                `SELECT animals_page.id, MAX(post.created_time) AS new_time FROM animals_page
+                 INNER JOIN animals_post AS post ON animals_page.id = post.page_id
+                 GROUP BY animals_page.id
+                 ORDER BY new_time DESC, id ASC
+                 LIMIT ?
+                 `,
+                [limit],
+                function(err, results, fields) {
+                    console.log("\n<getPagesOrderByNewPost>");
+                    console.log(results);
+
+                    if (err) return reject(err);
+                    resolve(results);
+                }
+            );
+        });
+    }
 }
 
 const pageDAO = new PageDAO();

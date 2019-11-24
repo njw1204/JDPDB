@@ -27,9 +27,24 @@
 
   <hr>
 
+  <h3>인기 구독 페이지</h3>
   <ul>
-    <% for (let page of pageIdList) { %>
-      <li><a href="/page/<%= page %>">Page <%= page %></a></li>
+    <% for (let page of pagesBySubscribe) { %>
+      <li><a href="/page/<%= page.id %>"><%= page.animal_name %></a></li>
+    <% } %>
+  </ul>
+
+  <h3>최근 포스팅 페이지</h3>
+  <ul>
+    <% for (let page of pagesByNewPost) { %>
+      <li><a href="/page/<%= page.id %>"><%= page.animal_name %></a></li>
+    <% } %>
+  </ul>
+
+  <h3>모든 페이지</h3>
+  <ul>
+    <% for (let page of pages) { %>
+      <li><a href="/page/<%= page.id %>"><%= page.animal_name %></a></li>
     <% } %>
   </ul>
 

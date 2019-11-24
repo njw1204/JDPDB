@@ -25,7 +25,22 @@ router.get("/", asyncHandler(async (req, res) => {
         }
     }
 
-    data.pageIdList = await pageDAO.getPageIdList();
+    let pagesBySubscribe = await pageDAO.getPagesOrderBySubscribe(3);
+    let pagesByNewPost = await pageDAO.getPagesOrderByNewPost(3);
+    data.pagesBySubscribe = [];
+    data.pagesByNewPost = [];
+    for (let page of pagesBySubscribe) {
+        data.pagesBySubscribe.push(await pageDAO.getPageBasicInfo(page.id));
+    }
+    for (let page of pagesByNewPost) {
+        data.pagesByNewPost.push(await pageDAO.getPageBasicInfo(page.id));
+    }
+
+    let pageIds = await pageDAO.getPageIdList();
+    data.pages = [];
+    for (let id of pageIds) {
+        data.pages.push(await pageDAO.getPageBasicInfo(id));
+    }
 
     res.render("index", data);
 }));
