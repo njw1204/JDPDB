@@ -204,7 +204,7 @@ class PageDAO {
                  `,
                 [limit],
                 function(err, results, fields) {
-                    console.log("\n<getPageIdListOrderBySubscribe>");
+                    console.log("\n<getPagesOrderBySubscribe>");
                     console.log(results);
 
                     if (err) return reject(err);
