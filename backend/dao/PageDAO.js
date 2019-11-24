@@ -41,6 +41,32 @@ class PageDAO {
         });
     }
 
+    getPageIdListSubscribedByUser(userId) {
+        return new Promise((resolve, reject) => {
+            sqlHelper.query(
+                `SELECT page.id
+                 FROM animals_page AS page
+                 INNER JOIN animals_user_to_page_info AS u2p ON page.id = u2p.page_id
+                 WHERE u2p.user_id = ? AND u2p.subscribe = 1
+                 ORDER BY page.id ASC
+                `,
+                [userId],
+                function(err, results, fields) {
+                    console.log("\n<getPageIdListSubscribedByUser>");
+                    console.log(results);
+
+                    if (err) return reject(err);
+
+                    let ret = [];
+                    for (let i of results) {
+                        ret.push(i.id);
+                    }
+                    resolve(ret);
+                }
+            );
+        });
+    }
+
     getPageIdOfUser(userId) {
         return new Promise((resolve, reject) => {
             sqlHelper.query(

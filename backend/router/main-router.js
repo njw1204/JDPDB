@@ -19,6 +19,11 @@ router.get("/", asyncHandler(async (req, res) => {
 
             let pageId = await pageDAO.getPageIdOfUser(user.id);
             data.user.my_page_id = pageId;
+
+            data.my_subscribe_pages = [];
+            for (let id of await pageDAO.getPageIdListSubscribedByUser(user.id)) {
+                data.my_subscribe_pages.push(await pageDAO.getPageBasicInfo(id));
+            }
         }
         else {
             req.session.user = null;
@@ -36,9 +41,8 @@ router.get("/", asyncHandler(async (req, res) => {
         data.pagesByNewPost.push(await pageDAO.getPageBasicInfo(page.id));
     }
 
-    let pageIds = await pageDAO.getPageIdList();
     data.pages = [];
-    for (let id of pageIds) {
+    for (let id of await pageDAO.getPageIdList()) {
         data.pages.push(await pageDAO.getPageBasicInfo(id));
     }
 
