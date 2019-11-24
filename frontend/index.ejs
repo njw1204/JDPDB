@@ -3,20 +3,16 @@
 <head>
   <% include common/header.ejs %>
   <link rel="stylesheet" type="text/css" href="../css/menu.css">
+  <link rel="stylesheet" type="text/css" href="../css/main.css">
   <title> index </title>
 </head>
 <body>
-
-  <% include common/top.ejs%>
  <% include common/menu.ejs %>
 
-<div class="container" style="margin-top:30px">
-  <%include contents/main/main.ejs%>
-</div>
+ <main role="main">
+ <%include contents/main/main.ejs%>
+ </main>
 
-<div class="jumbotron text-center" style="margin-bottom:0">
-  <p>Footer</p>
-</div>
 
 </body>
 </html>

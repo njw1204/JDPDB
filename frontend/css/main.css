@@ -1,0 +1,6 @@
+.wrapper{
+ }
+
+.wrapper li{
+    display: inline-block;
+}

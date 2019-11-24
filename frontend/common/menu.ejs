@@ -5,18 +5,27 @@
         </button>
 
         <div class="collapse navbar-collapse" id="mainMenu">
-            <ul class="navbar-nav mr-auto text-capitalize">
+
+            <ul class="navbar-nav mr-5 text-capitalize">
                 <li class="nav-item active">
-                    <a class="nav-link" href="/">main </a>
-                </li>
-                <li class="nav-item active">
-                    <a class="nav-link" href="/">?</a>
+                    <a class="navbar-brand font-weight-bold" href="/">Animals </a>
                 </li>
             </ul>
-            <form class="form-inline my-2 my-lg-0">
-                <input class="form-control mr-sm-2" id="search" type="text" placeholder="Search" aria-label="Search">
-                <button class="btn btn-secondary my-2 my-sm-0" type="submit">Search</button>
+            <form class="form-inline mr-auto my-lg-0">
+                <div class="input-group">
+                    <input class="form-control" id="search" type="text" placeholder="Search" aria-label="Search">
+                    <div class="input-group-append">
+                        <button class="btn btn-secondary my-sm-0" type="submit">검색</button>
+                    </div>
+                </div>
             </form>
+            <% if(session.user == null){%>
+                <a class="btn btn-dark ml-2 mr-md-2" href="/login">Sign in</a>
+                <a class="btn btn-outline-light ml-2" href="/signup">Sign up</a>
+            <% }else {%>
+                <a class="mr-md-2" href="/">내 동물 페이지</a>
+                <input id="btn_point" class="btn btn-outline-dark" type="button" value="월랫 잔액 +">
+            <%}%>
         </div>
     </div>
 </nav>
