@@ -3,18 +3,31 @@
 <head>
     <% include common/header.ejs %>
     <link rel="stylesheet" type="text/css" href="../css/menu.css">
-    <link rel="stylesheet" type="text/css" href="../css/main.css">
-    <title> index </title>
+    <link rel="stylesheet" type="text/css" href="../css/main.css">\
+    <link rel="stylesheet" href="https://cdn.plyr.io/3.5.6/plyr.css" />
+    <title>Page <%= id %></title>
 </head>
 <body>
 <% include common/menu.ejs %>
 
-<h1>Page</h1>
+<div class="container">
+    <div class="row">
+        <div class="col-sm-3">
+            <% include contents/page/page_info.ejs %>
+        </div>
+        <div class="col-sm-6">
+            <% include contents/page/page_posts.ejs %>
+        </div>
+        <div class="col-sm-3">
+            <% include contents/page/page_required_product.ejs %>
+            <hr/>
+            <% include contents/page/page_donation_class.ejs %>
+        </div>
+    </div>
+</div>
 
-<p>
-
-</p>
-
+<script src="https://cdn.plyr.io/3.5.6/plyr.js"></script>
+<script>var player = new Plyr('#player');</script>
 
 </body>
 </html>

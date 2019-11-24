@@ -1,0 +1,67 @@
+<h2>Posts</h2>
+<% for (let post of posts) { %>
+    <table border="1" style="margin: 30px 0;">
+        <tr>
+            <td>id : <%= post.id %></td>
+            <td>title : <%= post.title %></td>
+            <td>content : <%= post.content %></td>
+            <td>created_time : <%= post.created_time %></td>
+            <td>min_class_level : <%= post.min_class_level %></td>
+            <td>
+                tags :
+                <% for (let tag of post.tags) { %>
+                    <%= tag.name %> |
+                <% } %>
+            </td>
+        </tr>
+        <tr><td colspan="6">Files</td></tr>
+        <tr>
+            <td colspan="6">
+                <% for (let file of post.files) { %>
+                    <% if (file.url.indexOf("youtube.com") != -1 || file.url.indexOf("youtu.be") != -1) { %>
+                        <div class="plyr__video-embed" id="player">
+                            <iframe
+                                    src="<%= file.url %>"
+                                    allowfullscreen
+                                    allowtransparency
+                                    allow="autoplay"
+                            ></iframe>
+                        </div>
+                        </div>
+                    <% } else { %>
+                        <img src="<%= file.url %>" style="height: 200px;" />
+                    <% } %>
+                <% } %>
+            </td>
+        </tr>
+        <tr><td colspan="6">Comments</td></tr>
+        <tr>
+            <td>댓글 남기기</td>
+            <td colspan="5">
+                <% if (session.user) { %>
+                    <form method="POST" action="/page/comment?next=/page/<%= id %>">
+                        <input type="hidden" name="post_id" value="<%= post.id %>"></input>
+                        <input type="text" name="content" placeholder="댓글 내용 입력" required></input>
+                        <button type="submit">작성</button>
+                    </form>
+                <% } else { %>
+                    로그인 후 이용할 수 있습니다.
+                <% } %>
+            </td>
+        </tr>
+        <tr>
+            <td colspan="6">
+                <% for (let comment of post.comments) { %>
+                    <%= JSON.stringify(comment) %>
+                    <% if (session.user && comment.user_id === session.user.id) { %>
+                        <form method="POST" action="/page/uncomment?next=/page/<%= id %>" style="display: inline-block;">
+                            <input type="hidden" name="id" value="<%= comment.id %>"></input>
+                            <button type="submit">삭제</button>
+                        </form>
+                    <% } %>
+                    <br>
+                <% } %>
+            </td>
+        </tr>
+    </table>
+<% } %>

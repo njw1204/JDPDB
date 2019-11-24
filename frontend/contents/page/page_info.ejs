@@ -1,0 +1,40 @@
+<h1>Page <%= id %></h1>
+
+<p>
+    <% if (session.user && !isAdmin) { %>
+        <% if (typeof subscribe !== "undefined" && !subscribe) { %>
+            <a href="/page/subscribe/<%= id %>"><button type="button">구독하기</button></a>
+        <% } else { %>
+            <a href="/page/unsubscribe/<%= id %>"><button type="button">구독 취소</button></a>
+        <% } %>
+    <% } %>
+</p>
+
+login :
+<% if (session.user) { %>
+    <%= session.user.nickname %> (<%= session.user.email %>)
+<% } else { %>
+    false
+<% } %>
+
+<br>
+admin : <%= isAdmin ? true : false %>
+<br><br>
+total donate from me : <%= total_donate_from_me || 0 %>
+<br>
+my donate class level : <%= my_class_level || 0 %>
+<br>
+am i subscriber : <%= subscribe %>
+<br>
+
+<ul>
+    <li>page id : <%= id %></li>
+    <li>creator nickname : <%= nickname %></li>
+    <li>animal name : <%= animal_name %></li>
+    <li>category name : <%= category %></li>
+    <li>description : <%= description %></li>
+    <li>profile picture : <%= profile_picture || "null" %></li>
+    <li>subscribe count : <%= subscribe_count %></li>
+</ul>
+
+<hr>

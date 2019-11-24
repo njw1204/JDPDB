@@ -7,8 +7,9 @@
 </head>
 <body>
 <% include common/menu.ejs %>
-<% include contents/form/form_signup.ejs %>
-
+<div class="center">
+    <% include contents/form/form_signup.ejs %>
+</div>
 <!-- ejs -->
 <% if (typeof success !== "undefined") { %>
     <% if (success === true) { %>

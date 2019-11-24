@@ -19,12 +19,20 @@
                     </div>
                 </div>
             </form>
-            <% if(session.user == null){%>
+            <% if(typeof user === undefined){%>
                 <a class="btn btn-dark ml-2 mr-md-2" href="/login">Sign in</a>
                 <a class="btn btn-outline-light ml-2" href="/signup">Sign up</a>
             <% }else {%>
-                <a class="mr-md-2" href="/">내 동물 페이지</a>
-                <input id="btn_point" class="btn btn-outline-dark" type="button" value="월랫 잔액 +">
+                <%= user.nickname %>
+                (point : <%= user.point %>)
+                &nbsp;
+                <a href="/logout?next=/"><button type="button">로그아웃</button></a>
+                <a href="/point"><button type="button">포인트 충전</button></a>
+                <% if (user.my_page_id) { %>
+                    <a href="/page/<%= user.my_page_id %>"><button type="button">나의 페이지</button></a>
+                <% } else { %>
+                    <a href="/create-page"><button type="button">페이지 만들기</button></a>
+                <% } %>
             <%}%>
         </div>
     </div>

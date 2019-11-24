@@ -1,0 +1,35 @@
+<div class="wrapper">
+    <% if (typeof user !== "undefined") { %>
+        <h3>구독중인 페이지</h3>
+        <ul>
+            <% for (let page of my_subscribe_pages) { %>
+                <li><a href="/page/<%= page.id %>"><%= page.animal_name %></a></li>
+            <% } %>
+        </ul>
+        <hr>
+    <% } %>
+
+    <h3>인기 페이지 TOP 3</h3>
+    <ol>
+        <% for (let page of pagesBySubscribe) { %>
+            <li><a href="/page/<%= page.id %>"><%= page.animal_name %></a></li>
+        <% } %>
+    </ol>
+    <hr>
+
+    <h3>최근 포스팅 페이지</h3>
+    <ul>
+        <% for (let page of pagesByNewPost) { %>
+            <li><a href="/page/<%= page.id %>"><%= page.animal_name %></a></li>
+        <% } %>
+    </ul>
+    <hr>
+
+    <h3>모든 페이지</h3>
+    <ul>
+        <% for (let page of pages) { %>
+            <li><a href="/page/<%= page.id %>"><%= page.animal_name %></a></li>
+        <% } %>
+    </ul>
+    <hr>
+</div>
