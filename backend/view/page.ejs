@@ -11,6 +11,16 @@
   <a href="/">index</a>
   <h1>Page <%= id %></h1>
 
+  <p>
+    <% if (session.user && !isAdmin) { %>
+      <% if (typeof subscribe !== "undefined" && !subscribe) { %>
+        <a href="/page/subscribe/<%= id %>"><button type="button">구독하기</button></a>
+      <% } else { %>
+        <a href="/page/unsubscribe/<%= id %>"><button type="button">구독 취소</button></a>
+      <% } %>
+    <% } %>
+  </p>
+
   login :
   <% if (session.user) { %>
     <%= session.user.nickname %> (<%= session.user.email %>)

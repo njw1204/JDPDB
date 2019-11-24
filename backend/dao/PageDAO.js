@@ -62,7 +62,7 @@ class PageDAO {
     getPageBasicInfo(id) {
         return new Promise((resolve, reject) => {
             sqlHelper.query(
-                `SELECT page.id, user.nickname, page.animal_name, page.description, category.name AS category, file.url AS profile_picture
+                `SELECT page.id, page.creator_id, user.nickname, page.animal_name, page.description, category.name AS category, file.url AS profile_picture
                  FROM animals_page AS page
                  INNER JOIN animals_user AS user ON page.creator_id = user.id
                  INNER JOIN animals_category AS category ON page.category = category.id
@@ -143,6 +143,25 @@ class PageDAO {
                             subscribe: 0
                         });
                     }
+                }
+            );
+        });
+    }
+
+    updateSubscriber(pageId, userId, subscribe) {
+        return new Promise((resolve, reject) => {
+            sqlHelper.query(
+                `INSERT INTO animals_user_to_page_info(user_id, page_id, total_donate, subscribe, class_level)
+                 VALUES(?,?,0,?,0)
+                 ON DUPLICATE KEY UPDATE subscribe = ?
+                `,
+                [userId, pageId, subscribe, subscribe],
+                function(err, results, fields) {
+                    console.log("\n<updateSubscriber>");
+                    console.log(results);
+
+                    if (err) return reject(err);
+                    resolve(true);
                 }
             );
         });

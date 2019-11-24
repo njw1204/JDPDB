@@ -32,7 +32,7 @@ router.get("/", asyncHandler(async (req, res) => {
 
 router.get("/favicon.ico", function(req, res) {
     res.status(404).end();
-})
+});
 
 
 // 페이지 만들기

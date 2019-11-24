@@ -41,4 +41,26 @@ router.get("/:id", asyncHandler(async (req, res, next) => {
 }));
 
 
+// 구독하기
+router.get("/subscribe/:id", asyncHandler(async (req, res) => {
+    let page = await pageDAO.getPageBasicInfo(req.params.id);
+
+    if (req.session.user && page.creator_id !== req.session.user.id) {
+        await pageDAO.updateSubscriber(req.params.id, req.session.user.id, 1);
+    }
+
+    res.redirect("/page/" + req.params.id);
+}));
+
+// 구독취소
+router.get("/unsubscribe/:id", asyncHandler(async (req, res) => {
+    let page = await pageDAO.getPageBasicInfo(req.params.id);
+
+    if (req.session.user && page.creator_id !== req.session.user.id) {
+        await pageDAO.updateSubscriber(req.params.id, req.session.user.id, 0);
+    }
+
+    res.redirect("/page/" + req.params.id);
+}));
+
 module.exports = router;
