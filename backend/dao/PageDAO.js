@@ -40,6 +40,29 @@ class PageDAO {
             );
         });
     }
+    getPageIdListSearchByName(name) {
+        return new Promise((resolve, reject) => {
+            sqlHelper.query(
+                `SELECT page.id 
+                 FROM animals_page AS page
+                 WHERE page.animal_name LIKE ?
+                 ORDER BY page.id ASC`,
+                [name],
+                function(err, results, fields) {
+                    console.log("\n<getPageIdListSearchByName>");
+                    console.log(results);
+
+                    if (err) return reject(err);
+
+                    let ret = [];
+                    for (let i of results) {
+                        ret.push(i.id);
+                    }
+                    resolve(ret);
+                }
+            );
+        });
+    }
 
     getPageIdListSubscribedByUser(userId) {
         return new Promise((resolve, reject) => {
