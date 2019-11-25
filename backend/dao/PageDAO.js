@@ -45,7 +45,7 @@ class PageDAO {
             sqlHelper.query(
                 `SELECT page.id 
                  FROM animals_page AS page
-                 WHERE page.animal_name LIKE ?
+                 WHERE page.animal_name LIKE "% + ? + %"
                  ORDER BY page.id ASC`,
                 [name],
                 function(err, results, fields) {
@@ -66,7 +66,7 @@ class PageDAO {
 
     getPageIdListSubscribedByUser(userId) {
         return new Promise((resolve, reject) => {
-            sqlHelper.query(
+            sqlHelper.simpleQuery(
                 `SELECT page.id
                  FROM animals_page AS page
                  INNER JOIN animals_user_to_page_info AS u2p ON page.id = u2p.page_id

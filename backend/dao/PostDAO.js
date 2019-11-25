@@ -81,7 +81,7 @@ class PostDAO {
             pool.getConnection((err, conn) => {
                 if (err) return reject(err);
 
-                conn.query(
+                conn.simpleQuery(
                     `START TRANSACTION;
                      SELECT id, title, content, created_time, min_class_level
                      FROM animals_post
