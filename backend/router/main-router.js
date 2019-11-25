@@ -49,6 +49,15 @@ router.get("/", asyncHandler(async (req, res) => {
     res.render("index", data);
 }));
 
+router.get("/search", asyncHandler(async (req, res) => {
+    let data = {};
+    let pagesSearchedByName = await pageDAO.getPageIdListSearchByName(req.session.search);
+    for (let page of pagesSearchedByName) {
+        data.pagesBySubscribe.push(await pageDAO.getPageBasicInfo(page.id));
+    }
+    res.render("search", data);
+}));
+
 router.get("/favicon.ico", function(req, res) {
     res.status(404).end();
 });
