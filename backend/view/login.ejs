@@ -9,7 +9,7 @@
 <body>
   <a href="/">index</a>
   <% if (session.user) { %>
-    <h3>Hello, <%= session.user %></h3>
+    <h3>Hello, <%= session.user.nickname %></h3>
     <a href="/logout"><button type="button">로그아웃</button></a>
   <% } else { %>
     <h1>Let's Login</h1>

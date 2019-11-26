@@ -6,14 +6,16 @@ class UserDAO {
     authUser(user) {
         return new Promise(function(resolve, reject) {
             sqlHelper.query(
-                "SELECT id FROM animals_user WHERE email=? AND password=PASSWORD(?)",
+                "SELECT id,nickname,email FROM animals_user WHERE email=? AND password=SHA2(?, 256)",
                 [user.email, user.password],
                 function(err, results, fields) {
-                    if (err || results.length < 1)
-                        return resolve(false);
+                    console.log("<authUser>");
+                    console.log(results);
 
-                    console.log("login success (id) : " + results[0].id);
-                    resolve(true);
+                    if (err || results.length < 1)
+                        return resolve(null);
+
+                    resolve(results[0]);
                 }
             );
         });
@@ -22,9 +24,12 @@ class UserDAO {
     createUser(user) {
         return new Promise(function(resolve, reject) {
             sqlHelper.query(
-                "INSERT INTO animals_user(email,password,nickname,point) VALUES(?,PASSWORD(?),?,0)",
+                "INSERT INTO animals_user(email,password,nickname,point) VALUES(?,SHA2(?, 256),?,0)",
                 [user.email, user.password, user.nickname],
                 function(err, results, fields) {
+                    console.log("<createUser>");
+                    console.log(results);
+
                     if (err || results.affectedRows < 1)
                         return resolve(false);
 
@@ -40,6 +45,9 @@ class UserDAO {
                 "SELECT id FROM animals_user WHERE email=?",
                 [email],
                 function(err, results, fields) {
+                    console.log("<checkExistedEmail>");
+                    console.log(results);
+
                     if (err || results.length < 1)
                         return resolve(false);
 
@@ -55,6 +63,9 @@ class UserDAO {
                 "SELECT id FROM animals_user WHERE nickname=?",
                 [nickname],
                 function(err, results, fields) {
+                    console.log("<checkExistedNickname>");
+                    console.log(results);
+
                     if (err || results.length < 1)
                         return resolve(false);
 

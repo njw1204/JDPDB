@@ -5,9 +5,11 @@ const helmet = require("helmet");
 const logger = require("morgan");
 const session = require("express-session");
 const mainRouter = require("./router/main-router");
+const pageRouter = require("./router/page-router");
 
 
 const app = express();
+app.set("port", process.env.PORT || 3000);
 app.set("view engine", "ejs");
 app.set("views", "./view");
 app.use(logger("dev"));
@@ -29,6 +31,7 @@ app.use(function(req, res, next) {
 
 
 app.use("/", mainRouter);
+app.use("/page", pageRouter);
 app.use(function(req, res, next) {
     res.status(404).render("error/404");
 });
@@ -38,6 +41,6 @@ app.use(function(err, req, res, next) {
 });
 
 
-app.listen(3000, function() {
-    console.log("Listening on port 3000.. ( http://127.0.0.1:3000 )");
+app.listen(app.get("port"), function() {
+    console.log("Listening on port " + app.get("port") + ".. ( http://127.0.0.1:" + app.get("port") + " )");
 });
