@@ -7,6 +7,10 @@
   <title>Index</title>
 </head>
 <body>
+  <form method="GET" action="/search">
+    <input type="text" name="keyword" placeholder="검색"></input>
+    <button type="submit">확인</button>
+  </form>
   <h1>Index</h1>
   <% if (typeof user !== "undefined") { %>
     <%= user.nickname %>

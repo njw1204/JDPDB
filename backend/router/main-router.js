@@ -5,6 +5,7 @@ const router = express.Router();
 
 const userDAO = require("../dao/UserDAO");
 const pageDAO = require("../dao/PageDAO");
+const postDAO = require("../dao/PostDAO");
 const categoryDAO = require("../dao/CategoryDAO");
 
 
@@ -49,12 +50,20 @@ router.get("/", asyncHandler(async (req, res) => {
     res.render("index", data);
 }));
 
+
+// 검색
 router.get("/search", asyncHandler(async (req, res) => {
-    let data = {};
-    let pagesSearchedByName = await pageDAO.getPageIdListSearchByName(req.session.search);
-    for (let page of pagesSearchedByName) {
-        data.pagesBySubscribe.push(await pageDAO.getPageBasicInfo(page.id));
+    let data = {
+        pagesSearchedByName: [],
+        postsSearchedByTag: [],
+    };
+
+    for (let pageId of await pageDAO.getPageIdListSearchByName(req.query.keyword)) {
+        data.pagesSearchedByName.push(await pageDAO.getPageBasicInfo(pageId));
     }
+
+    data.postsSearchedByTag = await postDAO.getPostsByTagName(req.query.keyword);
+
     res.render("search", data);
 }));
 

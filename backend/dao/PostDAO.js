@@ -12,7 +12,7 @@ class PostDAO {
                 conn.query(
                     `START TRANSACTION;
 
-                     SELECT id, title, content, created_time, min_class_level
+                     SELECT id, page_id, title, content, created_time, min_class_level
                      FROM animals_post
                      WHERE page_id = ?
                      ORDER BY id DESC
@@ -76,17 +76,22 @@ class PostDAO {
         });
     }
 
-    getPostsByName(name) {
+    getPostsByTagName(tagName) {
         return new Promise((resolve, reject) => {
             pool.getConnection((err, conn) => {
                 if (err) return reject(err);
 
-                conn.simpleQuery(
+                conn.query(
                     `START TRANSACTION;
-                     SELECT id, title, content, created_time, min_class_level
-                     FROM animals_post
+
+                     SELECT post.id, page_id, title, content, created_time, min_class_level
+                     FROM animals_post AS post
+                     INNER JOIN animals_post_tags AS post_tags ON post.id = post_tags.post_id
+                     INNER JOIN animals_tag AS tag ON tag.id = post_tags.tag_id
+                     WHERE tag.name = ?
                      ORDER BY id DESC
                     `,
+                    [tagName],
                     (err, results, fields) => {
                         if (err) {
                             conn.release();
@@ -100,7 +105,7 @@ class PostDAO {
                                     `SELECT tag.id, tag.name
                                      FROM animals_post_tags AS post_tags
                                      INNER JOIN animals_tag AS tag ON post_tags.tag_id = tag.id
-                                     WHERE tag.name = ?, post_tage.post_id = ?;
+                                     WHERE post_tags.post_id = ?;
 
                                      SELECT file.url
                                      FROM animals_post_files AS post_files
@@ -113,7 +118,7 @@ class PostDAO {
                                      WHERE comment.post_id = ?
                                      ORDER BY comment.id DESC
                                     `,
-                                    [name, post.id, post.id, post.id],
+                                    [post.id, post.id, post.id],
                                     (err, results, fields) => {
                                         if (err) return reject(err);
 
@@ -130,7 +135,7 @@ class PostDAO {
                             conn.query(`COMMIT`, (err) => {
                                 if (err) throw err;
 
-                                console.log("\n<getPostsByName>");
+                                console.log("\n<getPostsByTagName>");
                                 console.log(util.inspect(values, {depth: null, colors: true}));
                                 resolve(values);
                             });

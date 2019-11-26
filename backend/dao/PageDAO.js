@@ -47,7 +47,8 @@ class PageDAO {
                 `SELECT page.id 
                  FROM animals_page AS page
                  WHERE page.animal_name LIKE ?
-                 ORDER BY page.id ASC`,
+                 ORDER BY page.id ASC
+                `,
                 ["%" + name + "%"],
                 function(err, results, fields) {
                     console.log("\n<getPageIdListSearchByName>");
