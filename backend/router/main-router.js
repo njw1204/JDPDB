@@ -154,24 +154,33 @@ router.post("/signup", asyncHandler(async (req, res) => {
         nickname: req.body.nickname,
     };
 
-    if (!user.email || !user.password || !user.nickname || !req.body.password2)
-        return res.render("signup", {message: "모든 필드를 입력해주세요."});
+    if (!user.email || !user.password || !user.nickname || !req.body.password2) {
+        req.session.message = "모든 필드를 입력해주세요.";
+        return res.render("signup");
+    }
 
-    if (user.password !== req.body.password2)
-        return res.render("signup", {message: "비밀번호가 일치하지 않습니다."});
+    if (user.password !== req.body.password2) {
+        req.session.message = "비밀번호가 일치하지 않습니다.";
+        return res.render("signup");
+    }
 
-    if (await userDAO.checkExistedEmail(user.email))
-        return res.render("signup", {message: "이미 가입된 이메일입니다."});
+    if (await userDAO.checkExistedEmail(user.email)) {
+        req.session.message = "이미 가입된 이메일입니다.";
+        return res.render("signup");
+    }
 
-    if (await userDAO.checkExistedNickname(user.nickname))
-        return res.render("signup", {message: "이미 존재하는 닉네임입니다."});
+    if (await userDAO.checkExistedNickname(user.nickname)) {
+        req.session.message = "이미 존재하는 닉네임입니다.";
+        return res.render("signup");
+    }
 
     if (await userDAO.createUser(user)) {
         req.session.user = (await userDAO.authUser(user)) || null;
         res.redirect("/login");
     }
-    else
-        res.render("signup", {message: "가입 실패"});
+
+    req.session.message = "가입 실패";
+    res.render("signup");
 }));
 
 

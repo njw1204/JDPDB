@@ -3,6 +3,28 @@ const pool = require("./helper/pool");
 const sqlHelper = require("./helper/sql-helper");
 
 class DonateDAO {
+    getProduct(productId) {
+        return new Promise((resolve, reject) => {
+            sqlHelper.query(
+                `SELECT product.id, product.name, product.description, product.cost, file.url
+                 FROM animals_product AS product
+                 LEFT OUTER JOIN animals_file AS file ON file.id = product.picture_file_id
+                 WHERE product.id = ?
+                `,
+                [productId],
+                function(err, results, fields) {
+                    console.log("\n<getProduct>");
+                    console.log(results);
+
+                    if (err || results.length < 1)
+                        return resolve(null);
+
+                    resolve(results[0]);
+                }
+            );
+        });
+    }
+
     getDonateClassesOfPage(pageId) {
         return new Promise((resolve, reject) => {
             sqlHelper.query(

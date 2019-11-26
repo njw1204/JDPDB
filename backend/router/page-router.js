@@ -3,6 +3,7 @@ const express = require("express");
 const asyncHandler = require("express-async-handler");
 const router = express.Router();
 
+const userDAO = require("../dao/UserDAO");
 const pageDAO = require("../dao/PageDAO");
 const commentDAO = require("../dao/CommentDAO");
 const postDAO = require("../dao/PostDAO");
@@ -45,7 +46,17 @@ router.get("/:id", asyncHandler(async (req, res, next) => {
 // 현금 후원
 router.post("/donate-money", asyncHandler(async (req, res) => {
     if (req.session.user) {
-        await donateDAO.donateMoney(req.session.user.id, req.body.page_id, req.body.cost, req.body.message);
+        let user = await userDAO.getUser(req.session.user.id);
+
+        if (Number(req.body.cost) < 1000) {
+            req.session.message = "최소 1000원 이상 후원할 수 있습니다.";
+        }
+        else if (user.point < Number(req.body.cost)) {
+            req.session.message = "포인트가 부족합니다.";
+        }
+        else {
+            await donateDAO.donateMoney(req.session.user.id, req.body.page_id, req.body.cost, req.body.message);
+        }
     }
 
     res.redirect(req.query.next || "/");
@@ -53,10 +64,16 @@ router.post("/donate-money", asyncHandler(async (req, res) => {
 
 // 상품 후원
 router.post("/donate-product", asyncHandler(async (req, res) => {
-    console.log(req.body);
-
     if (req.session.user) {
-        await donateDAO.donateProduct(req.session.user.id, req.body.page_id, req.body.product_id, req.body.product_count, req.body.message);
+        let user = await userDAO.getUser(req.session.user.id);
+        let product = await donateDAO.getProduct(req.body.product_id);
+
+        if (user.point < product.cost * Number(req.body.product_count)) {
+            req.session.message = "포인트가 부족합니다.";
+        }
+        else {
+            await donateDAO.donateProduct(req.session.user.id, req.body.page_id, req.body.product_id, req.body.product_count, req.body.message);
+        }
     }
 
     res.redirect(req.query.next || "/");

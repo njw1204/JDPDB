@@ -13,5 +13,12 @@
     <input type="file" name="file" required></input>
     <button type="submit">업로드</button>
   </form>
+
+  <% if (typeof session.message != "undefined" && session.message) { %>
+    <script>
+      alert("<%= session.message %>");
+    </script>
+    <% session.message = null; %>
+  <% } %>
 </body>
 </html>

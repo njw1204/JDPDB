@@ -63,5 +63,11 @@
     <% } %>
   </ul>
 
+  <% if (typeof session.message != "undefined" && session.message) { %>
+    <script>
+      alert("<%= session.message %>");
+    </script>
+    <% session.message = null; %>
+  <% } %>
 </body>
 </html>

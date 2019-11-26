@@ -24,8 +24,11 @@
     <p><button type="submit">만들기</button></p>
   </form>
 
-  <% if (typeof message !== "undefined") { %>
-    <script>alert("<%- message %>");</script>
+  <% if (typeof session.message != "undefined" && session.message) { %>
+    <script>
+      alert("<%= session.message %>");
+    </script>
+    <% session.message = null; %>
   <% } %>
 </body>
 </html>
