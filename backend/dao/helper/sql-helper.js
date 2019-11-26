@@ -25,6 +25,18 @@ let sqlHelper = {
                 callback(err, results, fields);
             });
         });
+    },
+    commit: function(conn, callback, notRelease) {
+        conn.query("COMMIT", (err, results, fields) => {
+            if (!notRelease) conn.release();
+            if (callback) callback(err, results, fields);
+        });
+    },
+    rollback: function(conn, callback, notRelease) {
+        conn.query("ROLLBACK", (err, results, fields) => {
+            if (!notRelease) conn.release();
+            if (callback) callback(err, results, fields);
+        });
     }
 };
 

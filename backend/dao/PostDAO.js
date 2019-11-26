@@ -58,17 +58,13 @@ class PostDAO {
                         }
 
                         Promise.all(calls).then((values) => {
-                            conn.query(`COMMIT`, (err) => {
-                                if (err) throw err;
-
-                                console.log("\n<getPostsFromPage>");
-                                console.log(util.inspect(values, {depth: null, colors: true}));
-                                resolve(values);
-                            });
+                            console.log("\n<getPostsFromPage>");
+                            console.log(util.inspect(values, {depth: null, colors: true}));
+                            resolve(values);
+                            sqlHelper.commit(conn);
                         }).catch((err) => {
                             reject(err);
-                        }).finally(() => {
-                            conn.release();
+                            sqlHelper.rollback(conn);
                         });
                     }
                 );
@@ -132,17 +128,13 @@ class PostDAO {
                         }
 
                         Promise.all(calls).then((values) => {
-                            conn.query(`COMMIT`, (err) => {
-                                if (err) throw err;
-
-                                console.log("\n<getPostsByTagName>");
-                                console.log(util.inspect(values, {depth: null, colors: true}));
-                                resolve(values);
-                            });
+                            console.log("\n<getPostsByTagName>");
+                            console.log(util.inspect(values, {depth: null, colors: true}));
+                            resolve(values);
+                            sqlHelper.commit(conn);
                         }).catch((err) => {
                             reject(err);
-                        }).finally(() => {
-                            conn.release();
+                            sqlHelper.rollback(conn);
                         });
                     }
                 );
