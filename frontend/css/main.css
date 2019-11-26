@@ -1,6 +1,3 @@
-.wrapper{
- }
-
-.wrapper li{
-    display: inline-block;
+body {
+    padding-top: 56px;
 }

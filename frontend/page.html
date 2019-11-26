@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- bootstrap 4 cdn -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+
+    <link rel="stylesheet" href="https://cdn.plyr.io/3.5.6/plyr.css" />
+    <!-- custom style -->
+    <link rel="stylesheet" type="text/css" href="../css/menu.css">
+    <link rel="stylesheet" type="text/css" href="../css/main.css">
+    <title>Page <%= id %></title>
+</head>
+<body>
+<!-- menu navbar -->
+    <nav class="navbar navbar-expand-md navbar-dark bg-dark sticky-top p-3 ">
+        <div class="container">
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#mainMenu" aria-controls="navbarsExampleDefault" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+
+            <div class="collapse navbar-collapse" id="mainMenu">
+
+                <ul class="navbar-nav mr-5 text-capitalize">
+                    <li class="nav-item active">
+                        <a class="navbar-brand font-weight-bold" href="/">Animals </a>
+                    </li>
+                </ul>
+                <form class="form-inline mr-auto my-lg-0">
+                    <div class="input-group">
+                        <input class="form-control" id="search" type="text" placeholder="Search" aria-label="Search">
+                        <div class="input-group-append">
+                            <button class="btn btn-secondary my-sm-0" type="submit">검색</button>
+                        </div>
+                    </div>
+                </form>
+                <a class="btn btn-dark ml-2 mr-md-2" href="/login">Sign in</a>
+                <a class="btn btn-outline-light ml-2" href="/signup">Sign up</a>
+<!--             log in logic -->
+<!--                <a href="/logout?next=/"><button type="button">로그아웃</button></a>-->
+<!--                <a href="/point"><button type="button">포인트 충전</button></a>-->
+<!--                <a href="/page/<%= user.my_page_id %>"><button type="button">나의 페이지</button></a>-->
+<!--                <a href="/create-page"><button type="button">페이지 만들기</button></a>-->
+            </div>
+        </div>
+    </nav>
+    <div class="container">
+        <div class="row">
+            <!-- page info -->
+            <div class="col-sm-3">
+                <h1>Page</h1>
+                <p>
+                    <a href="/page/subscribe/<%= id %>"><button type="button">구독하기</button></a>
+                </p>
+
+                <!-- info list -->
+                login : loginCode
+
+                <br>
+                admin : me
+                <br><br>
+                total donate from me : 300000000000
+                <br>
+                my donate class level : 100
+                <br>
+                am i subscriber : godnjw
+                <br>
+
+                <ul>
+                    <li>page id : 1</li>
+                    <li>creator nickname : 2</li>
+                    <li>animal name : 3</li>
+                    <li>category name : 4</li>
+                    <li>description : 5</li>
+                    <li>profile picture : 6</li>
+                    <li>subscribe count : 7</li>
+                </ul>
+
+                <hr>
+
+            </div>
+            <!-- show post -->
+            <div class="col-sm-6">
+                <h2>Posts</h2>
+                <table border="1" style="margin: 30px 0;">
+                    <tr>
+                        <td>id : 1</td>
+                        <td>title : 2</td>
+                        <td>content : 3</td>
+                        <td>created_time : 4</td>
+                        <td>min_class_level : 5</td>
+                        <td>
+                            tags : 인생 효율 0.00001%
+                        </td>
+                    </tr>
+                    <tr><td colspan="6">Files</td></tr>
+                    <tr>
+                        <td colspan="6">
+
+                            <div class="plyr__video-embed" id="player">
+                                <iframe
+                                        src="<%= file.url %>"
+                                        allowfullscreen
+                                        allowtransparency
+                                        allow="autoplay"
+                                ></iframe>
+                            </div>
+                            <img src="<%= file.url %>" style="height: 200px;" />
+                        </td>
+                     </tr>
+                    <tr><td colspan="6">Comments</td></tr>
+                    <tr>
+                        <td>댓글 남기기</td>
+                        <td colspan="5">
+                            <form method="POST" action="/page/comment?next=/page/<%= id %>">
+                                <input type="hidden" name="post_id" value="<%= post.id %>"></input>
+                                <input type="text" name="content" placeholder="댓글 내용 입력" required></input>
+                                <button type="submit">작성</button>
+                            </form>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan="6">
+                            <form method="POST" action="/page/uncomment?next=/page/<%= id %>" style="display: inline-block;">
+                                <input type="hidden" name="id" value="<%= comment.id %>"></input>
+                                <button type="submit">삭제</button>
+                            </form>
+                            <br>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+            <!-- required products and donation class-->
+            <div class="col-sm-3">
+                <h2>Required Products</h2>
+                <h3>이름</h3>
+                <img src="<%= product.url %>" style="max-height: 100px;" />
+                <ul>
+                    <li>설명</li>
+                    <li>개수</li>
+                    <li>가격</li>
+                </ul>
+                <h2>도네이션 등급</h2>
+                <h3>Lv 1 (후원금액 살려줘 원 이상)</h3>
+                <ul>
+                    <li>10000레벨 게시물 공개</li>
+                    <li>으아</li>
+                    <li>미안하고 죄송합니다</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.plyr.io/3.5.6/plyr.js"></script>
+    <script>var player = new Plyr('#player');</script>
+
+</body>
+</html>
