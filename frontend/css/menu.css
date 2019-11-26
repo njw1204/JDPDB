@@ -1,17 +1,18 @@
+
 #search{
     background-color: gray;
     border-color: gray;
-    color: #ffffff;
+    color: #fefefe;
 }
 #search:focus{
     background-color: white;
     color: #0C0E10;
 }
 #search::placeholder{
-    color:#ffffff;
+    color:lightgrey;
 }
 #search:focus::placeholder{
-    color: #0C0E10;
+    color: gray;
 }
 
 .menu{
