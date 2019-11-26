@@ -39,11 +39,11 @@ class DonateDAO {
 
                      UPDATE animals_user_to_page_info
                      SET class_level =
-                     (SELECT * FROM (SELECT MAX(r.class_level)
+                     COALESCE((SELECT * FROM (SELECT MAX(r.class_level)
                      FROM animals_user_to_page_info AS l
                      INNER JOIN animals_page_donate_class AS r
                      ON l.page_id = r.page_id
-                     WHERE user_id = ? AND total_donate >= cost) AS t)
+                     WHERE user_id = ? AND total_donate >= cost) AS t), 0)
                      WHERE user_id = ? AND page_id = ?;
 
                      UPDATE animals_user
@@ -109,11 +109,11 @@ class DonateDAO {
 
                              UPDATE animals_user_to_page_info
                              SET class_level =
-                             (SELECT * FROM (SELECT MAX(r.class_level)
+                             COALESCE((SELECT * FROM (SELECT MAX(r.class_level)
                              FROM animals_user_to_page_info AS l
                              INNER JOIN animals_page_donate_class AS r
                              ON l.page_id = r.page_id
-                             WHERE user_id = ? AND total_donate >= cost) AS t)
+                             WHERE user_id = ? AND total_donate >= cost) AS t), 0)
                              WHERE user_id = ? AND page_id = ?
                             `,
                             [userId, pageId, productId, productCount, message,
