@@ -1,0 +1,19 @@
+#search{
+    background-color: gray;
+    border-color: gray;
+    color: #ffffff;
+}
+#search:focus{
+    background-color: white;
+    color: #0C0E10;
+}
+#search::placeholder{
+    color:#ffffff;
+}
+#search:focus::placeholder{
+    color: #0C0E10;
+}
+
+.menu{
+    font-size: x-large;
+}
