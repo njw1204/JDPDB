@@ -51,24 +51,23 @@
     <form class="form-signin" method="POST" action="/signup">
         <h1 class="h3 mb-3 font-weight-normal text-center"><a href="/" class=" text-dark">Animals</a></h1>
 
-        <div class="mb-3">
-            <label for="inputEmail">Email</label>
-            <input type="email"  id="email" class="form-control" placeholder="Enter Email Address" required autofocus>
+            <label for="email" class="text-left">이메일</label>
+            <input type="email" id="email" class="form-control" placeholder="이메일" required autofocus>
+        </div>
+
+        <div calss="mb-3">
+            <label for="password" class="text-left">비밀번호</label>
+            <input type="password" id="password" class="form-control" placeholder="비밀번호" required>
+        </div>
+
+        <div calss="mb-3">
+            <label for="password2" class="text-left">비밀번호 확인</label>
+            <input type="password" id="password2" class="form-control" placeholder="비밀번호 확인" required>
         </div>
 
         <div class="mb-4">
-            <label for="inputPassword" >Password</label>
-            <input type="password"  id="password" class="form-control" placeholder="Enter Password" required>
-        </div>
-
-        <div class="mb-4">
-            <label for="inputPassword" >Confirm Password</label>
-            <input type="password"  id="passwordCheck" class="form-control" placeholder="Enter Password Again" required>
-        </div>
-
-        <div class="mb-4">
-            <label for="inputNickname" class="text-left">Nickname</label>
-            <input type="text" id="nickname" class="form-control" placeholder="Enter Nickname" required >
+            <label for="nickname" class="text-left">닉네임</label>
+            <input type="text" id="nickname" class="form-control" placeholder="닉네임" required >
         </div>
 
         <button class="btn btn-lg btn-primary btn-block" type="submit">Sign up</button>
