@@ -37,11 +37,11 @@ class DonateDAO {
 
                  UPDATE animals_user_to_page_info
                  SET class_level =
-                 (SELECT MAX(r.class_level)
+                 (SELECT * FROM (SELECT MAX(r.class_level)
                  FROM animals_user_to_page_info AS l
                  INNER JOIN animals_page_donate_class AS r
                  ON l.page_id = r.page_id
-                 WHERE user_id = ? AND total_donate >= cost)
+                 WHERE user_id = ? AND total_donate >= cost) AS t)
                  WHERE user_id = ? AND page_id = ?;
 
                  UPDATE animals_user
@@ -66,7 +66,7 @@ class DonateDAO {
         });
     }
 
-    donateProduct(fromUserId, toPageId, productId, productCount, message) {
+    donateProduct(userId, pageId, productId, productCount, message) {
         return new Promise((resolve, reject) => {
             pool.getConnection((err, conn) => {
                 if (err) return reject(err);
@@ -77,6 +77,8 @@ class DonateDAO {
                     `,
                     [pageId, productId],
                     (err, results, fields) => {
+                        console.log(results);
+
                         if (err) {
                             conn.release();
                             return reject(err);
@@ -96,30 +98,28 @@ class DonateDAO {
                              WHERE page_id = ? AND product_id = ?;
 
                              UPDATE animals_user
-                             SET point = point - ? *
-                             (SELECT cost
-                             FROM animals_product
-                             WHERE id = ?);
+                             SET point = (point - ? * (SELECT cost FROM animals_product WHERE id = ?))
+                             WHERE id = ?;
 
                              INSERT INTO animals_user_to_page_info(user_id, page_id, total_donate, subscribe, class_level)
-                             VALUES(?,?,?,0,0)
-                             ON DUPLICATE KEY UPDATE total_donate = total_donate + ?;
+                             VALUES(?, ?, ? * (SELECT cost FROM animals_product WHERE id = ?), 0, 0)
+                             ON DUPLICATE KEY UPDATE total_donate = total_donate + ? * (SELECT cost FROM animals_product WHERE id = ?);
 
                              UPDATE animals_user_to_page_info
                              SET class_level =
-                             (SELECT MAX(r.class_level)
+                             (SELECT * FROM (SELECT MAX(r.class_level)
                              FROM animals_user_to_page_info AS l
                              INNER JOIN animals_page_donate_class AS r
                              ON l.page_id = r.page_id
-                             WHERE user_id = ? AND total_donate >= cost)
+                             WHERE user_id = ? AND total_donate >= cost) AS t)
                              WHERE user_id = ? AND page_id = ?;
 
                              COMMIT
                             `,
                             [userId, pageId, productId, productCount, message,
                              productCount, pageId, productId,
-                             productCount, productId,
-                             userId, pageId, cost, cost,
+                             productCount, productId, userId,
+                             userId, pageId, productCount, productId, productCount, productId,
                              userId, userId, pageId
                             ],
                             (err, results, fields) => {

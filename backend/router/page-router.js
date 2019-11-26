@@ -42,9 +42,29 @@ router.get("/:id", asyncHandler(async (req, res, next) => {
 }));
 
 
+// 현금 후원
+router.post("/donate-money", asyncHandler(async (req, res) => {
+    if (req.session.user) {
+        await donateDAO.donateMoney(req.session.user.id, req.body.page_id, req.body.cost, req.body.message);
+    }
+
+    res.redirect(req.query.next || "/");
+}));
+
+// 상품 후원
+router.post("/donate-product", asyncHandler(async (req, res) => {
+    console.log(req.body);
+
+    if (req.session.user) {
+        await donateDAO.donateProduct(req.session.user.id, req.body.page_id, req.body.product_id, req.body.product_count, req.body.message);
+    }
+
+    res.redirect(req.query.next || "/");
+}));
+
+
 // 댓글 작성
 router.post("/comment", asyncHandler(async (req, res) => {
-    console.log(req.body);
     if (req.session.user) {
         await commentDAO.addComment(req.session.user.id, req.body.post_id, req.body.content);
     }
@@ -54,7 +74,6 @@ router.post("/comment", asyncHandler(async (req, res) => {
 
 // 댓글 삭제
 router.post("/uncomment", asyncHandler(async (req, res) => {
-    console.log(req.body);
     let comment = await commentDAO.getComment(req.body.id);
 
     if (comment && req.session.user.id === comment.user_id) {

@@ -50,6 +50,17 @@
 
   <hr>
 
+  <% if (session.user && !isAdmin) { %>
+    <h2>Donate Money</h2>
+    <form method="POST" action="/page/donate-money?next=/page/<%= id %>">
+      <input type="hidden" name="page_id" value="<%= id %>"></input>
+      <input type="number" name="cost" placeholder="금액 (원)" required></input><br>
+      <input type="text" name="message" placeholder="후원 메시지" required></input>
+      <button type="submit">후원하기</button>
+    </form>
+    <hr>
+  <% } %>
+
   <% if (donate_classes.length > 0) { %>
     <h2>Donate Classes</h2>
     <% let rewards = []; %>
@@ -82,6 +93,15 @@
         <li><%= product.description %></li>
         <li><%= product.product_count %>개 필요해요.</li>
         <li>1개당 <%= product.cost %>원이에요.</li>
+        <% if (session.user && !isAdmin) { %>
+          <form method="POST" action="/page/donate-product?next=/page/<%= id %>">
+            <input type="hidden" name="page_id" value="<%= id %>"></input>
+            <input type="hidden" name="product_id" value="<%= product.id %>"></input>
+            <input type="number" name="product_count" placeholder="개수" required></input><br>
+            <input type="text" name="message" placeholder="후원 메시지" required></input>
+            <button type="submit">후원하기</button>
+          </form>
+        <% } %>
       </ul>
     <% } %>
   <% } else { %>
