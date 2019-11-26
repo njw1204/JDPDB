@@ -5,8 +5,42 @@ body {
 .h7 {
     font-size: 0.8rem;
 }
+.stats {
+    text-align:center;
+    text-shadow:1px 1px 0px #fff;
+    margin-top:25px;
+
+}
+.stats li{
+    width:125px;
+}
+.stats span{
+    font-family:Helvetica;
+    font-weight:bold;
+    text-shadow:1px 1px 0px #fff;
+    font-size:4em;
+
+    display:block;
+    line-height:1em;
+}
+
+
+
+/* Landscape phone to portrait tablet */
+@media (max-width: 767px) {
+    .profile img{
+        width:75px;
+    }
+    .profile h2{
+        font-size:1.7em;
+    }
+    .stats span{
+        font-size: 2em;
+    }
+}
 
 @media (min-width: 992px) {
+
     .gedf-main {
         padding-left: 4rem;
         padding-right: 4rem;
@@ -20,3 +54,4 @@ body {
 .dropdown-toggle::after {
     content: none;
 }
+
