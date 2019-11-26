@@ -40,14 +40,15 @@ class PageDAO {
             );
         });
     }
+
     getPageIdListSearchByName(name) {
         return new Promise((resolve, reject) => {
             sqlHelper.query(
                 `SELECT page.id 
                  FROM animals_page AS page
-                 WHERE page.animal_name LIKE "% + ? + %"
+                 WHERE page.animal_name LIKE ?
                  ORDER BY page.id ASC`,
-                [name],
+                ["%" + name + "%"],
                 function(err, results, fields) {
                     console.log("\n<getPageIdListSearchByName>");
                     console.log(results);
@@ -66,7 +67,7 @@ class PageDAO {
 
     getPageIdListSubscribedByUser(userId) {
         return new Promise((resolve, reject) => {
-            sqlHelper.simpleQuery(
+            sqlHelper.query(
                 `SELECT page.id
                  FROM animals_page AS page
                  INNER JOIN animals_user_to_page_info AS u2p ON page.id = u2p.page_id
