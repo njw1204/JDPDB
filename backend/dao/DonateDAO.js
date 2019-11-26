@@ -43,19 +43,51 @@ class DonateDAO {
                  WHERE total_donate >= cost AND user_id = ?);
 
                  UPDATE animals_user
-                 SET point = point - ?;
+                 SET point = point - ?
+                 WHERE id = ?;
 
                  COMMIT;
                 `,
-                [userID, pageId, cost, message, userId, pageId, cost, cost, userId, cost],
+                [userID, pageId, cost, message, userId, pageId, cost, cost, userId, cost, userId],
                 function(err, results, fields) {
                     console.log("\n<donateMoney>");
                     console.log(results);
 
                     if (err) return reject(err);
-                    resolve(results);
+                    resolve(true);
                 }
             );
+        });
+    }
+    donateProduct(fromUserId, toPageId, productId, productCount, message) {
+        return new Promise((resolve, reject) => {
+            sqlHelper.query(
+                `START TRANSACTION
+
+                INSERT INTO animals_donate_product(from_user_id, to_page_id, product_id, product_count, message)
+                VALUES(?,?,?,?,?);
+
+                UPDATE animals_required_products
+                SET product_count = product_count - ?
+                WHERE page_id = ? AND product_id = ?;
+
+                UPDATE animals_user
+                SET point = point - ? *
+                (SELECT cost 
+                FROM animals_product
+                WHERE id = ?);
+
+                COMMIT;
+                `,
+                [fromUserId, toPageId, productId, productCount, message, productCount, toPageId, productId, productCount, productId],
+                function(err, results, fields) {
+                    console.log("\n<donateProduct");
+                    console.log(results);
+
+                    if (err) return reject(err);
+                    resolve(true);
+                }
+            )
         });
     }
 }
