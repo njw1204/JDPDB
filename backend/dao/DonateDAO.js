@@ -22,6 +22,7 @@ class DonateDAO {
             );
         });
     }
+
     donateMoney(userId, pageId, cost, message) {
         return new Promise((resolve, reject) => {
             sqlHelper.query(
@@ -31,16 +32,17 @@ class DonateDAO {
                  VALUES(?,?,?,?);
 
                  INSERT INTO animals_user_to_page_info(user_id, page_id, total_donate, subscribe, class_level)
-                 VALUES(?,?,?,0,0) 
+                 VALUES(?,?,?,0,0)
                  ON DUPLICATE KEY UPDATE total_donate = total_donate + ?;
 
                  UPDATE animals_user_to_page_info
-                 SET class_level = 
+                 SET class_level =
                  (SELECT MAX(r.class_level)
                  FROM animals_user_to_page_info AS l
                  INNER JOIN animals_page_donate_class AS r
                  ON l.page_id = r.page_id
-                 WHERE total_donate >= cost AND user_id = ?);
+                 WHERE user_id = ? AND total_donate >= cost)
+                 WHERE user_id = ? AND page_id = ?;
 
                  UPDATE animals_user
                  SET point = point - ?
@@ -48,7 +50,11 @@ class DonateDAO {
 
                  COMMIT;
                 `,
-                [userID, pageId, cost, message, userId, pageId, cost, cost, userId, cost, userId],
+                [userId, pageId, cost, message,
+                 userId, pageId, cost, cost,
+                 userId, userId, pageId,
+                 cost, userId
+                ],
                 function(err, results, fields) {
                     console.log("\n<donateMoney>");
                     console.log(results);
@@ -59,35 +65,75 @@ class DonateDAO {
             );
         });
     }
+
     donateProduct(fromUserId, toPageId, productId, productCount, message) {
         return new Promise((resolve, reject) => {
-            sqlHelper.query(
-                `START TRANSACTION
+            pool.getConnection((err, conn) => {
+                if (err) return reject(err);
 
-                INSERT INTO animals_donate_product(from_user_id, to_page_id, product_id, product_count, message)
-                VALUES(?,?,?,?,?);
+                conn.query(
+                    `START TRANSACTION;
+                     SELECT COUNT(*) AS cnt FROM animals_required_products WHERE page_id = ? AND product_id = ?
+                    `,
+                    [pageId, productId],
+                    (err, results, fields) => {
+                        if (err) {
+                            conn.release();
+                            return reject(err);
+                        }
 
-                UPDATE animals_required_products
-                SET product_count = product_count - ?
-                WHERE page_id = ? AND product_id = ?;
+                        if (results[1][0].cnt === 0) {
+                            conn.release();
+                            return reject(new Error("donateProduct: Not required product"));
+                        }
 
-                UPDATE animals_user
-                SET point = point - ? *
-                (SELECT cost 
-                FROM animals_product
-                WHERE id = ?);
+                        conn.query(
+                            `INSERT INTO animals_donate_product(from_user_id, to_page_id, product_id, product_count, message)
+                             VALUES(?,?,?,?,?);
 
-                COMMIT;
-                `,
-                [fromUserId, toPageId, productId, productCount, message, productCount, toPageId, productId, productCount, productId],
-                function(err, results, fields) {
-                    console.log("\n<donateProduct");
-                    console.log(results);
+                             UPDATE animals_required_products
+                             SET product_count = product_count - ?
+                             WHERE page_id = ? AND product_id = ?;
 
-                    if (err) return reject(err);
-                    resolve(true);
-                }
-            )
+                             UPDATE animals_user
+                             SET point = point - ? *
+                             (SELECT cost
+                             FROM animals_product
+                             WHERE id = ?);
+
+                             INSERT INTO animals_user_to_page_info(user_id, page_id, total_donate, subscribe, class_level)
+                             VALUES(?,?,?,0,0)
+                             ON DUPLICATE KEY UPDATE total_donate = total_donate + ?;
+
+                             UPDATE animals_user_to_page_info
+                             SET class_level =
+                             (SELECT MAX(r.class_level)
+                             FROM animals_user_to_page_info AS l
+                             INNER JOIN animals_page_donate_class AS r
+                             ON l.page_id = r.page_id
+                             WHERE user_id = ? AND total_donate >= cost)
+                             WHERE user_id = ? AND page_id = ?;
+
+                             COMMIT
+                            `,
+                            [userId, pageId, productId, productCount, message,
+                             productCount, pageId, productId,
+                             productCount, productId,
+                             userId, pageId, cost, cost,
+                             userId, userId, pageId
+                            ],
+                            (err, results, fields) => {
+                                console.log("\n<donateProduct>");
+                                console.log(results);
+                                conn.release();
+
+                                if (err) return reject(err);
+                                resolve(true);
+                            }
+                        );
+                    }
+                );
+            });
         });
     }
 }
