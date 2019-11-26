@@ -8,6 +8,7 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
     <link rel="stylesheet" href="./css/sign.css">
+    <link rel="stylesheet" href="./css/util.css">
     <meta name="description" content="">
     <meta name="author" content="">
     <title>Shop Homepage - Start Bootstrap Template</title>
@@ -50,21 +51,22 @@
 
 <div class="center" ><form class="form-signin" method="POST" action="/login">
     <div class="mb-3">
-        <h1 class="h3 font-weight-normal text-center" ><a href="/" class="text-dark">Animals</a></h1>
+        <h1 class="h3 font-weight-bold text-center" ><a href="/" class="text-dark">Animals</a></h1>
     </div>
     <div class="mb-3">
-        <label for="inputEmail">이메일</label>
-        <input type="email"  name="email" class="form-control" placeholder="이메일" required autofocus>
+        <label for="inputEmail">Email</label>
+        <input type="email"  id="email" class="form-control" placeholder="Enter Email Address" required autofocus>
     </div>
     <div class="mb-4">
-        <label for="inputPassword" >비밀번호</label>
-        <input type="password"  name="password" class="form-control" placeholder="비밀번호" required>
+        <label for="inputPassword" >Password</label>
+        <input type="password"  id="password" class="form-control" placeholder="Enter Password" required>
     </div>
     <div class=" mb-3">
-        <button class="btn btn-lg btn-primary btn-block" type="submit">로그인</button>
+        <button class="btn btn-lg btn-primary btn-block" type="submit">Login</button>
     </div>
-    <div class="mb-3 text-center">
-        <a href="/signup">회원 가입 하기</a>
+    <div class="mb-3 font-weight-bold text-center">
+        <h1 class="h3 fs-20">No Account?</h1>
+        <a href="/signup">Sign up</a>
     </div>
     <div class="my-2">
         <p class="text-muted text-center">&copy; 2019-2019</p>
@@ -79,10 +81,6 @@
     </div>
     <!-- /.container -->
 </footer>
-
-<!-- Bootstrap core JavaScript -->
-<script src="vendor/jquery/jquery.min.js"></script>
-<script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
 
 </body>
 </html>
