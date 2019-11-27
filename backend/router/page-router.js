@@ -79,6 +79,16 @@ router.post("/donate-product", asyncHandler(async (req, res) => {
     res.redirect(req.query.next || "/");
 }));
 
+
+// 도네 받은 목록 보기
+router.get("/donate-log/:pageid", asyncHandler(async (req, res) => {
+    let logMoneys = await donateDAO.getDonateMoneysOfPage(req.params.pageid);
+    let logProducts = await donateDAO.getDonateProductsOfPage(req.params.pageid);
+    res.render("donate-log", {logMoneys, logProducts});
+}));
+
+
+// 필요 물품 관리
 router.get("/required-product/:pageid", asyncHandler(async (req, res) => {
     let data = {};
 
@@ -106,6 +116,7 @@ router.post("/delete-required-product/:pageid", asyncHandler(async (req, res) =>
     }
     res.redirect(req.query.next || "/");
 }));
+
 
 // 글 작성
 router.get("/post/:id", asyncHandler(async (req, res) => {

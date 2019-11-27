@@ -40,6 +40,46 @@ class DonateDAO {
         });
     }
 
+    getDonateMoneysOfPage(pageId) {
+        return new Promise((resolve, reject) => {
+            sqlHelper.query(
+                `SELECT id, from_user_id AS user_id, to_page_id AS page_id, cost, message
+                 FROM animals_donate_money
+                 WHERE to_page_id = ?
+                 ORDER BY id DESC`,
+                [pageId],
+                function(err, results, fields) {
+                    console.log("\n<getDonateMoneysOfPage>");
+                    console.log(results);
+
+                    if (err) return reject(err);
+                    resolve(results);
+                }
+            );
+        });
+    }
+
+    getDonateProductsOfPage(pageId) {
+        return new Promise((resolve, reject) => {
+            sqlHelper.query(
+                `SELECT donate.id, from_user_id AS user_id, to_page_id AS page_id, product_id, product.name, product.description, product_count, (product_count * product.cost) AS cost, message, file.url
+                 FROM animals_donate_product AS donate
+                 INNER JOIN animals_product AS product ON product.id = donate.product_id
+                 LEFT OUTER JOIN animals_file AS file ON file.id = product.picture_file_id
+                 WHERE donate.to_page_id = ?
+                 ORDER BY donate.id DESC`,
+                [pageId],
+                function(err, results, fields) {
+                    console.log("\n<getDonateProductsOfPage>");
+                    console.log(results);
+
+                    if (err) return reject(err);
+                    resolve(results);
+                }
+            );
+        });
+    }
+
     getDonateClassesOfPage(pageId) {
         return new Promise((resolve, reject) => {
             sqlHelper.query(

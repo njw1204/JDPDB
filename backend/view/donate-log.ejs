@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>도네 받은 리스트</title>
+</head>
+<body>
+  <a href="/">index</a>
+  <h1>도네 받은 리스트</h1>
+
+  <hr>
+
+  <h3>현금 후원</h3>
+  <% if (logMoneys.length > 0) { %>
+    <ol>
+      <% for (let donate of logMoneys) { %>
+        <li><%= JSON.stringify(donate) %></li>
+      <% } %>
+    </ol>
+  <% } else { %>
+    그런 거 없다.
+  <% } %>
+
+  <hr>
+
+  <h3>물품 후원</h3>
+  <% if (logProducts.length > 0) { %>
+    <ol>
+      <% for (let donate of logProducts) { %>
+        <li><%= JSON.stringify(donate) %></li>
+      <% } %>
+    </ol>
+  <% } else { %>
+    그런 거 없다.
+  <% } %>
+
+  <% if (typeof session.message != "undefined" && session.message) { %>
+    <script>
+      alert("<%= session.message %>");
+    </script>
+    <% session.message = null; %>
+  <% } %>
+</body>
+</html>
