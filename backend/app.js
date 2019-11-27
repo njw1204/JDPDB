@@ -1,6 +1,7 @@
 "use strict";
 const express = require("express");
 const compression = require("compression");
+const cors = require("cors");
 const helmet = require("helmet");
 const logger = require("morgan");
 const session = require("express-session");
@@ -15,6 +16,7 @@ app.set("port", process.env.PORT || 3000);
 app.set("view engine", "ejs");
 app.set("views", "./view");
 app.use(logger("dev"));
+app.use(cors());
 app.use(helmet());
 app.use(compression());
 app.use(express.static("static"));
