@@ -65,7 +65,7 @@ class DonateDAO {
                      FROM animals_user_to_page_info AS l
                      INNER JOIN animals_page_donate_class AS r
                      ON l.page_id = r.page_id
-                     WHERE user_id = ? AND total_donate >= cost) AS t), 0)
+                     WHERE user_id = ? AND r.page_id = ? AND total_donate >= cost) AS t), 0)
                      WHERE user_id = ? AND page_id = ?;
 
                      UPDATE animals_user
@@ -74,7 +74,7 @@ class DonateDAO {
                     `,
                     [userId, pageId, cost, message,
                      userId, pageId, cost, cost,
-                     userId, userId, pageId,
+                     userId, pageId, userId, pageId,
                      cost, userId],
                     function(err, results, fields) {
                         console.log("\n<donateMoney>");
@@ -135,14 +135,14 @@ class DonateDAO {
                              FROM animals_user_to_page_info AS l
                              INNER JOIN animals_page_donate_class AS r
                              ON l.page_id = r.page_id
-                             WHERE user_id = ? AND total_donate >= cost) AS t), 0)
+                             WHERE user_id = ? AND r.page_id = ? AND total_donate >= cost) AS t), 0)
                              WHERE user_id = ? AND page_id = ?
                             `,
                             [userId, pageId, productId, productCount, message,
                              productCount, pageId, productId,
                              productCount, productId, userId,
                              userId, pageId, productCount, productId, productCount, productId,
-                             userId, userId, pageId],
+                             userId, pageId, userId, pageId],
                             (err, results, fields) => {
                                 console.log("\n<donateProduct>");
                                 console.log(results);
