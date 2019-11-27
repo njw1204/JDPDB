@@ -1,7 +1,7 @@
 
 #search{
-    background-color: gray;
-    border-color: gray;
+    background-color: rgb(63,68,72);
+    border: 0;
     color: #fefefe;
 }
 #search:focus{

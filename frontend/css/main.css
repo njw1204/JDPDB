@@ -1,4 +1,10 @@
+html {
+    height: 100%;
+}
+
 body {
+    background-color: #eeeeee !important;
+    height: 100%;
     padding-top: 56px;
 }
 
@@ -8,12 +14,22 @@ body {
 }
 
 #sidebar {
-    padding-top: 56px;
+    position: fixed;
+    padding-top: 40px;
+    padding-bottom: 80px;
     height: 100%;
-    /*margin-right: 50px;*/
-    background: lightgrey;
-    color: gray;
+    width: 230px;
+    color: rgb(100,100,100);
+    background-color: #f7f7f7 !important;
     transition: all 0.3s;
+    overflow-y: auto;
+    z-index: 1;
+    box-shadow: 0 4px 10px 0 rgba(0,0,0,0.2), 0 4px 20px 0 rgba(0,0,0,0.19);
+}
+
+.main-container {
+    margin-top: 30px !important;
+    margin-left: 305px !important;
 }
 
 .section {
@@ -22,7 +38,7 @@ body {
 }
 
 .slide-carousel .carousel-item {
-    margin-right: 50px; !important
+    margin-right: 50px !important;
 }
 
 @media (min-width: 768px) {
@@ -91,5 +107,3 @@ body {
         visibility: visible;
     }
 }
-
-
