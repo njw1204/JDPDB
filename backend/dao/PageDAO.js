@@ -153,6 +153,41 @@ class PageDAO {
         });
     }
 
+    addPageRequiredProduct(pageId, productId, productCount) {
+        return new Promise((resolve, reject) => {
+            sqlHelper.query(
+                `INSERT INTO animals_required_products(page_id, product_id, product_count)
+                 VALUES(?,?,?)
+                 ON DUPLICATE KEY UPDATE product_count = product_count + ?;
+                `,
+                [pageId, productId, productCount, productCount],
+                function (err, results, fields) {
+                    console.log("\n<addPageRequiredProduct>");
+                    console.log(results);
+
+                    if (err) return reject(err);
+                    resolve(true);
+                }
+            );
+        });
+    }
+
+    deletePageRequiredProduct(pageId, productId) {
+        return new Promise((resolve, reject) => {
+            sqlHelper.query(
+                `DELETE FROM animals_required_products WHERE page_id = ? AND product_id = ?`,
+                [pageId, productId],
+                function (err, results, fields) {
+                    console.log("\n<deletePageRequiredProduct>");
+                    console.log(results);
+
+                    if (err) return reject(err);
+                    resolve(true);
+                }
+            );
+        });
+    }
+
     getPageSubscribers(id) {
         return new Promise((resolve, reject) => {
             sqlHelper.query(
