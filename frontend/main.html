@@ -15,7 +15,33 @@
     <meta content="" name="author">
     <title>Shop Homepage - Start Bootstrap Template</title>
 
+    <script>
+        $(document).ready(function() {
+            $("#myCarousel").on("slide.bs.carousel", function(e) {
+                var $e = $(e.relatedTarget);
+                var idx = $e.index();
+                var itemsPerSlide = 4;
+                var totalItems = $(".carousel-item").length;
 
+                if (idx >= totalItems - (itemsPerSlide - 1)) {
+                    var it = itemsPerSlide - (totalItems - idx);
+                    for (var i = 0; i < it; i++) {
+                        // append slides to end
+                        if (e.direction == "left") {
+                            $(".carousel-item")
+                                .eq(i)
+                                .appendTo(".carousel-inner");
+                        } else {
+                            $(".carousel-item")
+                                .eq(0)
+                                .appendTo($(this).find(".carousel-inner"));
+                        }
+                    }
+                }
+            });
+        });
+
+    </script>
 </head>
 
 <body>
@@ -176,9 +202,8 @@
                     <span class="sr-only">Next</span>
                 </a>
             </div>
-            <div class="row"></div>
-            <div class="carousel slide my-4" data-ride="carousel" id="hot">
-                <div class="carousel-inner w-100 mx-auto">
+            <div class="carousel slide my-4 slide-carousel" data-ride="carousel" id="hot">
+                <div class="carousel-inner row w-100 mx-auto">
                     <div class="carousel-item col-lg-4 col-md-3 mb-4 active">
                         <div class="card h-100">
                             <a href="#"><img class="card-img-top" src="http://placehold.it/700x400" alt=""></a>
@@ -227,54 +252,54 @@
                             </div>
                         </div>
                     </div>
-                    <div class="carousel-item col-lg-4 col-md-3 mb-4">
-                        <div class="card h-100">
-                            <a href="#"><img class="card-img-top" src="http://placehold.it/700x400" alt=""></a>
-                            <div class="card-body">
-                                <h4 class="card-title">
-                                    <a href="#">Item Four</a>
-                                </h4>
-                                <h5>$24.99</h5>
-                                <p class="card-text">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Amet
-                                    numquam aspernatur!</p>
-                            </div>
-                            <div class="card-footer">
-                                <small class="text-muted">&#9733; &#9733; &#9733; &#9733; &#9734;</small>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="carousel-item col-lg-4 col-md-3 mb-4 ">
-                        <div class="card h-100">
-                            <a href="#"><img class="card-img-top" src="http://placehold.it/700x400" alt=""></a>
-                            <div class="card-body">
-                                <h4 class="card-title">
-                                    <a href="#">Item Five</a>
-                                </h4>
-                                <h5>$24.99</h5>
-                                <p class="card-text">Lorem ipsum dolor sit amet, consectetur adipisicing elit.
-                                    Amet numquam aspernatur! Lorem ipsum dolor sit amet.</p>
-                            </div>
-                            <div class="card-footer">
-                                <small class="text-muted">&#9733; &#9733; &#9733; &#9733; &#9734;</small>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="carousel-item col-lg-4 col-md-3 mb-4 ">
-                        <div class="card h-100">
-                            <a href="#"><img class="card-img-top" src="http://placehold.it/700x400" alt=""></a>
-                            <div class="card-body">
-                                <h4 class="card-title">
-                                    <a href="#">Item Six</a>
-                                </h4>
-                                <h5>$24.99</h5>
-                                <p class="card-text">Lorem ipsum dolor sit amet, consectetur adipisicing elit.
-                                    Amet numquam aspernatur!</p>
-                            </div>
-                            <div class="card-footer">
-                                <small class="text-muted">&#9733; &#9733; &#9733; &#9733; &#9734;</small>
-                            </div>
-                        </div>
-                    </div>
+<!--                    <div class="carousel-item col-lg-4 col-md-3 mb-4">-->
+<!--                        <div class="card h-100">-->
+<!--                            <a href="#"><img class="card-img-top" src="http://placehold.it/700x400" alt=""></a>-->
+<!--                            <div class="card-body">-->
+<!--                                <h4 class="card-title">-->
+<!--                                    <a href="#">Item Four</a>-->
+<!--                                </h4>-->
+<!--                                <h5>$24.99</h5>-->
+<!--                                <p class="card-text">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Amet-->
+<!--                                    numquam aspernatur!</p>-->
+<!--                            </div>-->
+<!--                            <div class="card-footer">-->
+<!--                                <small class="text-muted">&#9733; &#9733; &#9733; &#9733; &#9734;</small>-->
+<!--                            </div>-->
+<!--                        </div>-->
+<!--                    </div>-->
+<!--                    <div class="carousel-item col-lg-4 col-md-3 mb-4 ">-->
+<!--                        <div class="card h-100">-->
+<!--                            <a href="#"><img class="card-img-top" src="http://placehold.it/700x400" alt=""></a>-->
+<!--                            <div class="card-body">-->
+<!--                                <h4 class="card-title">-->
+<!--                                    <a href="#">Item Five</a>-->
+<!--                                </h4>-->
+<!--                                <h5>$24.99</h5>-->
+<!--                                <p class="card-text">Lorem ipsum dolor sit amet, consectetur adipisicing elit.-->
+<!--                                    Amet numquam aspernatur! Lorem ipsum dolor sit amet.</p>-->
+<!--                            </div>-->
+<!--                            <div class="card-footer">-->
+<!--                                <small class="text-muted">&#9733; &#9733; &#9733; &#9733; &#9734;</small>-->
+<!--                            </div>-->
+<!--                        </div>-->
+<!--                    </div>-->
+<!--                    <div class="carousel-item col-lg-4 col-md-3 mb-4 ">-->
+<!--                        <div class="card h-100">-->
+<!--                            <a href="#"><img class="card-img-top" src="http://placehold.it/700x400" alt=""></a>-->
+<!--                            <div class="card-body">-->
+<!--                                <h4 class="card-title">-->
+<!--                                    <a href="#">Item Six</a>-->
+<!--                                </h4>-->
+<!--                                <h5>$24.99</h5>-->
+<!--                                <p class="card-text">Lorem ipsum dolor sit amet, consectetur adipisicing elit.-->
+<!--                                    Amet numquam aspernatur!</p>-->
+<!--                            </div>-->
+<!--                            <div class="card-footer">-->
+<!--                                <small class="text-muted">&#9733; &#9733; &#9733; &#9733; &#9734;</small>-->
+<!--                            </div>-->
+<!--                        </div>-->
+<!--                    </div>-->
                 </div>
                 <!--     /.row -->
                 <a class="carousel-control-prev" data-slide="prev" href="#hot" role="button">
@@ -291,7 +316,6 @@
         </div>
         <!-- /.container -->
 
-        <!--    <script src="./js/main.js"></script>-->
     </div>
 </div>
 </body>
