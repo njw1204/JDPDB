@@ -85,7 +85,7 @@ router.get("/required-product/:pageid", asyncHandler(async (req, res) => {
     data.pageId = req.params.pageid;
     data.products = await donateDAO.getAllProducts();
     data.requiredProducts = await pageDAO.getPageRequiredProducts(req.params.pageid);
-    
+
     res.render("required", data);
 }));
 
@@ -99,7 +99,7 @@ router.post("/add-required-product/:pageid", asyncHandler(async (req, res) => {
 }));
 
 router.post("/delete-required-product/:pageid", asyncHandler(async (req, res) => {
-    let page = await pageDAO.getPageBasicInfo(req.params.id);
+    let page = await pageDAO.getPageBasicInfo(req.params.pageid);
 
     if (req.session.user && req.session.user.id === page.creator_id) {
         await pageDAO.deletePageRequiredProduct(req.params.pageid, req.body.product_id);

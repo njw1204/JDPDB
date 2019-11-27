@@ -23,7 +23,8 @@
 
   <p>
     <% if (session.user && isAdmin) { %>
-      <a href="/page/post/<%= id %>">Let's Write Post</a>
+      <a href="/page/post/<%= id %>">Let's Write Post</a><br>
+      <a href="/page/required-product/<%= id %>">Let's Edit Required Products</a>
     <% } %>
   </p>
 
