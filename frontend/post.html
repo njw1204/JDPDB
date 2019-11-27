@@ -9,9 +9,10 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
 
-    <link rel="stylesheet" href="./css/main.css">
+    <link rel="stylesheet" href="./css/page.css">
+    <link rel="stylesheet" href="css/main.css">
     <!-- Include CSS on BELOW !-->
-
+    <link rel="stylesheet" href="./css/post.css">
 
     <!-- Change Title and Description !-->
     <meta name="description" content="">
@@ -24,7 +25,8 @@
 <header>
     <nav class="navbar navbar-expand-md navbar-dark bg-dark fixed-top ">
         <div class="container">
-            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#mainMenu" aria-controls="navbarsExampleDefault" aria-expanded="false" aria-label="Toggle navigation">
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#mainMenu"
+                    aria-controls="navbarsExampleDefault" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
 
@@ -46,7 +48,6 @@
 
                 <a class="btn btn-dark ml-2 mr-md-2" href="/login">Sign in</a>
                 <a class="btn btn-outline-light ml-2" href="/signup">Sign up</a>
-                &nbsp;
                 <!--                <a class="btn btn-outline-light ml-2" href="/create-page">Make Page</a> -->
                 <!--                <a class="btn btn-outline-light ml-2" href="/point">Buy Point</a> -->
                 <!--                <a class="btn btn-outline-light ml-2" href="/logout/">Log out</a> -->
@@ -57,15 +58,57 @@
 
 <!-- Insert Body BELOW Here !-->
 
+<div class="container bg-white pt-xl-5 pb-xl-5">
+    <form class="form-horizontal" role="form" method="post" action="index.php">
+        <div class="form-group">
+            <!--suppress XmlInvalidId -->
+            <label for="postName" class="col-sm-2 control-label">Post Name</label>
+            <div class="input-group">
+                <input type="text" class="form-control" id="postName" name="postName" placeholder="Enter Post Name"
+                       value="">
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="tags" class="col-sm-2 control-label">Tags</label>
+            <div class="input-group">
+                <input type="text" class="form-control" id="tags" name="tags"
+                       placeholder="Enter Tags (Space between tags to seperate)" value="">
+            </div>
+        </div>
+        <div class="form-group">
+            <!--suppress XmlInvalidId -->
+            <label for="content" class="col-sm-2 control-label">Content</label>
+            <div class="input-group">
+                <textarea class="form-control" rows="4" name="content">Write your content...</textarea>
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-sm-10 col-sm-offset-2">
+                <! Will be used to display an alert to the user>
+            </div>
+        </div>
+    </form>
 
+    <div class="file-upload">
+        <button class="file-upload-btn" type="button" onclick="$('.file-upload-input').trigger( 'click' )">Add Image
+        </button>
 
-
-
-<footer class="py-5 bg-dark">
-    <div class="container">
-        <p class="m-0 text-center text-white">Copyright &copy; Your Website 2019</p>
+        <div class="image-upload-wrap">
+            <input class="file-upload-input" type='file' onchange="readURL(this);" accept="image/*"/>
+            <div class="drag-text">
+                <h3>Drag and drop a file or select add Image</h3>
+            </div>
+        </div>
+        <div class="file-upload-content">
+            <img class="file-upload-image" src="#" alt="your image"/>
+            <div class="image-title-wrap">
+                <button type="button" onclick="removeUpload()" class="remove-image">Remove <span class="image-title">Uploaded Image</span>
+                </button>
+            </div>
+        </div>
     </div>
-    <!-- /.container -->
-</footer>
+    <button class="file-upload-btn" type="button">Submit</button>
+</div>
+
 </body>
 </html>
