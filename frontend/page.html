@@ -8,7 +8,7 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
-
+    <link href="./css/page.css" rel="stylesheet">
     <link href="./css/main.css" rel="stylesheet">
     <!-- Include CSS on BELOW !-->
 
@@ -46,12 +46,13 @@
                     </div>
                 </form>
 
-                <a class="btn btn-dark ml-2 mr-md-2" href="/login">Sign in</a>
-                <a class="btn btn-outline-light ml-2" href="/signup">Sign up</a>
+                <!--                <a class="btn btn-dark ml-2 mr-md-2" href="/login">Sign in</a>-->
+                <!--                <a class="btn btn-outline-light ml-2" href="/signup">Sign up</a>-->
                 &nbsp;
-                <!--                <a class="btn btn-outline-light ml-2" href="/create-page">Make Page</a> -->
-                <!--                <a class="btn btn-outline-light ml-2" href="/point">Buy Point</a> -->
-                <!--                <a class="btn btn-outline-light ml-2" href="/logout/">Log out</a> -->
+                <a class="btn btn-outline-light ml-2" href="/create-page">Make Page</a>
+                <a class="btn btn-outline-light ml-2" href="/point">Buy Point</a>
+                <a class="btn btn-outline-light ml-2" href="/logout/">Log out</a>
+                <a class="btn btn-outline-light ml-2" href="/post">New Post</a>
             </div>
         </div>
     </nav>
@@ -143,6 +144,53 @@
                     <a class="card-link" href="#"><i class="fa fa-gittip"></i> Like</a>
                     <a class="card-link" href="#"><i class="fa fa-comment"></i> Comment</a>
                     <a class="card-link" href="#"><i class="fa fa-mail-forward"></i> Share</a>
+                </div>
+                <!-- Comments Form -->
+                <div class="card mb-4">
+                    <h5 class="card-header">Leave a Comment:</h5>
+                    <div class="card-body">
+                        <form>
+                            <div class="form-group">
+                                <textarea class="form-control" rows="3"></textarea>
+                            </div>
+                            <button type="submit" class="btn btn-primary">Submit</button>
+                        </form>
+                    </div>
+                </div>
+
+                <!-- Single Comment -->
+                <div class="media mb-4 ml-4 mr-4">
+                    <img class="d-flex mr-3 rounded-circle" src="http://placehold.it/50x50" alt="">
+                    <div class="media-body">
+                        <h5 class="mt-0">Commenter Name</h5>
+                        Cras sit amet nibh libero, in gravida nulla. Nulla vel metus scelerisque ante sollicitudin. Cras purus odio, vestibulum in vulputate at, tempus viverra turpis. Fusce condimentum nunc ac nisi vulputate fringilla. Donec lacinia congue felis in faucibus.
+                    </div>
+                </div>
+
+                <!-- Comment with nested comments -->
+                <div class="media mb-4 ml-4 mr-4">
+                    <img class="d-flex mr-3 rounded-circle" src="http://placehold.it/50x50" alt="">
+                    <div class="media-body">
+                        <h5 class="mt-0">Commenter Name</h5>
+                        Cras sit amet nibh libero, in gravida nulla. Nulla vel metus scelerisque ante sollicitudin. Cras purus odio, vestibulum in vulputate at, tempus viverra turpis. Fusce condimentum nunc ac nisi vulputate fringilla. Donec lacinia congue felis in faucibus.
+
+                        <div class="media mt-4">
+                            <img class="d-flex mr-3 rounded-circle" src="http://placehold.it/50x50" alt="">
+                            <div class="media-body">
+                                <h5 class="mt-0">Commenter Name</h5>
+                                Cras sit amet nibh libero, in gravida nulla. Nulla vel metus scelerisque ante sollicitudin. Cras purus odio, vestibulum in vulputate at, tempus viverra turpis. Fusce condimentum nunc ac nisi vulputate fringilla. Donec lacinia congue felis in faucibus.
+                            </div>
+                        </div>
+
+                        <div class="media mt-4">
+                            <img class="d-flex mr-3 rounded-circle" src="http://placehold.it/50x50" alt="">
+                            <div class="media-body">
+                                <h5 class="mt-0">Commenter Name</h5>
+                                Cras sit amet nibh libero, in gravida nulla. Nulla vel metus scelerisque ante sollicitudin. Cras purus odio, vestibulum in vulputate at, tempus viverra turpis. Fusce condimentum nunc ac nisi vulputate fringilla. Donec lacinia congue felis in faucibus.
+                            </div>
+                        </div>
+
+                    </div>
                 </div>
             </div>
             <!-- Post /////-->
