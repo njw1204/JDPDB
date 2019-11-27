@@ -19,30 +19,31 @@
 <body style="padding-top: 56px;">
 
     <!-- Navigation -->
-    <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
+    <nav class="navbar navbar-expand-md navbar-dark bg-dark fixed-top p-3 ">
         <div class="container">
-            <a class="navbar-brand" href="#">Start Bootstrap</a>
-            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+            <button aria-controls="navbarsExampleDefault" aria-expanded="false" aria-label="Toggle navigation"
+                    class="navbar-toggler" data-target="#mainMenu" data-toggle="collapse" type="button">
                 <span class="navbar-toggler-icon"></span>
             </button>
-            <div class="collapse navbar-collapse" id="navbarResponsive">
-                <ul class="navbar-nav ml-auto">
+
+            <div class="collapse navbar-collapse" id="mainMenu">
+
+                <ul class="navbar-nav mr-5 text-capitalize">
                     <li class="nav-item active">
-                        <a class="nav-link" href="#">
-                            Home
-                            <span class="sr-only">(current)</span>
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#">About</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#">Services</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#">Contact</a>
+                        <a class="navbar-brand font-weight-bold" href="/">Animals </a>
                     </li>
                 </ul>
+                <form class="form-inline mr-auto my-lg-0">
+
+                </form>
+
+                <a class="btn btn-dark ml-2 mr-md-2" href="/login">Sign in</a>
+                <a class="btn btn-outline-light ml-2" href="/signup">Sign up</a>
+                <!--             log in logic -->
+                <!--                <a href="/logout?next=/"><button type="button">로그아웃</button></a>-->
+                <!--                <a href="/point"><button type="button">포인트 충전</button></a>-->
+                <!--                <a href="/page/<%= user.my_page_id %>"><button type="button">나의 페이지</button></a>-->
+                <!--                <a href="/create-page"><button type="button">페이지 만들기</button></a>-->
             </div>
         </div>
     </nav>
@@ -51,7 +52,7 @@
     <div class="container">
 
         <!-- Search Header -->
-        <header class="my-4" style="line-height: 1; border-bottom: 2px solid #000000;">
+        <div class="my-4" style="line-height: 1; border-bottom: 2px solid #000000;">
             <div class="d-flex mt-3 mb-3 col-6">
                 <div class="mr-sm-2">
                     <select class="selectpicker" data-width="100px" tabindex="-98">
@@ -67,23 +68,113 @@
                     </div>
                 </div>
             </div>
-        </header>
+        </div>
 
-        <!-- Page Features -->
-        <div class="row text-center">
+        <!-- results -->
+        <div>
 
-            <div class="col-lg-3 col-md-6 mb-4">
-                <div class="card h-100">
-                    <img class="card-img-top" src="http://placehold.it/500x325" alt="">
-                    <div class="card-body">
-                        <h4 class="card-title">Card title</h4>
-                        <p class="card-text">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Sapiente esse necessitatibus neque.</p>
+            <!--- \\\\\\\Post-->
+            <div class="card gedf-card">
+                <div class="card-header">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <div class="d-flex justify-content-between align-items-center">
+                            <div class="mr-2">
+                                <img alt="" class="rounded-circle" src="https://picsum.photos/50/50" width="45">
+                            </div>
+                            <div class="ml-2">
+                                <div class="h5 m-0">@LeeCross</div>
+                                <div class="h7 text-muted">Miracles Lee Cross</div>
+                            </div>
+                        </div>
+                        <div>
+                            <div class="dropdown">
+                                <button aria-expanded="false" aria-haspopup="true" class="btn btn-link dropdown-toggle"
+                                        data-toggle="dropdown" id="gedf-drop1" type="button">
+                                    <i class="fa fa-ellipsis-h"></i>
+                                </button>
+                                <div aria-labelledby="gedf-drop1" class="dropdown-menu dropdown-menu-right">
+                                    <div class="h6 dropdown-header">Configuration</div>
+                                    <a class="dropdown-item" href="#">Save</a>
+                                    <a class="dropdown-item" href="#">Hide</a>
+                                    <a class="dropdown-item" href="#">Report</a>
+                                </div>
+                            </div>
+                        </div>
                     </div>
-                    <div class="card-footer">
-                        <a href="#" class="btn btn-primary">Find Out More!</a>
-                    </div>
+
+                </div>
+                <div class="card-body">
+                    <div class="text-muted h7 mb-2"><i class="fa fa-clock-o"></i> Hace 40 min</div>
+                    <a class="card-link" href="#">
+                        <h5 class="card-title">Totam non adipisci hic! Possimus ducimus amet, dolores illo ipsum quos
+                            cum.</h5>
+                    </a>
+
+                    <p class="card-text">
+                        Lorem ipsum dolor sit amet consectetur adipisicing elit. Ipsam sunt fugit reprehenderit
+                        consectetur exercitationem odio,
+                        quam nobis? Officiis, similique, harum voluptate, facilis voluptas pariatur dolorum tempora
+                        sapiente
+                        eius maxime quaerat.
+                        <a href="https://mega.nz/#!1J01nRIb!lMZ4B_DR2UWi9SRQK5TTzU1PmQpDtbZkMZjAIbv97hU"
+                           target="_blank">https://mega.nz/#!1J01nRIb!lMZ4B_DR2UWi9SRQK5TTzU1PmQpDtbZkMZjAIbv97hU</a>
+                    </p>
+                </div>
+                <div class="card-footer">
+                    <a class="card-link" href="#"><i class="fa fa-gittip"></i> Like</a>
+                    <a class="card-link" href="#"><i class="fa fa-comment"></i> Comment</a>
+                    <a class="card-link" href="#"><i class="fa fa-mail-forward"></i> Share</a>
                 </div>
             </div>
+            <!-- Post /////-->
+
+            <!--- \\\\\\\Post-->
+            <div class="card gedf-card">
+                <div class="card-header">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <div class="d-flex justify-content-between align-items-center">
+                            <div class="mr-2">
+                                <img alt="" class="rounded-circle" src="https://picsum.photos/45/50" width="45">
+                            </div>
+                            <div class="ml-2">
+                                <div class="h5 m-0">@Xipe</div>
+                                <div class="h7 text-muted">Miracles Lee Cross</div>
+                            </div>
+                        </div>
+                        <div>
+                            <div class="dropdown">
+                                <button aria-expanded="false" aria-haspopup="true" class="btn btn-link dropdown-toggle"
+                                        data-toggle="dropdown" id="gedf-drop1" type="button">
+                                    <i class="fa fa-ellipsis-h"></i>
+                                </button>
+                                <div aria-labelledby="gedf-drop1" class="dropdown-menu dropdown-menu-right">
+                                    <div class="h6 dropdown-header">Configuration</div>
+                                    <a class="dropdown-item" href="#">Save</a>
+                                    <a class="dropdown-item" href="#">Hide</a>
+                                    <a class="dropdown-item" href="#">Report</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+                <div class="card-body">
+                    <div class="text-muted h7 mb-2"><i class="fa fa-clock-o"></i> Hace 40 min</div>
+                    <a class="card-link" href="#">
+                        <h5 class="card-title">Don't let me know</h5>
+                    </a>
+
+                    <p class="card-text">
+                        We need to go to deeper!!!
+                    </p>
+                </div>
+                <div class="card-footer">
+                    <a class="card-link" href="#"><i class="fa fa-gittip"></i> Like</a>
+                    <a class="card-link" href="#"><i class="fa fa-comment"></i> Comment</a>
+                    <a class="card-link" href="#"><i class="fa fa-mail-forward"></i> Share</a>
+                </div>
+            </div>
+            <!-- Post /////-->
 
         </div>
         <!-- /.row -->
