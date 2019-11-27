@@ -25,6 +25,21 @@ class DonateDAO {
         });
     }
 
+    getAllProducts() {
+        return new Promise((resolve, reject) => {
+            sqlHelper.simpleQuery(
+                `SELECT * FROM animals_product`,
+                function (err, results, fields) {
+                    console.log("\n<getAllProducts>");
+                    console.log(results);
+
+                    if (err) return reject(err);
+                    resolve(results);
+                }
+            );
+        });
+    }
+
     getDonateClassesOfPage(pageId) {
         return new Promise((resolve, reject) => {
             sqlHelper.query(
