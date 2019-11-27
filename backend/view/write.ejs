@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Write Post</title>
+</head>
+<body>
+  <a href="/">index</a>
+  <h1>Let's Write</h1>
+  <form method="POST">
+    <p><input type="text" name="title" placeholder="제목" required></input></p>
+    <p><input type="text" name="content" placeholder="내용" required></input></p>
+    <p><input type="number" name="min_class_level" placeholder="후원 레벨 제한" required></input></p>
+    <p><button type="submit">작성</button></p>
+  </form>
+
+  <% if (typeof session.message != "undefined" && session.message) { %>
+    <script>
+      alert("<%= session.message %>");
+    </script>
+    <% session.message = null; %>
+  <% } %>
+</body>
+</html>

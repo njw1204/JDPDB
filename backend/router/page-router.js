@@ -107,6 +107,22 @@ router.post("/delete-required-product/:pageid", asyncHandler(async (req, res) =>
     res.redirect(req.query.next || "/");
 }));
 
+// 글 작성
+router.get("/post/:id", asyncHandler(async (req, res) => {
+    res.render("write", {id: req.params.id});
+}));
+
+router.post("/post/:id", asyncHandler(async (req, res) => {
+    let page = await pageDAO.getPageBasicInfo(req.params.id);
+
+    if (req.session.user && req.session.user.id === page.creator_id) {
+        await postDAO.addPost(page.id, req.body.title, req.body.content, req.body.min_class_level, [], []);
+    }
+
+    res.redirect(req.query.next || "/");
+}));
+
+
 // 댓글 작성
 router.post("/comment", asyncHandler(async (req, res) => {
     if (req.session.user) {

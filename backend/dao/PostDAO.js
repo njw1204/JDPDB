@@ -4,6 +4,91 @@ const pool = require("./helper/pool");
 const sqlHelper = require("./helper/sql-helper");
 
 class PostDAO {
+    addPost(pageId, title, content, minClassLevel, tagNameList, fileUrlList) {
+        return new Promise((resolve, reject) => {
+            pool.getConnection((err, conn) => {
+                if (err) return reject(err);
+
+                conn.query(
+                    `START TRANSACTION;
+
+                     INSERT INTO animals_post(page_id, title, content, min_class_level)
+                     VALUES(?, ?, ?, ?);
+
+                     SELECT LAST_INSERT_ID() AS id
+                    `,
+                    [pageId, title, content, minClassLevel],
+                    (err, results, fields) => {
+                        if (err) {
+                            reject(err);
+                            return sqlHelper.rollback(conn);
+                        }
+
+                        let postId = results[2][0].id;
+                        let calls = [];
+
+                        for (let tag of tagNameList) {
+                            calls.push(new Promise((resolve, reject) => {
+                                conn.query(
+                                    `INSERT IGNORE INTO animals_tag(name) VALUES(?);
+                                     SELECT id FROM animals_tag WHERE name = ?
+                                    `,
+                                    [tag, tag],
+                                    (err, results, fields) => {
+                                        if (err) return reject(err);
+                                        let tagId = results[1][0].id;
+
+                                        conn.query(
+                                            `INSERT INTO animals_post_tags(post_id, tag_id) VALUES(?, ?)`,
+                                            [postId, tagId],
+                                            (err, results, fields) => {
+                                                if (err) return reject(err);
+                                                resolve(tagId);
+                                            }
+                                        );
+                                    }
+                                );
+                            }));
+                        }
+
+                        for (let url of fileUrlList) {
+                            calls.push(new Promise((resolve, reject) => {
+                                conn.query(
+                                    `INSERT INTO animals_file(url) VALUES(?);
+                                     SELECT id FROM animals_file WHERE url = ?
+                                    `,
+                                    [url, url],
+                                    (err, results, fields) => {
+                                        if (err) return reject(err);
+                                        let fileId = results[1][0].id;
+
+                                        conn.query(
+                                            `INSERT INTO animals_post_files(post_id, file_id) VALUES(?, ?)`,
+                                            [postId, fileId],
+                                            (err, results, fields) => {
+                                                if (err) return reject(err);
+                                                resolve(fileId);
+                                            }
+                                        );
+                                    }
+                                );
+                            }));
+                        }
+
+                        Promise.all(calls).then((values) => {
+                            console.log("\n<addPost>");
+                            resolve(true);
+                            return sqlHelper.commit(conn);
+                        }).catch((err) => {
+                            reject(err);
+                            return sqlHelper.rollback(conn);
+                        });
+                    }
+                );
+            });
+        });
+    }
+
     getPostsFromPage(id) {
         return new Promise((resolve, reject) => {
             pool.getConnection((err, conn) => {

@@ -21,6 +21,12 @@
     <% } %>
   </p>
 
+  <p>
+    <% if (session.user && isAdmin) { %>
+      <a href="/page/post/<%= id %>">Let's Write Post</a>
+    <% } %>
+  </p>
+
   login :
   <% if (session.user) { %>
     <%= session.user.nickname %> (<%= session.user.email %>)
