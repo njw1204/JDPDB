@@ -7,7 +7,67 @@
   <title>Index</title>
 </head>
 <body>
+  <form method="GET" action="/search">
+    <input type="text" name="keyword" placeholder="검색"></input>
+    <button type="submit">확인</button>
+  </form>
   <h1>Index</h1>
-  <a href="/login">Let's Login</a>
+  <% if (typeof user !== "undefined") { %>
+    <%= user.nickname %>
+    (point : <%= user.point %>)
+    &nbsp;
+    <a href="/logout?next=/"><button type="button">로그아웃</button></a>
+    <a href="/point"><button type="button">포인트 충전</button></a>
+    <% if (user.my_page_id) { %>
+      <a href="/page/<%= user.my_page_id %>"><button type="button">나의 페이지</button></a>
+    <% } else { %>
+      <a href="/create-page"><button type="button">페이지 만들기</button></a>
+    <% } %>
+  <% } %>
+
+  <ul>
+    <li><a href="/login">Let's Login</a></li>
+    <li><a href="/file">Let's Upload</a></li>
+  </ul>
+
+  <hr>
+
+  <% if (typeof user !== "undefined") { %>
+    <h3>구독중인 페이지</h3>
+    <ul>
+      <% for (let page of my_subscribe_pages) { %>
+        <li><a href="/page/<%= page.id %>"><%= page.animal_name %></a></li>
+      <% } %>
+    </ul>
+    <hr>
+  <% } %>
+
+  <h3>인기 페이지 TOP 3</h3>
+  <ol>
+    <% for (let page of pagesBySubscribe) { %>
+      <li><a href="/page/<%= page.id %>"><%= page.animal_name %></a></li>
+    <% } %>
+  </ol>
+
+  <h3>최근 포스팅 페이지</h3>
+  <ul>
+    <% for (let page of pagesByNewPost) { %>
+      <li><a href="/page/<%= page.id %>"><%= page.animal_name %></a></li>
+    <% } %>
+  </ul>
+
+  <h3>모든 페이지</h3>
+  <ul>
+    <% for (let page of pages) { %>
+      <li><a href="/page/<%= page.id %>"><%= page.animal_name %></a></li>
+    <% } %>
+  </ul>
+
+  <% if (typeof session.message != "undefined" && session.message) { %>
+    <script>
+      alert("<%= session.message %>");
+    </script>
+    <% session.message = null; %>
+  <% } %>
 </body>
 </html>

@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>페이지 만들기</title>
+</head>
+<body>
+  <a href="/">index</a>
+  <h1>페이지 만들기</h1>
+
+  <form method="POST" action="/create-page">
+    <p><input type="text" name="animal_name" placeholder="동물 이름"></input></p>
+    <p><input type="text" name="description" placeholder="페이지 설명"></input></p>
+    <p>
+      <label>카테고리 : </label>
+      <select name="category" size="1">
+        <% for (let category of categoryList) { %>
+          <option value="<%= category.id %>"><%= category.name %></option>
+        <% } %>
+      </select>
+    </p>
+    <p><button type="submit">만들기</button></p>
+  </form>
+
+  <% if (typeof session.message != "undefined" && session.message) { %>
+    <script>
+      alert("<%= session.message %>");
+    </script>
+    <% session.message = null; %>
+  <% } %>
+</body>
+</html>

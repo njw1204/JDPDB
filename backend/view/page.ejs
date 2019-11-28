@@ -4,9 +4,34 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
-  <title>Index</title>
+  <link rel="stylesheet" href="https://cdn.plyr.io/3.5.6/plyr.css" />
+  <title>Page <%= id %></title>
 </head>
 <body>
+  <a href="/">index</a>
+  <h1>Page <%= id %></h1>
+
+  <p>
+    <% if (session.user && !isAdmin) { %>
+      <% if (typeof subscribe !== "undefined" && !subscribe) { %>
+        <a href="/page/subscribe/<%= id %>"><button type="button">구독하기</button></a>
+      <% } else { %>
+        <a href="/page/unsubscribe/<%= id %>"><button type="button">구독 취소</button></a>
+      <% } %>
+    <% } %>
+  </p>
+
+  <p>
+    <% if (session.user && isAdmin) { %>
+      <a href="/page/post/<%= id %>">Let's Write Post</a><br>
+      <a href="/page/required-product/<%= id %>">Let's Edit Required Products</a>
+    <% } %>
+  </p>
+
+  <p>
+    <a href="/page/donate-log/<%= id %>">Let's See Donate Logs</a>
+  </p>
+
   login :
   <% if (session.user) { %>
     <%= session.user.nickname %> (<%= session.user.email %>)
@@ -15,17 +40,13 @@
   <% } %>
 
   <br>
-
   admin : <%= isAdmin ? true : false %>
-
   <br><br>
-
   total donate from me : <%= total_donate_from_me || 0 %>
   <br>
   my donate class level : <%= my_class_level || 0 %>
   <br>
   am i subscriber : <%= subscribe %>
-
   <br>
 
   <ul>
@@ -37,5 +58,145 @@
     <li>profile picture : <%= profile_picture || "null" %></li>
     <li>subscribe count : <%= subscribe_count %></li>
   </ul>
+
+  <hr>
+
+  <% if (session.user && !isAdmin) { %>
+    <h2>Donate Money</h2>
+    <form method="POST" action="/page/donate-money?next=/page/<%= id %>">
+      <input type="hidden" name="page_id" value="<%= id %>"></input>
+      <input type="number" name="cost" placeholder="금액 (원)" required></input><br>
+      <input type="text" name="message" placeholder="후원 메시지" required></input>
+      <button type="submit">후원하기</button>
+    </form>
+    <hr>
+  <% } %>
+
+  <% if (donate_classes.length > 0) { %>
+    <h2>Donate Classes</h2>
+    <% let rewards = []; %>
+    <% for (let cls of donate_classes) { %>
+      <% rewards.push(cls.reward_description); %>
+
+      <h3>Lv<%= cls.class_level %>. <%= cls.class_name %> (후원금액 <%= commaNumber(cls.cost) %>원 이상)</h3>
+      <ul>
+        <li><%= cls.class_level %>레벨 게시물 공개</li>
+        <% for (let reward of rewards) { %>
+          <li><%= reward %></li>
+        <% } %>
+      </ul>
+    <% } %>
+  <% } else { %>
+    <h2>Donate Classes</h2>
+    그런 거 없다.
+  <% } %>
+
+  <hr>
+
+  <% if (required.length > 0) { %>
+    <h2>Required Products</h2>
+    <% for (let product of required) { %>
+      <h3><%= product.name %></h3>
+      <% if (product.url) { %>
+        <img src="<%= product.url %>" style="max-height: 100px;" />
+      <% } %>
+      <ul>
+        <li><%= product.description %></li>
+        <li><%= product.product_count %>개 필요해요.</li>
+        <li>1개당 <%= product.cost %>원이에요.</li>
+        <% if (session.user && !isAdmin) { %>
+          <form method="POST" action="/page/donate-product?next=/page/<%= id %>">
+            <input type="hidden" name="page_id" value="<%= id %>"></input>
+            <input type="hidden" name="product_id" value="<%= product.id %>"></input>
+            <input type="number" name="product_count" placeholder="개수" required></input><br>
+            <input type="text" name="message" placeholder="후원 메시지" required></input>
+            <button type="submit">후원하기</button>
+          </form>
+        <% } %>
+      </ul>
+    <% } %>
+  <% } else { %>
+    <h2>Required Products</h2>
+    그런 거 없다.
+  <% } %>
+
+  <hr>
+
+  <h2>Posts</h2>
+  <% for (let post of posts) { %>
+    <table border="1" style="width: 1000px; margin: 30px 0;">
+        <tr>
+          <td>id : <%= post.id %></td>
+          <td>title : <%= post.title %></td>
+          <td>content : <%= post.content %></td>
+          <td>created_time : <%= post.created_time %></td>
+          <td>min_class_level : <%= post.min_class_level %></td>
+          <td>
+            tags :
+            <% for (let tag of post.tags) { %>
+              <%= tag.name %> |
+            <% } %>
+          </td>
+        </tr>
+        <tr><td colspan="6">Files</td></tr>
+        <tr>
+          <td colspan="6">
+            <% for (let file of post.files) { %>
+              <% if (file.url.indexOf("youtube.com") != -1 || file.url.indexOf("youtu.be") != -1) { %>
+                  <div class="plyr__video-embed" id="player">
+                    <iframe
+                        src="<%= file.url %>"
+                        allowfullscreen
+                        allowtransparency
+                        allow="autoplay"
+                    ></iframe>
+                  </div>
+                </div>
+              <% } else { %>
+                <img src="<%= file.url %>" style="height: 200px;" />
+              <% } %>
+            <% } %>
+          </td>
+        </tr>
+        <tr><td colspan="6">Comments</td></tr>
+        <tr>
+          <td>댓글 남기기</td>
+          <td colspan="5">
+            <% if (session.user) { %>
+            <form method="POST" action="/page/comment?next=/page/<%= id %>">
+              <input type="hidden" name="post_id" value="<%= post.id %>"></input>
+              <input type="text" name="content" placeholder="댓글 내용 입력" required></input>
+              <button type="submit">작성</button>
+            </form>
+            <% } else { %>
+              로그인 후 이용할 수 있습니다.
+            <% } %>
+          </td>
+        </tr>
+        <tr>
+          <td colspan="6">
+            <% for (let comment of post.comments) { %>
+              <%= JSON.stringify(comment) %>
+              <% if (session.user && comment.user_id === session.user.id) { %>
+                <form method="POST" action="/page/uncomment?next=/page/<%= id %>" style="display: inline-block;">
+                  <input type="hidden" name="id" value="<%= comment.id %>"></input>
+                  <button type="submit">삭제</button>
+                </form>
+              <% } %>
+              <br>
+            <% } %>
+          </td>
+        </tr>
+    </table>
+  <% } %>
+
+  <script src="https://cdn.plyr.io/3.5.6/plyr.js"></script>
+  <script>var player = new Plyr('#player');</script>
+  <% if (typeof session.message != "undefined" && session.message) { %>
+    <script>
+      alert("<%= session.message %>");
+    </script>
+    <% session.message = null; %>
+  <% } %>
 </body>
 </html>

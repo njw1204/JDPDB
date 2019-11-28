@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Required</title>
+</head>
+<body>
+  <a href="/">index</a>
+  <h1>Edit Required Products</h1>
+
+  <hr>
+
+  <% if (requiredProducts.length > 0) { %>
+    <h2>Current Required Products</h2>
+    <% for (let product of requiredProducts) { %>
+      <h3><%= product.name %></h3>
+      <% if (product.url) { %>
+        <img src="<%= product.url %>" style="max-height: 100px;" />
+      <% } %>
+      <ul>
+        <li><%= product.description %></li>
+        <li><%= product.product_count %>개 필요해요.</li>
+        <li>1개당 <%= product.cost %>원이에요.</li>
+        <form method="POST" action="/page/delete-required-product/<%= pageId %>?next=/page/<%= pageId %>">
+          <input type="hidden" name="product_id" value="<%= product.id %>"></input>
+          <button type="submit">삭제</button>
+        </form>
+      </ul>
+    <% } %>
+  <% } else { %>
+    <h2>Required Products</h2>
+    그런 거 없다.
+  <% } %>
+
+  <hr>
+
+  <% if (typeof session.message != "undefined" && session.message) { %>
+    <script>
+      alert("<%= session.message %>");
+    </script>
+    <% session.message = null; %>
+  <% } %>
+</body>
+</html>

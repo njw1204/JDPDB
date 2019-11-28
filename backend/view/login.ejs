@@ -31,5 +31,12 @@
       <script>alert("아이디 또는 비밀번호를 틀렸습니다.");</script>
     <% } %>
   <% } %>
+
+  <% if (typeof session.message != "undefined" && session.message) { %>
+    <script>
+      alert("<%= session.message %>");
+    </script>
+    <% session.message = null; %>
+  <% } %>
 </body>
 </html>
