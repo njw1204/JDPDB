@@ -2,6 +2,7 @@
 
 let config = {
     db: {
+        host: "localhost",
         user: "MySQL username",
         password: "MySQL password",
         database: "MySQL database",
