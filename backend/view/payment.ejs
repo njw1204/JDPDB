@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+
+    <link rel="stylesheet" href="/css/post.css">
+    <link rel="stylesheet" href="/css/main.css">
+    <link rel="stylesheet" href="/css/menu.css">
+    <link rel="stylesheet" href="/css/payment.css">
+
+    <script defer src="/fontawesome/js/all.js"></script>
+
+    <!-- Change Title and Description !-->
+    <title>Buy Animal Point</title>
+
+</head>
+
+<body>
+<% include ./header %>
+
+<!-- Insert Body BELOW Here !-->
+<article class="pt-5 mt-5 card" style="max-width: 700px; margin: 0 auto;">
+    <h3 class="mb-1" style="display: table; margin-left: auto; margin-right: auto;"><i class="fas fa-shopping-cart fa-fw mr-2"></i>Buy Animal Point</h3>
+    <div class="card-body p-5">
+
+        <ul class="nav bg-light nav-pills rounded nav-fill mb-3" role="tablist">
+            <li class="nav-item">
+                <a class="nav-link active" data-toggle="pill" href="#nav-tab-card">
+                    <i class="fa fa-credit-card"></i> Credit Card</a></li>
+            <li class="nav-item">
+                <a class="nav-link" data-toggle="pill" href="#nav-tab-paypal">
+                    <i class="fab fa-paypal"></i> Paypal</a></li>
+            <li class="nav-item">
+                <a class="nav-link" data-toggle="pill" href="#nav-tab-bank">
+                    <i class="fa fa-university"></i> KakaoPay</a></li>
+        </ul>
+
+        <div class="tab-content ">
+            <div class="tab-pane fade show active" id="nav-tab-card">
+                <p class="alert alert-success">This is demo of a credit card payment.</p>
+                <form role="form" method="POST">
+                    <div class="form-group">
+                        <label for="username">Amount of points</label>
+                        <input type="number" class="form-control" name="amount" placeholder="Enter amount to buy" required autofocus>
+                    </div> <!-- form-group.// -->
+
+                    <div class="form-group">
+                        <label for="cardNumber">Card number</label>
+                        <div class="input-group">
+                            <input type="text" class="form-control" nameid="cardNumber" placeholder="">
+                            <div class="input-group-append">
+                                <span class="input-group-text text-muted">
+                                    <i class="fab fa-cc-visa"></i>
+                                    <i class="fab fa-cc-amex"></i>
+                                    <i class="fab fa-cc-mastercard"></i>
+                                </span>
+                            </div>
+                        </div>
+                    </div> <!-- form-group.// -->
+
+                    <div class="row">
+                        <div class="col-sm-8">
+                            <div class="form-group">
+                                <label><span class="hidden-xs">Expiration</span> </label>
+                                <div class="input-group">
+                                    <input type="number" class="form-control" placeholder="MM" name="">
+                                    <input type="number" class="form-control" placeholder="YY" name="">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-4">
+                            <div class="form-group">
+                                <label data-toggle="tooltip" title=""
+                                        data-original-title="3 digits code on back side of the card">CVV <i
+                                        class="fa fa-question-circle"></i></label>
+                                <input type="number" class="form-control">
+                            </div> <!-- form-group.// -->
+                        </div>
+                    </div> <!-- row.// -->
+                    <button class="subscribe btn btn-primary btn-block" type="submit">Confirm</button>
+                </form>
+            </div> <!-- tab-pane.// -->
+            <div class="tab-pane fade" id="nav-tab-paypal">
+
+                <p class="alert alert-success">Paypal is easiest way to pay online.</p>
+                <p>
+                    <button type="button" class="btn btn-primary"><i class="fab fa-paypal"></i> Log in my Paypal
+                    </button>
+                </p>
+                <p><strong>Note:</strong> You need to have a paypal account.</p>
+            </div>
+            <div class="tab-pane fade" id="nav-tab-bank">
+                <p class="alert alert-success">This uses KakaoPay API and really works.</p>
+                <form role="form" method="POST" action="/point-kakaopay">
+                    <div class="form-group">
+                        <label for="username">Amount of points</label>
+                        <input type="number" class="form-control" name="amount" placeholder="Enter amount to buy" required autofocus>
+                    </div> <!-- form-group.// -->
+                    <p><strong>Note:</strong> You need to have a mobile phone to use KakaoPay.</p>
+                    <button class="subscribe btn btn-primary btn-block" type="submit">Confirm</button>
+                </form>
+            </div> <!-- tab-pane.// -->
+        </div> <!-- tab-content .// -->
+
+    </div> <!-- card-body.// -->
+</article> <!-- card.// -->
+</body>
+</html>

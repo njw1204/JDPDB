@@ -1,13 +1,14 @@
 "use strict";
 const express = require("express");
 const asyncHandler = require("express-async-handler");
+const request = require("request");
 const router = express.Router();
 
 const userDAO = require("../dao/UserDAO");
 const pageDAO = require("../dao/PageDAO");
 const postDAO = require("../dao/PostDAO");
 const categoryDAO = require("../dao/CategoryDAO");
-
+const apiConfig = require("../config").api;
 
 
 router.get("/", asyncHandler(async (req, res) => {
@@ -95,21 +96,112 @@ router.post("/create-page", asyncHandler(async (req, res) => {
 // 포인트 충전
 router.get("/point", asyncHandler(async (req, res) => {
     if (req.session.user) {
-        let user = await userDAO.getUser(req.session.user.id);
-        res.render("point", {user: user});
+        res.render("payment");
     }
     else {
-        res.redirect("/");
+        res.redirect("/login");
     }
 }));
 
 router.post("/point", asyncHandler(async (req, res) => {
     if (req.session.user) {
         await userDAO.addPointToUser(req.session.user.id, req.body.amount);
-        req.session.user.point = await userDAO.getUser(req.session.user.id).point;
+        req.session.user.point = (await userDAO.getUser(req.session.user.id)).point;
+        req.session.message = "포인트가 충전되었습니다.";
+        res.redirect("/");
     }
+    else {
+        res.redirect("/point");
+    }
+}));
 
-    res.redirect("/");
+router.post("/point-kakaopay", asyncHandler(async (req, res) => {
+    if (req.session.user && req.body.amount && req.body.amount > 0) {
+        request({
+            url: "https://kapi.kakao.com/v1/payment/ready",
+            method: "POST",
+            headers: {
+                Authorization: "KakaoAK " + apiConfig.kakaoAdminKey
+            },
+            form: {
+                cid: "TC0ONETIME",
+                partner_order_id: "partner_order_id",
+                partner_user_id: "partner_user_id",
+                item_name: "Animal Point",
+                quantity: req.body.amount,
+                total_amount: req.body.amount,
+                tax_free_amount: req.body.amount,
+                approval_url: "http://" + apiConfig.host + "/point-kakaopay-approve",
+                cancel_url: "http://" + apiConfig.host + "/point",
+                fail_url: "http://" + apiConfig.host + "/point",
+            }
+        }, function(err, response, body) {
+            let json = JSON.parse(body);
+            console.log(json);
+            if (json.next_redirect_pc_url && json.tid) {
+                req.session.tid = json.tid;
+                req.session.ready_to_buy = req.body.amount;
+                res.redirect(json.next_redirect_pc_url);
+            }
+            else {
+                req.session.message = "결제 요청 실패";
+                res.redirect("/point");
+            }
+        });
+    }
+    else {
+        req.session.message = "결제 요청 실패";
+        res.redirect("/point");
+    }
+}));
+
+router.get("/point-kakaopay-approve", asyncHandler(async (req, res) => {
+    if (req.session.user && req.session.user.id && req.session.tid && req.session.ready_to_buy) {
+        let tid = req.session.tid;
+        let ready_to_buy = req.session.ready_to_buy;
+
+        request({
+           url: "https://kapi.kakao.com/v1/payment/approve",
+           method: "POST",
+           headers: {
+               Authorization: "KakaoAK " + apiConfig.kakaoAdminKey
+           },
+           form: {
+               cid: "TC0ONETIME",
+               tid: tid,
+               partner_order_id: "partner_order_id",
+               partner_user_id: "partner_user_id",
+               pg_token: req.query.pg_token,
+           }
+        }, function(err, response, body) {
+            if (response && response.statusCode === 200) {
+                userDAO.addPointToUser(req.session.user.id, ready_to_buy)
+                    .then((value) => {
+                        return userDAO.getUser(req.session.user.id);
+                    })
+                    .then((value) => {
+                        req.session.user.point = value.point;
+                        req.session.message = "포인트가 충전되었습니다.";
+                        res.redirect("/");
+                    })
+                    .catch((err) => {
+                        req.session.message = "결제 승인 실패";
+                        res.redirect("/point");
+                    });
+            }
+            else {
+                req.session.message = "결제 승인 실패";
+                res.redirect("/point");
+            }
+        });
+
+        req.session.tid = null;
+        req.session.ready_to_buy = null;
+    }
+    else {
+        req.session.message = "결제 승인 실패";
+        res.redirect("/point");
+    }
 }));
 
 
