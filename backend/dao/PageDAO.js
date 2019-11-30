@@ -92,6 +92,27 @@ class PageDAO {
         });
     }
 
+    getPageIdListByCategoryId(categoryId) {
+        return new Promise((resolve, reject) => {
+            sqlHelper.query(
+                `SELECT id FROM animals_page WHERE category = ? ORDER BY id ASC`,
+                [categoryId],
+                function(err, results, fields) {
+                    console.log("\n<getPageIdListByCategoryId>");
+                    console.log(results);
+
+                    if (err) return reject(err);
+
+                    let ret = [];
+                    for (let i of results) {
+                        ret.push(i.id);
+                    }
+                    resolve(ret);
+                }
+            );
+        });
+    }
+
     getPageIdOfUser(userId) {
         return new Promise((resolve, reject) => {
             sqlHelper.query(

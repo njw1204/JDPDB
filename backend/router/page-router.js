@@ -39,7 +39,7 @@ router.get("/:id", asyncHandler(async (req, res, next) => {
         }
         pageInfo.crypto = crypto;
 
-        res.render("page_view", pageInfo);
+        res.render("page-view", pageInfo);
     }
     else next();
 }));

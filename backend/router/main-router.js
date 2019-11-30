@@ -39,14 +39,40 @@ router.get("/", asyncHandler(async (req, res) => {
         data.pagesByNewPost.push(await pageDAO.getPageBasicInfo(page.id));
     }
 
-    data.pages = [];
-    for (let id of await pageDAO.getPageIdList()) {
-        data.pages.push(await pageDAO.getPageBasicInfo(id));
-    }
-
     data.categories = await categoryDAO.getCategoryList();
 
     res.render("main", data);
+}));
+
+
+// 카테고리별 보기
+router.get("/category/:categoryId", asyncHandler(async (req, res) => {
+    let data = {};
+
+    if (req.session.user) {
+        let user = await userDAO.getUser(req.session.user.id);
+        if (user) {
+            data.user = user;
+            data.my_subscribe_pages = [];
+            for (let id of await pageDAO.getPageIdListSubscribedByUser(user.id)) {
+                data.my_subscribe_pages.push(await pageDAO.getPageBasicInfo(id));
+            }
+        }
+        else {
+            req.session.user = null;
+        }
+    }
+
+    let pagesByCategory = await pageDAO.getPageIdListByCategoryId(req.params.categoryId);
+    data.pagesByCategory = [];
+    for (let page of pagesByCategory) {
+        data.pagesByCategory.push(await pageDAO.getPageBasicInfo(page));
+    }
+
+    data.category = await categoryDAO.getCategory(req.params.categoryId);
+    data.categories = await categoryDAO.getCategoryList();
+
+    res.render("category-view", data);
 }));
 
 
