@@ -1,0 +1,281 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta content="width=device-width, initial-scale=1" name="viewport">
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" rel="stylesheet">
+
+    <link href="./css/main.css" rel="stylesheet">
+    <link href="./css/menu.css" rel="stylesheet">
+    <link href="../backend/static/css/hover.css" rel="stylesheet">
+    <link href="./css/category.css" rel="stylesheet">
+
+    <meta content="" name="description">
+    <meta content="" name="author">
+    <title>Animal-list</title>
+</head>
+
+<body>
+<nav class="navbar navbar-expand-md navbar-dark fixed-top p-3" style="background-color: rgb(36,41,46);">
+    <div class="container" style="max-width: 100%;">
+        <button aria-controls="navbarsExampleDefault" aria-expanded="false" aria-label="Toggle navigation"
+                class="navbar-toggler" data-target="#mainMenu" data-toggle="collapse" type="button">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse" id="mainMenu">
+
+            <ul class="navbar-nav mr-5 text-capitalize">
+                <li class="nav-item active">
+                    <a class="navbar-brand font-weight-bold" href="/">Animals </a>
+                </li>
+            </ul>
+            <form class="form-inline mr-auto my-lg-0">
+                <div class="input-group">
+                    <input style="width: 300px;" aria-label="Search" class="form-control" id="search"
+                           placeholder="Search" type="text">
+                    <div class="input-group-append">
+                        <button class="btn btn-secondary my-sm-0" type="submit">검색</button>
+                    </div>
+                </div>
+            </form>
+
+            <a class="btn btn-dark ml-2 mr-md-2" href="/login">Sign in</a>
+            <a class="btn btn-outline-light ml-2" href="/signup">Sign up</a>
+            <!--             log in logic -->
+            <!--                <a href="/logout?next=/"><button type="button">로그아웃</button></a>-->
+            <!--                <a href="/point"><button type="button">포인트 충전</button></a>-->
+            <!--                <a href="/page/<%= user.my_page_id %>"><button type="button">나의 페이지</button></a>-->
+            <!--                <a href="/create-page"><button type="button">페이지 만들기</button></a>-->
+        </div>
+    </div>
+</nav>
+
+<nav id="sidebar">
+    <div class="panel-group" id="accordion">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h4 class="panel-title ml-4">
+                    <a class="text-dark" data-toggle="collapse" data-parent="#accordion" href="#collapseOne" style="font-size: 18px;"><i class="fas fa-list fa-fw mr-2"></i>Categories</a>
+                </h4>
+            </div>
+            <div id="collapseOne" class="panel-collapse collapse in">
+                <div class="panel-body">
+                    <table class="table table-borderless">
+                        <tr>
+                            <td class="text-center">
+                                <a href="#" style="font-size: 16px;"><i class="fas fa-paw fa-fw" style="margin-right: 5px;"></i>개</a>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="text-center">
+                                <a href="#" style="font-size: 16px;"><i class="fas fa-paw fa-fw" style="margin-right: 5px;"></i>고양이</a>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="text-center">
+                                <a href="#" style="font-size: 16px;"><i class="fas fa-paw fa-fw" style="margin-right: 5px;"></i>회</a>
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <hr>
+
+        <div class="panel panel-default">
+            <div class="panel-body">
+                <h4 class="panel-title ml-4">
+                    <a class="text-dark" data-toggle="collapse" data-parent="#accordion" href="#collapseFour" style="font-size: 18px;"><i class="fas fa-star fa-fw mr-2"></i>Subscribed List</a>
+                </h4>
+            </div>
+            <div id="collapseFour" class="panel-collapse collapse">
+                <ul class="list-unstyled components">
+
+                    <li class="active" style="padding-top : 15px">
+                        <div class="card-header text-center">
+                            List is empty.
+                        </div>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</nav>
+
+<!-- Page Content -->
+<div class="container main-container">
+    <header class="text-white mb-4">
+        <!-- image url is located in category.css -->
+        <div class="container category-img" style="padding-left: 0; padding-right: 0;">
+            <h1 class="category-title" >개!</h1>
+            <div class="img-cover"></div>
+        </div>
+    </header>
+
+    <!-- only one row exists.-->
+    <div class="row">
+        <div class="col-lg-4 col-sm-6 mb-4">
+            <div class="card h-100">
+                <div class="hovereffect">
+                    <img alt="" class="card-img-top" src="http://placehold.it/700x400" width="700" height="200">
+                    <div class="overlay">
+                        <h2>동물</h2>
+                        <a class="info" href="/">GO HOME</a>
+                    </div>
+                </div>
+                <div class="card-body">
+                    <h4 class="card-title">
+                        <a href="/">animal name</a>
+                    </h4>
+                    <p class="card-text">animal description</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-4 col-sm-6 mb-4">
+            <div class="card h-100">
+                <div class="hovereffect">
+                    <img alt="" class="card-img-top" src="http://placehold.it/700x400" width="700" height="200">
+                    <div class="overlay">
+                        <h2>동물</h2>
+                        <a class="info" href="/page/<%= page.id %>">GO HOME</a>
+                    </div>
+                </div>
+                <div class="card-body">
+                    <h4 class="card-title">
+                        <a href="/">animal name</a>
+                    </h4>
+                    <p class="card-text">animal description</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-4 col-sm-6 mb-4">
+            <div class="card h-100">
+                <div class="hovereffect">
+                    <img alt="" class="card-img-top" src="http://placehold.it/700x400" width="700" height="200">
+                    <div class="overlay">
+                        <h2>동물</h2>
+                        <a class="info" href="/page/<%= page.id %>">GO HOME</a>
+                    </div>
+                </div>
+                <div class="card-body">
+                    <h4 class="card-title">
+                        <a href="/">animal name</a>
+                    </h4>
+                    <p class="card-text">animal description</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-4 col-sm-6 mb-4">
+            <div class="card h-100">
+                <div class="hovereffect">
+                    <img alt="" class="card-img-top" src="http://placehold.it/700x400" width="700" height="200">
+                    <div class="overlay">
+                        <h2>동물</h2>
+                        <a class="info" href="/page/<%= page.id %>">GO HOME</a>
+                    </div>
+                </div>
+                <div class="card-body">
+                    <h4 class="card-title">
+                        <a href="/">animal name</a>
+                    </h4>
+                    <p class="card-text">animal description</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-4 col-sm-6 mb-4">
+            <div class="card h-100">
+                <div class="hovereffect">
+                    <img alt="" class="card-img-top" src="http://placehold.it/700x400" width="700" height="200">
+                    <div class="overlay">
+                        <h2>동물</h2>
+                        <a class="info" href="/page/<%= page.id %>">GO HOME</a>
+                    </div>
+                </div>
+                <div class="card-body">
+                    <h4 class="card-title">
+                        <a href="/">animal name</a>
+                    </h4>
+                    <p class="card-text">animal description</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-4 col-sm-6 mb-4">
+            <div class="card h-100">
+                <div class="hovereffect">
+                    <img alt="" class="card-img-top" src="http://placehold.it/700x400" width="700" height="200">
+                    <div class="overlay">
+                        <h2>동물</h2>
+                        <a class="info" href="/page/<%= page.id %>">GO HOME</a>
+                    </div>
+                </div>
+                <div class="card-body">
+                    <h4 class="card-title">
+                        <a href="/">animal name</a>
+                    </h4>
+                    <p class="card-text">animal description</p>
+                </div>
+            </div>
+        </div><div class="col-lg-4 col-sm-6 mb-4">
+        <div class="card h-100">
+            <div class="hovereffect">
+                <img alt="" class="card-img-top" src="http://placehold.it/700x400" width="700" height="200">
+                <div class="overlay">
+                    <h2>동물</h2>
+                    <a class="info" href="/page/<%= page.id %>">GO HOME</a>
+                </div>
+            </div>
+            <div class="card-body">
+                <h4 class="card-title">
+                    <a href="/">animal name</a>
+                </h4>
+                <p class="card-text">animal description</p>
+            </div>
+        </div>
+    </div>
+        <div class="col-lg-4 col-sm-6 mb-4">
+            <div class="card h-100">
+                <div class="hovereffect">
+                    <img alt="" class="card-img-top" src="http://placehold.it/700x400" width="700" height="200">
+                    <div class="overlay">
+                        <h2>동물</h2>
+                        <a class="info" href="/page/<%= page.id %>">GO HOME</a>
+                    </div>
+                </div>
+                <div class="card-body">
+                    <h4 class="card-title">
+                        <a href="/">animal name</a>
+                    </h4>
+                    <p class="card-text">animal description</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-4 col-sm-6 mb-4">
+            <div class="card h-100">
+                <div class="hovereffect">
+                    <img alt="" class="card-img-top" src="http://placehold.it/700x400" width="700" height="200">
+                    <div class="overlay">
+                        <h2>동물</h2>
+                        <a class="info" href="/page/<%= page.id %>">GO HOME</a>
+                    </div>
+                </div>
+                <div class="card-body">
+                    <h4 class="card-title">
+                        <a href="/">animal name</a>
+                    </h4>
+                    <p class="card-text">animal description</p>
+                </div>
+            </div>
+        </div>
+    </div>=
+    <!-- /.row -->
+</div>
+<!-- /.container -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+</body>
+
+</html>
