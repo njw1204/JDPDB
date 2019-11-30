@@ -24,7 +24,7 @@ class CategoryDAO {
     getCategoryList() {
         return new Promise((resolve, reject) => {
             sqlHelper.simpleQuery(
-                `SELECT id, name FROM animals_category`,
+                `SELECT id, name FROM animals_category ORDER BY id ASC`,
                 function(err, results, fields) {
                     console.log("\n<getCategoryList>");
                     console.log(results);

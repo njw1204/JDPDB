@@ -163,7 +163,7 @@ router.get("/subscribe/:id", asyncHandler(async (req, res) => {
         await pageDAO.updateSubscriber(req.params.id, req.session.user.id, 1);
     }
 
-    res.redirect("/page/" + req.params.id);
+    res.redirect(req.query.next || "/page/" + req.params.id);
 }));
 
 // 구독취소
@@ -174,7 +174,7 @@ router.get("/unsubscribe/:id", asyncHandler(async (req, res) => {
         await pageDAO.updateSubscriber(req.params.id, req.session.user.id, 0);
     }
 
-    res.redirect("/page/" + req.params.id);
+    res.redirect(req.query.next || "/page/" + req.params.id);
 }));
 
 module.exports = router;

@@ -47,7 +47,9 @@ router.get("/", asyncHandler(async (req, res) => {
         data.pages.push(await pageDAO.getPageBasicInfo(id));
     }
 
-    res.render("index", data);
+    data.categories = await categoryDAO.getCategoryList();
+
+    res.render("main", data);
 }));
 
 
