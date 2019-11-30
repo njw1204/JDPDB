@@ -32,9 +32,9 @@
                     <% } else { %>
                         <img class="sh-1 d-inline-block" alt="" src="<%= profile_picture %>" style="width: 350px; height: 200px; vertical-align: baseline;">
                     <% } %>
-                    <div class="d-inline-block" style="margin-left: 60px;">
-                        <h3 class="font-weight-bold mb-4" id="pageID"><%= animal_name %></h3>
-                        <div class="text-muted mb-4" name="pageDescription" style="max-width: 300px; word-break: break-all;">
+                    <div class="d-inline-block" style="margin-left: 40px;">
+                        <h3 class="font-weight-bold mb-4" id="pageID"><i class="fas fa-paw fa-fw mr-2"></i><%= animal_name %></h3>
+                        <div class="text-muted mb-4" name="pageDescription" style="max-width: 250px; word-break: break-all;">
                             <%= description %>
                         </div>
                         <div class="text-black mb-4">
@@ -113,7 +113,7 @@
                                 <form method="POST" action="/page/comment?next=/page/<%= id %>#post-<%= post.id %>">
                                     <div class="form-group">
                                         <input type="hidden" name="post_id" value="<%= post.id %>"></input>
-                                        <textarea name="content" class="form-control" rows="3"></textarea>
+                                        <textarea name="content" class="form-control" rows="3" required></textarea>
                                     </div>
                                     <button type="submit" class="btn btn-primary">Submit</button>
                                 </form>
@@ -126,13 +126,19 @@
                     <% for (let comment of post.comments) { %>
                         <% let hash = crypto.createHash("md5").update(comment.nickname).digest("hex"); %>
                         <!-- Single Comment -->
-                        <div class="text-muted h7 ml-4 mt-1 mb-2"><%= comment.created_time %></div>
+                        <div class="text-muted h7 ml-4 mb-2"><%= comment.created_time %></div>
                         <div class="media mb-4 ml-4 mr-4">
                             <img class="d-flex mr-3 rounded-circle" width="50" height="50"
                                 src="https://www.gravatar.com/avatar/<%- hash %>?f=y&d=retro&s=50" alt="">
                             <div class="media-body">
-                                <h5 class="mt-0"><%= comment.nickname %></h5>
-                                <span style="font-size: 0.9em; white-space: pre-wrap;"><%= comment.content %></span>
+                                <h5 class="d-inline-block mt-0"><%= comment.nickname %></h5>
+                                <% if (session.user && comment.user_id === session.user.id) { %>
+                                    <form class="d-inline" method="POST" action="/page/uncomment?next=/page/<%= id %>#post-<%= post.id %>" style="display: inline-block;">
+                                        <input type="hidden" name="id" value="<%= comment.id %>"></input>
+                                        <button class="btn btn-link text-danger" type="submit" style="vertical-align: bottom;"><i class="fas fa-times"></i></button>
+                                    </form>
+                                <% } %>
+                                <p style="font-size: 0.9em; white-space: pre-wrap;"><%= comment.content %></p>
                             </div>
                         </div>
                     <% } %>
