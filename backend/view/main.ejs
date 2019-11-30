@@ -52,14 +52,14 @@
                     (point : <%= user.point %>)
                 </span>
 
-                <a class="btn btn-sm btn-outline-light ml-2" href="/logout?next=/">Log out</a>
-                <a class="btn btn-sm btn-outline-light ml-2" href="/point">Buy Point</a>
                 <% if (user.my_page_id) { %>
                     <a class="btn btn-sm btn-outline-light ml-2" href="/page/<%= user.my_page_id %>">My Animal</a>
                     <a class="btn btn-sm btn-outline-light ml-2" href="/page/post/<%= user.my_page_id %>">Write Diary</a>
                 <% } else { %>
                     <a class="btn btn-sm btn-outline-light ml-2" href="/create-page">Create Animal Home</a>
                 <% } %>
+                <a class="btn btn-sm btn-outline-light ml-2" href="/logout?next=/">Log out</a>
+                <a class="btn btn-sm btn-outline-light ml-2" href="/point">Buy Point</a>
             <% } else { %>
                 <a class="btn btn-outline-light ml-2 mr-md-2" href="/login">Sign in</a>
                 <a class="btn btn-outline-light ml-2" href="/signup">Sign up</a>

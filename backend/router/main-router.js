@@ -127,7 +127,14 @@ router.post("/login", asyncHandler(async (req, res) => {
 
     let acceptedUser = await userDAO.authUser(user);
     req.session.user = acceptedUser || null;
-    res.render("login", {success: (acceptedUser ? true : false), email: user.email});
+
+    if (!acceptedUser) {
+        req.session.message = "아이디 또는 비밀번호를 틀렸습니다.";
+        res.render("login");
+    }
+    else {
+        res.redirect("/");
+    }
 }));
 
 
@@ -178,7 +185,7 @@ router.post("/signup", asyncHandler(async (req, res) => {
 
     if (await userDAO.createUser(user)) {
         req.session.user = (await userDAO.authUser(user)) || null;
-        res.redirect("/login");
+        res.redirect("/");
     }
 
     req.session.message = "가입 실패";

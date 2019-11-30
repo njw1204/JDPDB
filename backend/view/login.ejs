@@ -1,42 +1,57 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta http-equiv="X-UA-Compatible" content="ie=edge">
-  <title>Login</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" href="/css/sign.css">
+    <link rel="stylesheet" href="/css/util.css">
+    <title>Login</title>
 </head>
+
 <body>
-  <a href="/">index</a>
-  <% if (session.user) { %>
-    <h3>Hello, <%= session.user.nickname %></h3>
-    <a href="/logout"><button type="button">로그아웃</button></a>
-  <% } else { %>
-    <h1>Let's Login</h1>
-    <form method="POST" action="/login">
-      <p><input type="email" name="email" placeholder="이메일"></input></p>
-      <p><input type="password" name="password" placeholder="비밀번호"></input></p>
-      <p>
-        <input type="submit" value="로그인"></input>
-        <a href="/signup"><button type="button">회원가입</button></a>
-      </p>
-    </form>
-  <% } %>
-
-  <!-- ejs -->
-  <% if (typeof success !== "undefined") { %>
-    <% if (success === true) { %>
-      <script>alert("<%- email %> 로그인 성공");</script>
-    <% } else if (success === false) { %>
-      <script>alert("아이디 또는 비밀번호를 틀렸습니다.");</script>
-    <% } %>
-  <% } %>
-
-  <% if (typeof session.message != "undefined" && session.message) { %>
+<% if (typeof session.message != "undefined" && session.message) { %>
     <script>
-      alert("<%= session.message %>");
+        alert("<%= session.message %>");
     </script>
     <% session.message = null; %>
-  <% } %>
+<% } %>
+
+<div class="center"><form class="form-signin" method="POST" action="/login">
+    <div style="margin-bottom: 40px;">
+        <h1 class="h3 font-weight-bold text-center" ><a href="/" class="text-dark">Animals-Online</a></h1>
+    </div>
+    <div class="mb-3">
+        <label for="email">Email</label>
+        <input type="email" name="email" id="email" class="form-control" placeholder="Enter Email Address" required autofocus>
+    </div>
+    <div class="mb-4">
+        <label for="password">Password</label>
+        <input type="password" name="password" id="password" class="form-control" placeholder="Enter Password" required>
+    </div>
+    <div class="mb-3">
+        <button class="btn btn-lg btn-primary btn-block" type="submit">Login</button>
+    </div>
+    <div class="mb-3 text-center">
+        <span class="fs-18 mr-2" style="display: inline-block;">No Account?</span>
+        <a class="font-weight-bold" href="/signup">Sign up</a>
+    </div>
+    <div class="my-2">
+        <p class="text-muted text-center">&copy; 2019 JDPDB</p>
+    </div>
+</form>
+
+</div>
+
+<footer class="py-5 bg-dark">
+    <div class="container">
+        <p class="m-0 text-center text-white">Copyright &copy; Your Website 2019</p>
+    </div>
+    <!-- /.container -->
+</footer>
+
 </body>
 </html>

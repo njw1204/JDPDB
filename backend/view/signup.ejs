@@ -1,27 +1,53 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta http-equiv="X-UA-Compatible" content="ie=edge">
-  <title>Sign Up</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+
+    <link rel="stylesheet" href="/css/sign.css"/>
+    <link rel="stylesheet" href="/css/util.css">
+    <title>Sign up</title>
 </head>
 <body>
-  <a href="/">index</a> | <a href="/login">login</a>
-  <h1>Sign Up</h1>
-  <form method="POST" action="/signup">
-    <p><input type="email" name="email" placeholder="이메일"></input></p>
-    <p><input type="password" name="password" placeholder="비밀번호"></input></p>
-    <p><input type="password" name="password2" placeholder="비밀번호 확인"></input></p>
-    <p><input type="text" name="nickname" placeholder="닉네임"></input></p>
-    <p><input type="submit" value="회원가입"></input></p>
-  </form>
-
-  <% if (typeof session.message != "undefined" && session.message) { %>
+<% if (typeof session.message != "undefined" && session.message) { %>
     <script>
-      alert("<%= session.message %>");
+        alert("<%= session.message %>");
     </script>
     <% session.message = null; %>
-  <% } %>
+<% } %>
+<div class="center">
+
+    <form class="form-signin" method="POST" action="/signup">
+        <div style="margin-bottom: 40px;">
+            <h1 class="h3 font-weight-bold text-center" ><a href="/" class="text-dark">Animals-Online</a></h1>
+        </div>
+
+        <div class="mb-3">
+            <label for="email" class="text-left">Email</label>
+            <input type="email" name="email" id="email" class="form-control" placeholder="Enter Email Address" required autofocus>
+        </div>
+
+        <div class="mb-3">
+            <label for="password" class="text-left">Password</label>
+            <input type="password" name="password" id="password" class="form-control" placeholder="Enter Password" required>
+        </div>
+
+        <div class="mb-3">
+            <label for="password2" class="text-left">Confirm Password</label>
+            <input type="password" name="password2" id="password2" class="form-control" placeholder="Enter Password Again" required>
+        </div>
+
+        <div class="mb-4">
+            <label for="nickname" class="text-left">Nickname</label>
+            <input type="text" name="nickname" id="nickname" class="form-control" placeholder="Enter Nickname" required >
+        </div>
+
+        <button class="btn btn-lg btn-primary btn-block" type="submit">Sign up</button>
+    </form>
+</div>
 </body>
 </html>
