@@ -1,6 +1,7 @@
 "use strict";
 const express = require("express");
 const asyncHandler = require("express-async-handler");
+const crypto = require("crypto");
 const router = express.Router();
 
 const userDAO = require("../dao/UserDAO");
@@ -36,8 +37,9 @@ router.get("/:id", asyncHandler(async (req, res, next) => {
         pageInfo.commaNumber = (num) => {
             return num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
         }
+        pageInfo.crypto = crypto;
 
-        res.render("page", pageInfo);
+        res.render("page_view", pageInfo);
     }
     else next();
 }));
