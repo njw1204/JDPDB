@@ -17,10 +17,6 @@ router.get("/", asyncHandler(async (req, res) => {
         let user = await userDAO.getUser(req.session.user.id);
         if (user) {
             data.user = user;
-
-            let pageId = await pageDAO.getPageIdOfUser(user.id);
-            data.user.my_page_id = pageId;
-
             data.my_subscribe_pages = [];
             for (let id of await pageDAO.getPageIdListSubscribedByUser(user.id)) {
                 data.my_subscribe_pages.push(await pageDAO.getPageBasicInfo(id));
@@ -87,8 +83,11 @@ router.get("/create-page", asyncHandler(async (req, res) => {
 }));
 
 router.post("/create-page", asyncHandler(async (req, res) => {
-    await pageDAO.createPage(req.session.user.id, req.body.animal_name, req.body.description, req.body.category);
+    await pageDAO.createPage(req.session.user.id, req.body.animal_name, req.body.description, req.body.category, req.body.profile || null);
     let pageId = await pageDAO.getPageIdOfUser(req.session.user.id);
+    if (pageId) {
+        req.session.user.my_page_id = pageId;
+    }
     res.redirect("/page/" + pageId);
 }));
 
@@ -107,6 +106,7 @@ router.get("/point", asyncHandler(async (req, res) => {
 router.post("/point", asyncHandler(async (req, res) => {
     if (req.session.user) {
         await userDAO.addPointToUser(req.session.user.id, req.body.amount);
+        req.session.user.point = await userDAO.getUser(req.session.user.id).point;
     }
 
     res.redirect("/");
@@ -127,6 +127,11 @@ router.post("/login", asyncHandler(async (req, res) => {
 
     let acceptedUser = await userDAO.authUser(user);
     req.session.user = acceptedUser || null;
+
+    if (acceptedUser) {
+        let pageId = await pageDAO.getPageIdOfUser(acceptedUser.id);
+        req.session.user.my_page_id = pageId;
+    }
 
     if (!acceptedUser) {
         req.session.message = "아이디 또는 비밀번호를 틀렸습니다.";
@@ -185,6 +190,7 @@ router.post("/signup", asyncHandler(async (req, res) => {
 
     if (await userDAO.createUser(user)) {
         req.session.user = (await userDAO.authUser(user)) || null;
+        req.session.user.my_page_id = null;
         res.redirect("/");
     }
 

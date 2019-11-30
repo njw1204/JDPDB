@@ -1,34 +1,118 @@
 <!DOCTYPE html>
 <html>
+
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta http-equiv="X-UA-Compatible" content="ie=edge">
-  <title>페이지 만들기</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+
+    <link rel="stylesheet" href="/css/page.css">
+    <link rel="stylesheet" href="/css/main.css">
+    <link rel="stylesheet" href="/css/menu.css">
+    <link rel="stylesheet" href="/css/post.css">
+
+    <script defer src="/fontawesome/js/all.js"></script>
+    <script src="/js/create-page.js"></script>
+
+    <title>Create Your Animal Home</title>
 </head>
+
 <body>
-  <a href="/">index</a>
-  <h1>페이지 만들기</h1>
-
-  <form method="POST" action="/create-page">
-    <p><input type="text" name="animal_name" placeholder="동물 이름"></input></p>
-    <p><input type="text" name="description" placeholder="페이지 설명"></input></p>
-    <p>
-      <label>카테고리 : </label>
-      <select name="category" size="1">
-        <% for (let category of categoryList) { %>
-          <option value="<%= category.id %>"><%= category.name %></option>
-        <% } %>
-      </select>
-    </p>
-    <p><button type="submit">만들기</button></p>
-  </form>
-
-  <% if (typeof session.message != "undefined" && session.message) { %>
+<% if (typeof session.message != "undefined" && session.message) { %>
     <script>
-      alert("<%= session.message %>");
+        alert("<%= session.message %>");
     </script>
     <% session.message = null; %>
-  <% } %>
+<% } %>
+
+<nav class="navbar navbar-expand-md navbar-dark fixed-top p-3" style="background-color: rgb(36,41,46);">
+    <div class="container" style="max-width: 100%;">
+        <button aria-controls="navbarsExampleDefault" aria-expanded="false" aria-label="Toggle navigation"
+                class="navbar-toggler" data-target="#mainMenu" data-toggle="collapse" type="button">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse" id="mainMenu">
+
+            <ul class="navbar-nav mr-5 text-capitalize">
+                <li class="nav-item active">
+                    <a class="navbar-brand font-weight-bold" href="/">Animals-Online</a>
+                </li>
+            </ul>
+            <form method="GET" action="/search" class="form-inline mr-auto my-lg-0">
+                <div class="input-group">
+                    <input style="width: 200px;" aria-label="Search" class="form-control" id="search"
+                            placeholder="Search" name="keyword" type="text">
+                    <div class="input-group-append">
+                        <button class="btn btn-secondary my-sm-0" type="submit">검색</button>
+                    </div>
+                </div>
+            </form>
+
+            <% if (typeof session.user !== "undefined" && session.user) { %>
+                <span style="color: white; margin-right: 10px;">
+                    <%= session.user.nickname %>
+                    (point : <%= session.user.point %>)
+                </span>
+
+                <% if (session.user.my_page_id) { %>
+                    <a class="btn btn-sm btn-outline-light ml-2" href="/page/<%= session.user.my_page_id %>">My Animal</a>
+                    <a class="btn btn-sm btn-outline-light ml-2" href="/page/post/<%= session.user.my_page_id %>">Write Diary</a>
+                <% } else { %>
+                    <a class="btn btn-sm btn-outline-light ml-2" href="/create-page">Create Home</a>
+                <% } %>
+                <a class="btn btn-sm btn-outline-light ml-2" href="/logout?next=/">Log out</a>
+                <a class="btn btn-sm btn-outline-light ml-2" href="/point">Buy Point</a>
+            <% } else { %>
+                <a class="btn btn-outline-light ml-2 mr-md-2" href="/login">Sign in</a>
+                <a class="btn btn-outline-light ml-2" href="/signup">Sign up</a>
+            <% } %>
+        </div>
+    </div>
+</nav>
+
+<!-- Insert Body BELOW Here !-->
+
+<div class="container bg-white py-5 mt-5">
+    <h3 class="mb-4" style="display: table; margin-left: auto; margin-right: auto;"><i class="fas fa-home fa-fw mr-2"></i>Create Your Animal Home</h3>
+    <div class="file-upload">
+        <form id="create-form" class="form-horizontal" role="form" method="post">
+            <div class="form-group">
+                <!--suppress XmlInvalidId -->
+                <label for="animal-name" class="col-sm-2 control-label" style="padding: 0;">Name <span class="text-danger">*</span></label>
+                <input type="text" class="form-control" id="animal-name" name="animal_name" placeholder="Enter Name" required autofocus>
+            </div>
+            <div class="form-group">
+                <label for="category" class="col-sm-2 control-label" style="padding: 0;">Category <span class="text-danger">*</span></label>
+                <select class="form-control" id="category" name="category" size="1">
+                    <% for (let category of categoryList) { %>
+                        <option value="<%= category.id %>"><%= category.name %></option>
+                    <% } %>
+                </select>
+                <small class="form-text text-muted">Select the category of your animals</small>
+            </div>
+            <div class="form-group">
+                <!--suppress XmlInvalidId -->
+                <label for="content" class="col-sm-2 control-label" style="padding: 0;">Description <span class="text-danger">*</span></label>
+                <textarea class="form-control" rows="5" id="content" name="description" placeholder="Write your content..." required></textarea>
+                <small class="form-text text-muted">Introduce yourself and your animals!</small>
+            </div>
+            <input type="hidden" id="profile" name="profile">
+            <button id="form-submit" type="submit" style="display: none;"></button>
+        </form>
+        <form id="file-upload-form">
+            <div class="form-group">
+                <label for="profile" class="col-sm-2 control-label" style="padding: 0;">Picture</label>
+                <input type="file" class="form-control-file" id="profile-file" name="file">
+                <small class="form-text text-muted">Optional. Upload the profile picture of your animal</small>
+            </div>
+        </form>
+        <button id="upload" class="file-upload-btn mt-3" type="button">Let's Create</button>
+    </div>
+
+</div>
 </body>
 </html>

@@ -46,17 +46,17 @@
                 </div>
             </form>
 
-            <% if (typeof user !== "undefined") { %>
+            <% if (typeof session.user !== "undefined" &&  session.user) { %>
                 <span style="color: white; margin-right: 10px;">
-                    <%= user.nickname %>
-                    (point : <%= user.point %>)
+                    <%= session.user.nickname %>
+                    (point : <%= session.user.point %>)
                 </span>
 
-                <% if (user.my_page_id) { %>
-                    <a class="btn btn-sm btn-outline-light ml-2" href="/page/<%= user.my_page_id %>">My Animal</a>
-                    <a class="btn btn-sm btn-outline-light ml-2" href="/page/post/<%= user.my_page_id %>">Write Diary</a>
+                <% if (session.user.my_page_id) { %>
+                    <a class="btn btn-sm btn-outline-light ml-2" href="/page/<%= session.user.my_page_id %>">My Animal</a>
+                    <a class="btn btn-sm btn-outline-light ml-2" href="/page/post/<%= session.user.my_page_id %>">Write Diary</a>
                 <% } else { %>
-                    <a class="btn btn-sm btn-outline-light ml-2" href="/create-page">Create Animal Home</a>
+                    <a class="btn btn-sm btn-outline-light ml-2" href="/create-page">Create Home</a>
                 <% } %>
                 <a class="btn btn-sm btn-outline-light ml-2" href="/logout?next=/">Log out</a>
                 <a class="btn btn-sm btn-outline-light ml-2" href="/point">Buy Point</a>
@@ -73,7 +73,7 @@
         <div class="panel panel-default">
             <div class="panel-heading">
                 <h4 class="panel-title ml-4">
-                    <a data-toggle="collapse" data-parent="#accordion" href="#collapseOne" style="color:black; font-size: 18px;"><i class="fas fa-list fa-fw mr-2"></i>Categories</a>
+                    <a class="text-dark" data-toggle="collapse" data-parent="#accordion" href="#collapseOne" style="font-size: 18px;"><i class="fas fa-list fa-fw mr-2"></i>Categories</a>
                 </h4>
             </div>
             <div id="collapseOne" class="panel-collapse collapse in">
@@ -96,7 +96,7 @@
         <div class="panel panel-default">
             <div class="panel-body">
                 <h4 class="panel-title ml-4">
-                    <a data-toggle="collapse" data-parent="#accordion" href="#collapseFour" style="color:black; font-size: 18px;"><i class="fas fa-star fa-fw mr-2"></i>Subscribed List</a>
+                    <a class="text-dark" data-toggle="collapse" data-parent="#accordion" href="#collapseFour" style="font-size: 18px;"><i class="fas fa-star fa-fw mr-2"></i>Subscribed List</a>
                 </h4>
             </div>
             <div id="collapseFour" class="panel-collapse collapse">

@@ -3,13 +3,13 @@ const pool = require("./helper/pool");
 const sqlHelper = require("./helper/sql-helper");
 
 class PageDAO {
-    createPage(userId, animalName, description, categoryId) {
+    createPage(userId, animalName, description, categoryId, profilePictureId) {
         return new Promise((resolve, reject) => {
             sqlHelper.query(
-                `INSERT INTO animals_page(creator_id, animal_name, description, category)
-                 VALUES(?,?,?,?)
+                `INSERT INTO animals_page(creator_id, animal_name, description, category, profile_picture)
+                 VALUES(?,?,?,?,?)
                 `,
-                [userId, animalName, description, categoryId],
+                [userId, animalName, description, categoryId, profilePictureId],
                 function(err, results, fields) {
                     console.log("\n<createPage>");
                     console.log(results);
@@ -44,7 +44,7 @@ class PageDAO {
     getPageIdListSearchByName(name) {
         return new Promise((resolve, reject) => {
             sqlHelper.query(
-                `SELECT page.id 
+                `SELECT page.id
                  FROM animals_page AS page
                  WHERE page.animal_name LIKE ?
                  ORDER BY page.id ASC
