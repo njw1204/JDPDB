@@ -11,18 +11,9 @@
     <link href="/css/page.css" rel="stylesheet">
     <link href="/css/main.css" rel="stylesheet">
     <link href="/css/menu.css" rel="stylesheet">
-    <link href="/css/lightslider.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.plyr.io/3.5.6/plyr.css" />
 
-    <script src="/js/lightslider.min.js"></script>
     <script defer src="/fontawesome/js/all.js"></script>
-
-    <script>
-        $(document).ready(function() {
-            $(".light-slider").lightSlider({
-            });
-        });
-    </script>
 
     <!-- Change Title and Description !-->
     <title>Animal Home</title>
@@ -171,6 +162,16 @@
                         <p id="post-<%= post.id %>" class="card-text py-3">
                             <%= post.content %>
                         </p>
+
+                        <% if (post.tags.length > 0) { %>
+                            <div>
+                                <% for (let tag of post.tags) { %>
+                                    <a class="badge badge-primary" href="/tag/<%= tag.id %>"><%= tag.name %></a>
+                                <% } %>
+                            </div>
+                        <% } %>
+
+
                     </div>
                     <!-- Comments Form -->
                     <div class="card mb-4">
@@ -246,7 +247,8 @@
                             <hr>
                             <% rewards.push(cls.reward_description); %>
 
-                            <h5>Lv.<%= cls.class_level %>. <%= cls.class_name %> (<%= commaNumber(cls.cost) %>pts ~)</h5>
+                            <h5>Lv.<%= cls.class_level %>. <%= cls.class_name %></h5>
+                            <h6 class="card-subtitle h7 mb-2 text-muted">(<%= commaNumber(cls.cost) %>pts ~)</h6>
                             <ul>
                             <li>View Lv.<%= cls.class_level %> diarys</li>
                             <% for (let reward of rewards) { %>

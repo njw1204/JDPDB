@@ -1,17 +1,19 @@
 "use strict";
 const express = require("express");
 const asyncHandler = require("express-async-handler");
+const crypto = require("crypto");
 const request = require("request");
 const router = express.Router();
 
 const userDAO = require("../dao/UserDAO");
-const pageDAO = require("../dao/PageDAO");
 const postDAO = require("../dao/PostDAO");
+const pageDAO = require("../dao/PageDAO");
+const tagDAO = require("../dao/TagDAO");
 const categoryDAO = require("../dao/CategoryDAO");
 const apiConfig = require("../config").api;
 
 
-router.get("/", asyncHandler(async (req, res) => {
+async function sideBarData(req) {
     let data = {};
 
     if (req.session.user) {
@@ -27,6 +29,20 @@ router.get("/", asyncHandler(async (req, res) => {
             req.session.user = null;
         }
     }
+
+    data.categories = await categoryDAO.getCategoryList();
+    data.tags = await tagDAO.getTagList();
+
+    return data;
+}
+
+
+router.get("/favicon.ico", function(req, res) {
+    res.status(404).end();
+});
+
+router.get("/", asyncHandler(async (req, res) => {
+    let data = await sideBarData(req);
 
     let pagesBySubscribe = await pageDAO.getPagesOrderBySubscribe(3);
     let pagesByNewPost = await pageDAO.getPagesOrderByNewPost(3);
@@ -39,38 +55,20 @@ router.get("/", asyncHandler(async (req, res) => {
         data.pagesByNewPost.push(await pageDAO.getPageBasicInfo(page.id));
     }
 
-    data.categories = await categoryDAO.getCategoryList();
-
     res.render("main", data);
 }));
 
 
 // 카테고리별 보기
 router.get("/category/:categoryId", asyncHandler(async (req, res) => {
-    let data = {};
-
-    if (req.session.user) {
-        let user = await userDAO.getUser(req.session.user.id);
-        if (user) {
-            data.user = user;
-            data.my_subscribe_pages = [];
-            for (let id of await pageDAO.getPageIdListSubscribedByUser(user.id)) {
-                data.my_subscribe_pages.push(await pageDAO.getPageBasicInfo(id));
-            }
-        }
-        else {
-            req.session.user = null;
-        }
-    }
+    let data = await sideBarData(req);
 
     let pagesByCategory = await pageDAO.getPageIdListByCategoryId(req.params.categoryId);
     data.pagesByCategory = [];
     for (let page of pagesByCategory) {
         data.pagesByCategory.push(await pageDAO.getPageBasicInfo(page));
     }
-
     data.category = await categoryDAO.getCategory(req.params.categoryId);
-    data.categories = await categoryDAO.getCategoryList();
 
     res.render("category-view", data);
 }));
@@ -78,23 +76,30 @@ router.get("/category/:categoryId", asyncHandler(async (req, res) => {
 
 // 검색
 router.get("/search", asyncHandler(async (req, res) => {
-    let data = {
-        pagesSearchedByName: [],
-        postsSearchedByTag: [],
-    };
+    let data = await sideBarData(req);
 
+    data.pagesSearchedByName = [];
     for (let pageId of await pageDAO.getPageIdListSearchByName(req.query.keyword)) {
         data.pagesSearchedByName.push(await pageDAO.getPageBasicInfo(pageId));
     }
+    data.keyword = req.query.keyword;
 
-    data.postsSearchedByTag = await postDAO.getPostsByTagName(req.query.keyword);
-
-    res.render("search", data);
+    res.render("search-view", data);
 }));
 
-router.get("/favicon.ico", function(req, res) {
-    res.status(404).end();
-});
+
+// 태그별 보기
+router.get("/tag/:tagId", asyncHandler(async (req, res, next) => {
+    let data = await sideBarData(req);
+    data.tag = await tagDAO.getTag(req.params.tagId);
+
+    if (data.tag === null)
+        return next();
+
+    data.postsByTag = await postDAO.getPostsByTagName(data.tag.name);
+    data.crypto = crypto;
+    res.render("tag", data);
+}));
 
 
 // 페이지 만들기

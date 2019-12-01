@@ -22,7 +22,7 @@
             <form method="GET" action="/search" class="form-inline mr-auto my-lg-0">
                 <div class="input-group">
                     <input aria-label="Search" class="form-control" id="search"
-                            placeholder="Search" name="keyword" type="text">
+                            placeholder="Search" name="keyword" type="text" maxlength="100" required>
                     <div class="input-group-append">
                         <button class="btn btn-secondary my-sm-0" type="submit">검색</button>
                     </div>
@@ -35,6 +35,7 @@
                     (<%= session.user.point %> points)
                 </span>
 
+                <a class="btn btn-sm btn-outline-light ml-2 main-link" href="/">Main</a>
                 <% if (session.user.my_page_id) { %>
                     <a class="btn btn-sm btn-outline-light ml-2" href="/page/<%= session.user.my_page_id %>">My Animal</a>
                     <a class="btn btn-sm btn-outline-light ml-2" href="/page/post/<%= session.user.my_page_id %>">Write Diary</a>
@@ -44,6 +45,7 @@
                 <a class="btn btn-sm btn-outline-light ml-2" href="/point">Buy Point</a>
                 <a class="btn btn-sm btn-outline-light ml-2" href="/logout?next=/">Log out</a>
             <% } else { %>
+                <a class="btn btn-outline-light ml-2 mr-md-2 main-link" href="/">Main</a>
                 <a class="btn btn-outline-light ml-2 mr-md-2" href="/login">Sign in</a>
                 <a class="btn btn-outline-light ml-2" href="/signup">Sign up</a>
             <% } %>

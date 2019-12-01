@@ -27,4 +27,13 @@
     #site-title {
         display: none;
     }
+    .main-link {
+        display: inline-block;
+    }
+}
+
+@media (min-width: 1101px) {
+    .main-link {
+        display: none;
+    }
 }

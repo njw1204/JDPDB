@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html>
 
 <head>
@@ -13,7 +13,7 @@
 
     <script defer src="/fontawesome/js/all.js"></script>
 
-    <title>Animal List</title>
+    <title>Search Results</title>
 </head>
 
 <body>
@@ -22,24 +22,14 @@
 
 <!-- Page Content -->
 <div class="container main-container">
-    <% if (category.name === "CAT") { %>
-        <h2 class="mt-5 mb-3"><i class="fas fa-cat fa-fw mr-2"></i><%= category.name %></h2>
-    <% } else if (category.name == "DOG") { %>
-        <h2 class="mt-5 mb-3"><i class="fas fa-dog fa-fw mr-2"></i><%= category.name %></h2>
-    <% } else if (category.name == "FISH") { %>
-        <h2 class="mt-5 mb-3"><i class="fas fa-fish fa-fw mr-2"></i><%= category.name %></h2>
-    <% } else if (category.name == "BIRD") { %>
-        <h2 class="mt-5 mb-3"><i class="fas fa-dove fa-fw mr-2"></i><%= category.name %></h2>
-    <% } else { %>
-        <h2 class="mt-5 mb-3"><i class="fas fa-paw fa-fw mr-2"></i><%= category.name %></h2>
-    <% } %>
+    <h2 class="mt-5 mb-3"><i class="fas fa-paw fa-fw mr-2"></i>Animal search results of &quot;<%= keyword %>&quot; (<%= pagesSearchedByName.length %> Results)</h2>
 
     <!-- only one row exists.-->
     <div class="row">
-        <% if (pagesByCategory.length < 1) { %>
-            <span class="mt-3 ml-5" style="font-size: 18px;">There are no animals &nbsp;:(</span>
+        <% if (pagesSearchedByName.length < 1) { %>
+            <span class="mt-3" style="margin-left: 65px; font-size: 18px;">There are no animals &nbsp;:(</span>
         <% } %>
-        <% for (let page of pagesByCategory) { %>
+        <% for (let page of pagesSearchedByName) { %>
             <div class="col-lg-4 col-sm-6 mb-4">
                 <div class="card h-100">
                     <div class="hovereffect">

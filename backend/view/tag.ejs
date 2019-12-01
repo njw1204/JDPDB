@@ -1,0 +1,177 @@
+﻿<!DOCTYPE html>
+
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta content="width=device-width, initial-scale=1" name="viewport">
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+    <link href="/css/page.css" rel="stylesheet">
+    <link href="/css/main.css" rel="stylesheet">
+    <link href="/css/menu.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.plyr.io/3.5.6/plyr.css" />
+
+    <script defer src="/fontawesome/js/all.js"></script>
+
+    <!-- Change Title and Description !-->
+    <title>Tag Results</title>
+</head>
+
+<body>
+<% include ./header %>
+<% include ./sidebar %>
+
+<!-- Page Content -->
+<div class="container mt-5" style="margin-left: 305px;">
+    <h2 class="mt-5 mb-3"><i class="fas fa-tag fa-fw mr-2"></i>Public diarys of &quot;<%= tag.name %>&quot; (<%= postsByTag.length %> Results)</h2>
+
+    <!-- results -->
+    <div>
+        <% if (postsByTag.length < 1) { %>
+            <span class="d-inline-block mt-3 ml-5" style="font-size: 18px;">There is nothing found &nbsp;:(</span>
+        <% } %>
+
+        <!--- \\\\\\\Post-->
+        <% for (let post of postsByTag) { %>
+            <% let page = post.page; %>
+
+            <div class="card gedf-card" style="margin-bottom: 40px;">
+                <div class="card-header">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <div class="d-flex justify-content-between align-items-center">
+                            <div class="mr-2">
+                                <% if (page.profile_picture === null) { %>
+                                    <img alt="" class="rounded-circle" src="/media/no-image.jpg" width="50" height="50">
+                                <% } else { %>
+                                    <img alt="" class="rounded-circle" src="<%= page.profile_picture %>" width="50" height="50">
+                                <% } %>
+                            </div>
+                            <div class="ml-2">
+                                <div class="h5 m-0 btn-link" onclick="location.href='/page/<%= page.id %>';"><%= page.animal_name %></div>
+                                <div class="h7 text-muted">@<%= page.nickname %></div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+
+                    <div class="card-body">
+                        <div class="text-muted h7 mb-1"><%= post.created_time %></div>
+                        <span class="d-inline-block">
+                            <h5 class="card-title d-inline-block font-weight-bold"><%= post.title %></h5>
+                        </span>
+
+                        <% if (session.user && session.user.id === page.creator_id) { %>
+                            <form class="d-inline" method="POST" action="/page/unpost/<%= page.id %>?next=/tag/<%= tag.id %>" style="display: inline-block;">
+                                <input type="hidden" name="post_id" value="<%= post.id %>"></input>
+                                <button class="btn btn-link text-danger" type="submit" style="vertical-align: baseline;"><i class="fas fa-times"></i></button>
+                            </form>
+                        <% } %>
+
+                        <% if (post.files && post.files.length > 0) { %>
+                            <div id="carousel-<%= post.id %>" class="carousel slide" data-ride="carousel" data-interval="0" style="width: 400px; height: 225px; cursor: pointer;">
+                                <div class="carousel-inner w-100 h-100">
+                                    <% let idx = 0; %>
+                                    <% for (let file of post.files) { %>
+                                        <% if (file.url.indexOf("youtube.com") != -1 || file.url.indexOf("youtu.be") != -1) { %>
+                                            <div class="carousel-item w-100 h-100">
+                                                <div class="plyr__video-embed player">
+                                                    <iframe
+                                                        src="<%= file.url %>"
+                                                        allowfullscreen
+                                                        allowtransparency
+                                                        allow="autoplay"
+                                                    ></iframe>
+                                                </div>
+                                            </div>
+                                        <% } else { %>
+                                            <% if (idx === 0) { %>
+                                                <div class="carousel-item w-100 h-100 active" onclick="location.href='<%= file.url %>';">
+                                                    <div class="w-100 h-100" style="background-position: center center; background-color: rgb(10,10,10); background-image: url( '<%= file.url %>' ); background-size: contain; background-repeat: no-repeat;"></div>
+                                                </div>
+                                                <% idx = 1; %>
+                                            <% } else { %>
+                                                <div class="carousel-item w-100 h-100" onclick="location.href='<%= file.url %>';">
+                                                    <div class="w-100 h-100" style="background-position: center center; background-color: rgb(10,10,10); background-image: url( '<%= file.url %>' ); background-size: contain; background-repeat: no-repeat;"></div>
+                                                </div>
+                                            <% } %>
+                                        <% } %>
+                                    <% } %>
+                                </div>
+                                <a class="carousel-control-prev carousel-control" href="#carousel-<%= post.id %>" role="button" data-slide="prev">
+                                    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                                    <span class="sr-only">Previous</span>
+                                </a>
+                                <a class="carousel-control-next carousel-control" href="#carousel-<%= post.id %>" role="button" data-slide="next">
+                                    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                                    <span class="sr-only">Next</span>
+                                </a>
+                            </div>
+                        <% } %>
+
+                        <p id="post-<%= post.id %>" class="card-text py-3">
+                            <%= post.content %>
+                        </p>
+
+                        <% if (post.tags.length > 0) { %>
+                            <div>
+                                <% for (let tag of post.tags) { %>
+                                    <a class="badge badge-primary" href="/tag/<%= tag.id %>"><%= tag.name %></a>
+                                <% } %>
+                            </div>
+                        <% } %>
+
+
+                    </div>
+                    <!-- Comments Form -->
+                    <div class="card mb-4">
+                        <h5 class="card-header">Leave a Comment:</h5>
+                        <div class="card-body">
+                            <% if (session.user) { %>
+                                <form method="POST" action="/page/comment?next=/tag/<%= tag.id %>#post-<%= post.id %>">
+                                    <div class="form-group">
+                                        <input type="hidden" name="post_id" value="<%= post.id %>"></input>
+                                        <textarea name="content" class="form-control" rows="3" maxlength="500" required></textarea>
+                                    </div>
+                                    <button type="submit" class="btn btn-primary">Submit</button>
+                                </form>
+                            <% } else { %>
+                                You must be logged in to leave a comment.
+                            <% } %>
+                        </div>
+                    </div>
+
+                    <% for (let comment of post.comments) { %>
+                        <% let hash = crypto.createHash("md5").update(comment.nickname).digest("hex"); %>
+                        <!-- Single Comment -->
+                        <div class="text-muted h7 ml-4 mb-2"><%= comment.created_time %></div>
+                        <div class="media mb-4 ml-4 mr-4">
+                            <img class="d-flex mr-3 rounded-circle" width="50" height="50"
+                                src="https://www.gravatar.com/avatar/<%- hash %>?f=y&d=retro&s=50" alt="">
+                            <div class="media-body">
+                                <h5 class="d-inline-block mt-0"><%= comment.nickname %></h5>
+                                <% if (session.user && comment.user_id === session.user.id) { %>
+                                    <form class="d-inline" method="POST" action="/page/uncomment?next=/tag/<%= tag.id %>#post-<%= post.id %>" style="display: inline-block;">
+                                        <input type="hidden" name="id" value="<%= comment.id %>"></input>
+                                        <button class="btn btn-link text-danger" type="submit" style="vertical-align: bottom;"><i class="fas fa-times"></i></button>
+                                    </form>
+                                <% } %>
+                                <p style="font-size: 0.9em; white-space: pre-wrap;"><%= comment.content %></p>
+                            </div>
+                        </div>
+                    <% } %>
+                </div>
+            <% } %>
+            </div>
+            <!-- Post /////-->
+
+    </div>
+    <!-- /.row -->
+
+</div>
+<script src="https://cdn.plyr.io/3.5.6/plyr.js"></script>
+<script>var player = new Plyr('.player');</script>
+</body>
+</html>
