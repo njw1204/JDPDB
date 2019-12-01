@@ -1,7 +1,10 @@
 "use strict";
 const express = require("express");
 const asyncHandler = require("express-async-handler");
+const getVideoId = require("get-video-id");
 const crypto = require("crypto");
+const fs = require("fs");
+const upload = require("../upload");
 const router = express.Router();
 
 const userDAO = require("../dao/UserDAO");
@@ -122,17 +125,54 @@ router.post("/delete-required-product/:pageid", asyncHandler(async (req, res) =>
 
 // 글 작성
 router.get("/post/:id", asyncHandler(async (req, res) => {
-    res.render("write", {id: req.params.id});
+    res.render("post", {id: req.params.id});
 }));
 
-router.post("/post/:id", asyncHandler(async (req, res) => {
-    let page = await pageDAO.getPageBasicInfo(req.params.id);
+router.post("/post/:id", upload.array("file"), asyncHandler(async (req, res) => {
+    try {
+        let page = await pageDAO.getPageBasicInfo(req.params.id);
 
-    if (req.session.user && req.session.user.id === page.creator_id) {
-        await postDAO.addPost(page.id, req.body.title, req.body.content, req.body.min_class_level, [], []);
+        if (req.session.user && req.session.user.id === page.creator_id) {
+            let tags = req.body.tags.match(/\S+/g) || [];
+            let files = [];
+
+            if (req.body.youtube) {
+                let video = getVideoId(req.body.youtube);
+
+                if (typeof video.id === "undefined" || video.service !== "youtube") {
+                    if (req.files && req.files.length > 0) {
+                        for (let file of req.files) {
+                            fs.unlink(file.path);
+                        }
+                    }
+                    req.session.message = "잘못된 유튜브 동영상 주소입니다.";
+                    return res.redirect("/page/post/" + req.params.id);
+                }
+
+                files.push("http://youtube.com/embed/" + video.id);
+            }
+
+            if (req.files && req.files.length > 0) {
+                for (let file of req.files) {
+                    let fileUrl = "/media/" + file.filename;
+                    files.push(fileUrl);
+                }
+            }
+
+            await postDAO.addPost(page.id, req.body.title, req.body.content, req.body.min_class_level, tags, files);
+        }
+
+        res.redirect(req.query.next || "/");
+
+    } catch (e) {
+        if (req.files && req.files.length > 0) {
+            for (let file of req.files) {
+                fs.unlink(file.path);
+            }
+        }
+
+        throw e;
     }
-
-    res.redirect(req.query.next || "/");
 }));
 
 

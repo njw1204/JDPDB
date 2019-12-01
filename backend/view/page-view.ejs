@@ -68,13 +68,17 @@
                     <% } else if (session.user && isAdmin) { %>
                         <p class="text-black font-weight-bold">I'm Owner!</p>
                     <% } %>
+
                     <% if (session.user && !isAdmin) { %>
                         <% if (typeof subscribe === "undefined" || !subscribe) { %>
                             <p><a class="btn btn-lg btn-primary" href="/page/subscribe/<%= id %>">Subscribe</a></p>
                         <% } else { %>
                             <p><a class="btn btn-lg btn-danger" href="/page/unsubscribe/<%= id %>">Unsubscribe</a></p>
                         <% } %>
+                    <% } else if (session.user && isAdmin) { %>
+                        <p><a class="btn btn-lg btn-success" href="/page/post/<%= id %>">Write Diary</a></p>
                     <% } %>
+
                     <% if (session.user && !isAdmin) { %>
                         <p><a class="btn btn-lg btn-success" href="/page/support/<%= id %>">Support Animal</a></p>
                     <% } %>
@@ -106,7 +110,7 @@
                         <div class="text-muted h7 mb-1"><%= post.created_time %></div>
                         <a class="card-link d-inline-block" href="#" onclick="return false;">
                             <% if (post.min_class_level < 1) { %>
-                                <h5 class="card-title d-inline-block"><%= post.title %> (Visible to everyone)</h5>
+                                <h5 class="card-title d-inline-block"><%= post.title %> (Visible to public)</h5>
                             <% } else { %>
                                 <h5 class="card-title d-inline-block"><%= post.title %> (Visible to Lv.<%= post.min_class_level %>)</h5>
                             <% } %>
@@ -124,7 +128,13 @@
                                     <% let idx = 0; %>
                                     <% for (let file of post.files) { %>
                                         <% if (file.url.indexOf("youtube.com") != -1 || file.url.indexOf("youtu.be") != -1) { %>
-                                            <div class="carousel-item w-100 h-100">
+                                            <% if (idx === 0) { %>
+                                                <div class="carousel-item w-100 h-100 active">
+                                                <% idx = 1; %>
+                                            <% } else { %>
+                                                <div class="carousel-item w-100 h-100">
+                                            <% } %>
+
                                                 <div class="plyr__video-embed player">
                                                     <iframe
                                                         src="<%= file.url %>"
@@ -159,9 +169,7 @@
                             </div>
                         <% } %>
 
-                        <p id="post-<%= post.id %>" class="card-text py-3">
-                            <%= post.content %>
-                        </p>
+                        <p id="post-<%= post.id %>" class="card-text py-3" style="white-space: pre-wrap;"><%= post.content %></p>
 
                         <% if (post.tags.length > 0) { %>
                             <div>
@@ -268,6 +276,6 @@
 <!-- /.container -->
 
 <script src="https://cdn.plyr.io/3.5.6/plyr.js"></script>
-<script>var player = new Plyr('.player');</script>
+<script>var player = Plyr.setup('.player');</script>
 </body>
 </html>

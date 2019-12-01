@@ -76,7 +76,13 @@
                                     <% let idx = 0; %>
                                     <% for (let file of post.files) { %>
                                         <% if (file.url.indexOf("youtube.com") != -1 || file.url.indexOf("youtu.be") != -1) { %>
-                                            <div class="carousel-item w-100 h-100">
+                                            <% if (idx === 0) { %>
+                                                <div class="carousel-item w-100 h-100 active">
+                                                <% idx = 1; %>
+                                            <% } else { %>
+                                                <div class="carousel-item w-100 h-100">
+                                            <% } %>
+
                                                 <div class="plyr__video-embed player">
                                                     <iframe
                                                         src="<%= file.url %>"
@@ -111,9 +117,7 @@
                             </div>
                         <% } %>
 
-                        <p id="post-<%= post.id %>" class="card-text py-3">
-                            <%= post.content %>
-                        </p>
+                        <p id="post-<%= post.id %>" class="card-text py-3" style="white-space: pre-wrap;"><%= post.content %></p>
 
                         <% if (post.tags.length > 0) { %>
                             <div>
@@ -172,6 +176,6 @@
 
 </div>
 <script src="https://cdn.plyr.io/3.5.6/plyr.js"></script>
-<script>var player = new Plyr('.player');</script>
+<script>var player = Plyr.setup('.player');</script>
 </body>
 </html>
