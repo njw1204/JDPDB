@@ -1,0 +1,590 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+
+    <link rel="stylesheet" href="./css/main.css">
+    <!-- Include CSS on BELOW !-->
+    <link rel="stylesheet" href="./css/page.css">
+    <link rel="stylesheet" href="css/shopping.css">
+    <link rel="apple-touch-icon" sizes="76x76" href="../assets/img/apple-icon.png">
+    <link rel="icon" type="image/png" href="../assets/img/favicon.png">
+    <!-- Change Title and Description !-->
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <title>Shop Homepage - Start Bootstrap Template</title>
+
+</head>
+
+<body>
+<header>
+    <nav class="navbar navbar-expand-md navbar-dark bg-dark fixed-top ">
+        <div class="container">
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#mainMenu" aria-controls="navbarsExampleDefault" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+
+            <div class="collapse navbar-collapse" id="mainMenu">
+
+                <ul class="navbar-nav mr-5 text-capitalize">
+                    <li class="nav-item active">
+                        <a class="navbar-brand font-weight-bold" href="/">Animals </a>
+                    </li>
+                </ul>
+                <form class="form-inline mr-auto my-lg-0">
+                    <div class="input-group">
+                        <input class="form-control" id="search" type="text" placeholder="Search" aria-label="Search">
+                        <div class="input-group-append">
+                            <button class="btn btn-secondary my-sm-0" type="submit">검색</button>
+                        </div>
+                    </div>
+                </form>
+
+                <a class="btn btn-dark ml-2 mr-md-2" href="/login">Sign in</a>
+                <a class="btn btn-outline-light ml-2" href="/signup">Sign up</a>
+                &nbsp;
+                <!--                <a class="btn btn-outline-light ml-2" href="/create-page">Make Page</a> -->
+                <!--                <a class="btn btn-outline-light ml-2" href="/point">Buy Point</a> -->
+                <!--                <a class="btn btn-outline-light ml-2" href="/logout/">Log out</a> -->
+            </div>
+        </div>
+    </nav>
+</header>
+
+<!-- Insert Body BELOW Here !-->
+<div class="container">
+    <div class="row" style = "padding-top : 56px;">
+        <div class="col-lg-3 col-md-6 col-sm-6">
+            <div class="shoppingCard shoppingCard-stats">
+                <div class="shoppingCard-body ">
+                    <div class="row">
+                        <div class="col-5 col-md-4">
+                            <div class="icon-big text-center icon-warning">
+                                <i class="nc-icon nc-globe text-warning"></i>
+                            </div>
+                        </div>
+                        <div class="col-7 col-md-8">
+                            <div class="numbers">
+                                <p class="shoppingCard-category">Subscribing</p>
+                                <p class="shoppingCard-title">3000
+                                <p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="shoppingCard-footer ">
+                    <hr>
+                    <div class="stats">
+                        <i class="fa fa-refresh"></i> Check List
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-3 col-md-6 col-sm-6">
+            <div class="shoppingCard shoppingCard-stats">
+                <div class="shoppingCard-body ">
+                    <div class="row">
+                        <div class="col-5 col-md-4">
+                            <div class="icon-big text-center icon-warning">
+                                <i class="nc-icon nc-money-coins text-success"></i>
+                            </div>
+                        </div>
+                        <div class="col-7 col-md-8">
+                            <div class="numbers">
+                                <p class="shoppingCard-category">Post Count</p>
+                                <p class="shoppingCard-title">13
+                                <p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="shoppingCard-footer ">
+                    <hr>
+                    <div class="stats">
+                        <i class="fa fa-calendar-o"></i> Post Now
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-3 col-md-6 col-sm-6">
+            <div class="shoppingCard shoppingCard-stats">
+                <div class="shoppingCard-body ">
+                    <div class="row">
+                        <div class="col-5 col-md-4">
+                            <div class="icon-big text-center icon-warning">
+                                <i class="nc-icon nc-favourite-28 text-primary"></i>
+                            </div>
+                        </div>
+                        <div class="col-7 col-md-8">
+                            <div class="numbers">
+                                <p class="shoppingCard-category">Comments</p>
+                                <p class="shoppingCard-title">800
+                                <p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="shoppingCard-footer ">
+                    <hr>
+                    <div class="stats">
+                        <i class="fa fa-refresh"></i> View Posts
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-3 col-md-6 col-sm-6">
+            <div class="shoppingCard shoppingCard-stats">
+                <div class="shoppingCard-body ">
+                    <div class="row">
+                        <div class="col-5 col-md-4">
+                            <div class="icon-big text-center icon-warning">
+                                <i class="nc-icon nc-vector text-danger"></i>
+                            </div>
+                        </div>
+                        <div class="col-7 col-md-8">
+                            <div class="numbers">
+                                <p class="shoppingCard-category">Total Donation</p>
+                                <p class="shoppingCard-title">$$$
+                                <p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="shoppingCard-footer ">
+                    <hr>
+                    <div class="stats">
+                        <i class="fa fa-clock-o"></i> Check Donator List
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Nav tabs -->
+    <ul class="nav nav-tabs  nav-justified" role="tablist">
+        <li class="nav-item">
+            <a class="nav-link active" data-toggle="tab" href="#uploads">My uploads</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" data-toggle="tab" href="#products">Selling products</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" data-toggle="tab" href="#donationHistory">Donation History</a>
+        </li>
+    </ul>
+
+    <!-- Tab panes -->
+    <div class="tab-content">
+        <div id="uploads" class="container tab-pane active"><br>
+                <div class="col-lg-12">
+                    <div class="row">
+                        <div class="col-lg-4 col-md-6 mb-4">
+                            <div class="card h-100">
+                                <a href="#"><img class="card-img-top" src="http://placehold.it/700x400" alt=""></a>
+                                <!-- delete button -->
+                                <button name="delete" type="button" class="btn btn-danger delete">delete</button>
+                                <div class="card-body">
+                                    <h4 class="card-title">
+                                        <a href="#">Item One</a>
+                                        <!-- id need to be changed-->
+                                        <select class="form-control mt-1" id="itemOne" name="needNum">
+                                            <option value="0">0</option>
+                                            <option value="1">1</option>
+                                            <option value="2">2</option>
+                                            <option value="3">3</option>
+                                            <option value="4">4</option>
+                                            <option value="5">5</option>
+                                            <option value="6">6</option>
+                                            <option value="7">7</option>
+                                            <option value="8">8</option>
+                                            <option value="9">9</option>
+                                            <option value="10">10</option>
+                                        </select>
+                                    </h4>
+                                    <h5>$24.99</h5>
+                                    <p class="card-text">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Amet numquam aspernatur!</p>
+                                </div>
+                                <div class="card-footer" style = "text-align : center">
+                                    <button type="button" class="btn btn-primary btn-sm">Donate This</button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-lg-4 col-md-6 mb-4">
+                            <div class="card h-100">
+                                <a href="#"><img class="card-img-top" src="http://placehold.it/700x400" alt=""></a>
+                                <!-- delete button -->
+                                <button name="delete" type="button" class="btn btn-danger delete">delete</button>
+                                <div class="card-body">
+                                    <h4 class="card-title">
+                                        <a href="#">Item Two</a>
+                                        <!-- id need to be changed-->
+                                        <select class="form-control mt-1" id="itemTwo" name="needNum">
+                                            <option value="0">0</option>
+                                            <option value="1">1</option>
+                                            <option value="2">2</option>
+                                            <option value="3">3</option>
+                                            <option value="4">4</option>
+                                            <option value="5">5</option>
+                                            <option value="6">6</option>
+                                            <option value="7">7</option>
+                                            <option value="8">8</option>
+                                            <option value="9">9</option>
+                                            <option value="10">10</option>
+                                        </select>
+                                    </h4>
+                                    <h5>$24.99</h5>
+                                    <p class="card-text">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Amet numquam aspernatur! Lorem ipsum dolor sit amet.</p>
+                                </div>
+                                <div class="card-footer" style = "text-align : center">
+                                    <button type="button" class="btn btn-primary btn-sm">Donate This</button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-lg-4 col-md-6 mb-4">
+                            <div class="card h-100">
+                                <a href="#"><img class="card-img-top" src="http://placehold.it/700x400" alt=""></a>
+                                <!-- delete button -->
+                                <button name="delete" type="button" class="btn btn-danger delete">delete</button>
+                                <div class="card-body">
+                                    <h4 class="card-title">
+                                        <a href="#">Item Three</a>
+                                        <!-- id need to be changed-->
+                                        <select class="form-control mt-1" id="itemThree" name="needNum">
+                                            <option value="0">0</option>
+                                            <option value="1">1</option>
+                                            <option value="2">2</option>
+                                            <option value="3">3</option>
+                                            <option value="4">4</option>
+                                            <option value="5">5</option>
+                                            <option value="6">6</option>
+                                            <option value="7">7</option>
+                                            <option value="8">8</option>
+                                            <option value="9">9</option>
+                                            <option value="10">10</option>
+                                        </select>
+                                    </h4>
+                                    <h5>$24.99</h5>
+                                    <p class="card-text">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Amet numquam aspernatur!</p>
+                                </div>
+                                <div class="card-footer" style = "text-align : center">
+                                    <button type="button" class="btn btn-primary btn-sm">Donate This</button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-lg-4 col-md-6 mb-4">
+                            <div class="card h-100">
+                                <a href="#"><img class="card-img-top" src="http://placehold.it/700x400" alt=""></a>
+                                <!-- delete button -->
+                                <button name="delete" type="button" class="btn btn-danger delete">delete</button>
+                                <div class="card-body">
+                                    <h4 class="card-title">
+                                        <a href="#">Item Four</a>
+                                        <!-- id need to be changed-->
+                                        <select class="form-control mt-1" id="itemFour" name="needNum">
+                                            <option value="0">0</option>
+                                            <option value="1">1</option>
+                                            <option value="2">2</option>
+                                            <option value="3">3</option>
+                                            <option value="4">4</option>
+                                            <option value="5">5</option>
+                                            <option value="6">6</option>
+                                            <option value="7">7</option>
+                                            <option value="8">8</option>
+                                            <option value="9">9</option>
+                                            <option value="10">10</option>
+                                        </select>
+                                    </h4>
+                                    <h5>$24.99</h5>
+                                    <p class="card-text">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Amet numquam aspernatur!</p>
+                                </div>
+                                <div class="card-footer" style = "text-align : center">
+                                    <button type="button" class="btn btn-primary btn-sm">Donate This</button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-lg-4 col-md-6 mb-4">
+                            <div class="card h-100">
+                                <a href="#"><img class="card-img-top" src="http://placehold.it/700x400" alt=""></a>
+                                <!-- delete button -->
+                                <button name="delete" type="button" class="btn btn-danger delete">delete</button>
+                                <div class="card-body">
+                                    <h4 class="card-title">
+                                        <a href="#">Item Five</a>
+                                        <!-- id need to be changed-->
+                                        <select class="form-control mt-1" id="itemFive" name="needNum">
+                                            <option value="0">0</option>
+                                            <option value="1">1</option>
+                                            <option value="2">2</option>
+                                            <option value="3">3</option>
+                                            <option value="4">4</option>
+                                            <option value="5">5</option>
+                                            <option value="6">6</option>
+                                            <option value="7">7</option>
+                                            <option value="8">8</option>
+                                            <option value="9">9</option>
+                                            <option value="10">10</option>
+                                        </select>
+                                    </h4>
+                                    <h5>$24.99</h5>
+                                    <p class="card-text">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Amet numquam aspernatur! Lorem ipsum dolor sit amet.</p>
+                                </div>
+                                <div class="card-footer" style = "text-align : center">
+                                    <button type="button" class="btn btn-primary btn-sm">Donate This</button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-lg-4 col-md-6 mb-4">
+                            <div class="card h-100">
+                                <a href="#"><img class="card-img-top" src="http://placehold.it/700x400" alt=""></a>
+                                <!-- delete button -->
+                                <button name="delete" type="button" class="btn btn-danger delete">delete</button>
+                                <div class="card-body">
+                                    <h4 class="card-title">
+                                        <a href="#">Item Six</a>
+                                        <!-- id need to be changed-->
+                                        <select class="form-control mt-1" id="ItemSix" name="needNum">
+                                            <option value="0">0</option>
+                                            <option value="1">1</option>
+                                            <option value="2">2</option>
+                                            <option value="3">3</option>
+                                            <option value="4">4</option>
+                                            <option value="5">5</option>
+                                            <option value="6">6</option>
+                                            <option value="7">7</option>
+                                            <option value="8">8</option>
+                                            <option value="9">9</option>
+                                            <option value="10">10</option>
+                                        </select>
+                                    </h4>
+                                    <h5>$24.99</h5>
+                                    <p class="card-text">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Amet numquam aspernatur!</p>
+                                </div>
+                                <div class="card-footer" style = "text-align : center">
+                                    <button type="button" class="btn btn-primary btn-sm">Donate This</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- /.row -->
+                </div>
+        </div>
+        <div id="products" class="container tab-pane fade"><br>
+            <div class="col-lg-12">
+                <div class="row">
+                    <div class="col-lg-4 col-md-6 mb-4">
+                        <div class="card h-100">
+                            <a href="#"><img class="card-img-top" src="http://placehold.it/700x400" alt=""></a>
+                            <div class="card-body">
+                                <h4 class="card-title">
+                                    <a href="#">sell One</a>
+                                    <!-- id need to be changed-->
+                                    <select class="form-control mt-1" id="sellOne" name="needNum">
+                                        <option value="0">0</option>
+                                        <option value="1">1</option>
+                                        <option value="2">2</option>
+                                        <option value="3">3</option>
+                                        <option value="4">4</option>
+                                        <option value="5">5</option>
+                                        <option value="6">6</option>
+                                        <option value="7">7</option>
+                                        <option value="8">8</option>
+                                        <option value="9">9</option>
+                                        <option value="10">10</option>
+                                    </select>
+                                </h4>
+                                <h5>$24.99</h5>
+                                <p class="card-text">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Amet numquam aspernatur!</p>
+                            </div>
+                            <div class="card-footer" style = "text-align : center">
+                                <h5 class="mb-2">Total value</h5>
+                                <button type="button" class="btn btn-primary btn-sm">Donate This</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-lg-4 col-md-6 mb-4">
+                        <div class="card h-100">
+                            <a href="#"><img class="card-img-top" src="http://placehold.it/700x400" alt=""></a>
+                            <div class="card-body">
+                                <h4 class="card-title">
+                                    <a href="#">sell Two</a>
+                                    <!-- id need to be changed-->
+                                    <select class="form-control mt-1" id="sellTwo" name="needNum">
+                                        <option value="0">0</option>
+                                        <option value="1">1</option>
+                                        <option value="2">2</option>
+                                        <option value="3">3</option>
+                                        <option value="4">4</option>
+                                        <option value="5">5</option>
+                                        <option value="6">6</option>
+                                        <option value="7">7</option>
+                                        <option value="8">8</option>
+                                        <option value="9">9</option>
+                                        <option value="10">10</option>
+                                    </select>
+                                </h4>
+                                <h5>$24.99</h5>
+                                <p class="card-text">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Amet numquam aspernatur! Lorem ipsum dolor sit amet.</p>
+                            </div>
+                            <div class="card-footer" style = "text-align : center">
+                                <h5 class="mb-2">Total value</h5>
+                                <button type="button" class="btn btn-primary btn-sm">Donate This</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-lg-4 col-md-6 mb-4">
+                        <div class="card h-100">
+                            <a href="#"><img class="card-img-top" src="http://placehold.it/700x400" alt=""></a>
+                            <div class="card-body">
+                                <h4 class="card-title">
+                                    <a href="#">sell Three</a>
+                                    <!-- id need to be changed-->
+                                    <select class="form-control mt-1" id="sellThree" name="needNum">
+                                        <option value="0">0</option>
+                                        <option value="1">1</option>
+                                        <option value="2">2</option>
+                                        <option value="3">3</option>
+                                        <option value="4">4</option>
+                                        <option value="5">5</option>
+                                        <option value="6">6</option>
+                                        <option value="7">7</option>
+                                        <option value="8">8</option>
+                                        <option value="9">9</option>
+                                        <option value="10">10</option>
+                                    </select>
+                                </h4>
+                                <h5>$24.99</h5>
+                                <p class="card-text">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Amet numquam aspernatur!</p>
+                            </div>
+                            <div class="card-footer" style = "text-align : center">
+                                <h5 class="mb-2">Total value</h5>
+                                <button type="button" class="btn btn-primary btn-sm">Donate This</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-lg-4 col-md-6 mb-4">
+                        <div class="card h-100">
+                            <a href="#"><img class="card-img-top" src="http://placehold.it/700x400" alt=""></a>
+                            <div class="card-body">
+                                <h4 class="card-title">
+                                    <a href="#">sell Four</a>
+                                    <!-- id need to be changed-->
+                                    <select class="form-control mt-1" id="sellFour" name="needNum">
+                                        <option value="0">0</option>
+                                        <option value="1">1</option>
+                                        <option value="2">2</option>
+                                        <option value="3">3</option>
+                                        <option value="4">4</option>
+                                        <option value="5">5</option>
+                                        <option value="6">6</option>
+                                        <option value="7">7</option>
+                                        <option value="8">8</option>
+                                        <option value="9">9</option>
+                                        <option value="10">10</option>
+                                    </select>
+                                </h4>
+                                <h5>$24.99</h5>
+                                <p class="card-text">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Amet numquam aspernatur!</p>
+                            </div>
+                            <div class="card-footer" style = "text-align : center">
+                                <h5 class="mb-2">sell value</h5>
+                                <button type="button" class="btn btn-primary btn-sm">Donate This</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-lg-4 col-md-6 mb-4">
+                        <div class="card h-100">
+                            <a href="#"><img class="card-img-top" src="http://placehold.it/700x400" alt=""></a>
+                            <div class="card-body">
+                                <h4 class="card-title">
+                                    <a href="#">sell Five</a>
+                                    <!-- id need to be changed-->
+                                    <select class="form-control mt-1" id="sellFive" name="needNum">
+                                        <option value="0">0</option>
+                                        <option value="1">1</option>
+                                        <option value="2">2</option>
+                                        <option value="3">3</option>
+                                        <option value="4">4</option>
+                                        <option value="5">5</option>
+                                        <option value="6">6</option>
+                                        <option value="7">7</option>
+                                        <option value="8">8</option>
+                                        <option value="9">9</option>
+                                        <option value="10">10</option>
+                                    </select>
+                                </h4>
+                                <h5>$24.99</h5>
+                                <p class="card-text">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Amet numquam aspernatur! Lorem ipsum dolor sit amet.</p>
+                            </div>
+                            <div class="card-footer" style = "text-align : center">
+                                <h5 class="mb-2">sell value</h5>
+                                <button type="button" class="btn btn-primary btn-sm">Donate This</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-lg-4 col-md-6 mb-4">
+                        <div class="card h-100">
+                            <a href="#"><img class="card-img-top" src="http://placehold.it/700x400" alt=""></a>
+                            <div class="card-body">
+                                <h4 class="card-title">
+                                    <a href="#">sell Six</a>
+                                    <!-- id need to be changed-->
+                                    <select class="form-control mt-1" id="sellSix" name="needNum">
+                                        <option value="0">0</option>
+                                        <option value="1">1</option>
+                                        <option value="2">2</option>
+                                        <option value="3">3</option>
+                                        <option value="4">4</option>
+                                        <option value="5">5</option>
+                                        <option value="6">6</option>
+                                        <option value="7">7</option>
+                                        <option value="8">8</option>
+                                        <option value="9">9</option>
+                                        <option value="10">10</option>
+                                    </select>
+                                </h4>
+                                <h5>$24.99</h5>
+                                <p class="card-text">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Amet numquam aspernatur!</p>
+                            </div>
+                            <div class="card-footer" style = "text-align : center">
+                                <h5 class="mb-2">Total value</h5>
+                                <button type="button" class="btn btn-primary btn-sm">Donate This</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- /.row -->
+            </div>
+        </div>
+        <div id="donationHistory" class="container tab-pane fade"><br>
+            <h3>Menu 2</h3>
+            <p>Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam.</p>
+        </div>
+    </div>
+</div>
+
+
+
+
+<footer class="py-5 bg-dark">
+    <div class="container">
+        <p class="m-0 text-center text-white">Copyright &copy; Your Website 2019</p>
+    </div>
+    <!-- /.container -->
+</footer>
+</body>
+</html>
