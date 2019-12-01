@@ -121,7 +121,8 @@ class PostDAO {
                                      SELECT file.url
                                      FROM animals_post_files AS post_files
                                      INNER JOIN animals_file AS file ON post_files.file_id = file.id
-                                     WHERE post_files.post_id = ?;
+                                     WHERE post_files.post_id = ?
+                                     ORDER BY file.id ASC;
 
                                      SELECT comment.id, user_id, nickname, content, created_time
                                      FROM animals_comment AS comment
@@ -191,7 +192,8 @@ class PostDAO {
                                      SELECT file.url
                                      FROM animals_post_files AS post_files
                                      INNER JOIN animals_file AS file ON post_files.file_id = file.id
-                                     WHERE post_files.post_id = ?;
+                                     WHERE post_files.post_id = ?
+                                     ORDER BY file.id ASC;
 
                                      SELECT comment.id, user_id, nickname, content, created_time
                                      FROM animals_comment AS comment
@@ -224,6 +226,22 @@ class PostDAO {
                     }
                 );
             });
+        });
+    }
+
+    removePost(id) {
+        return new Promise((resolve, reject) => {
+            sqlHelper.query(
+                `DELETE FROM animals_post WHERE id = ?`,
+                [id],
+                function(err, results, fields) {
+                    console.log("\n<removePost>");
+                    console.log(results);
+
+                    if (err) reject(err);
+                    resolve(true);
+                }
+            );
         });
     }
 }

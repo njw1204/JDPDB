@@ -136,6 +136,18 @@ router.post("/post/:id", asyncHandler(async (req, res) => {
 }));
 
 
+// 글 삭제
+router.post("/unpost/:id", asyncHandler(async (req, res) => {
+    let page = await pageDAO.getPageBasicInfo(req.params.id);
+
+    if (req.session.user && req.session.user.id === page.creator_id) {
+        await postDAO.removePost(req.body.post_id);
+    }
+
+    res.redirect(req.query.next || "/");
+}));
+
+
 // 댓글 작성
 router.post("/comment", asyncHandler(async (req, res) => {
     if (req.session.user) {

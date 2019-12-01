@@ -52,6 +52,15 @@ body {
     content: none;
 }
 
+.page-profile-title {
+    max-width: 240px !important;
+    word-break: break-all;
+}
+
+.carousel-control:hover {
+    background-color: rgba(0,0,0,0.15);
+}
+
 /*!
  * Bootstrap v4.3.1 (https://getbootstrap.com/)
  * Copyright 2011-2019 The Bootstrap Authors
