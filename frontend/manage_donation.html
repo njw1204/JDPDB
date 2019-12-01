@@ -11,6 +11,7 @@
 
     <link href="./css/main.css" rel="stylesheet">
     <!-- Include CSS on BELOW !-->
+    <link href="./css/post.css" rel="stylesheet">
     <link href="./css/page.css" rel="stylesheet">
     <link href="css/shopping.css" rel="stylesheet">
     <link href="../assets/img/apple-icon.png" rel="apple-touch-icon" sizes="76x76">
@@ -589,7 +590,7 @@
         </div>
         <div class="container tab-pane fade" id="donationHistory"><br>
             <div class="card gedf-card" id="donatorCardOne">
-                <div class="card-header" data-toggle="collapse" data-parent="#donatorCardOne" href="#collapseCardOne">
+                <div class="card-header" data-parent="#donatorCardOne" data-toggle="collapse" href="#collapseCardOne">
                     <div class="d-table justify-content-between align-items-center">
                         <div class="d-flex justify-content-between align-items-center">
                             <div class="mr-2">
@@ -602,7 +603,7 @@
                         </div>
                     </div>
                 </div>
-                <div id="collapseCardOne" class="card-body collapse in">
+                <div class="card-body collapse in" id="collapseCardOne">
                     <div class="d-flex justify-content-between align-items-center">
                         <div class="mr-auto">
                             <a class="h4 m-0 font-weight-bold">Donated Money</a>
@@ -647,7 +648,7 @@
                 </div>
             </div>
             <div class="card gedf-card" id="donatorCardTwo">
-                <div class="card-header" data-toggle="collapse" data-parent="#donatorCardTwo" href="#collapseCardTwo">
+                <div class="card-header" data-parent="#donatorCardTwo" data-toggle="collapse" href="#collapseCardTwo">
                     <div class="d-table justify-content-between align-items-center">
                         <div class="d-flex justify-content-between align-items-center">
                             <div class="mr-2">
@@ -660,7 +661,7 @@
                         </div>
                     </div>
                 </div>
-                <div id="collapseCardTwo" class="card-body collapse in">
+                <div class="card-body collapse in" id="collapseCardTwo">
                     <div class="d-flex justify-content-between align-items-center">
                         <div class="mr-auto">
                             <a class="h4 m-0 font-weight-bold">Donated Money</a>
@@ -705,7 +706,8 @@
                 </div>
             </div>
             <div class="card gedf-card" id="donatorCardThree">
-                <div class="card-header" data-toggle="collapse" data-parent="#donatorCardThree" href="#collapseCardThree">
+                <div class="card-header" data-parent="#donatorCardThree" data-toggle="collapse"
+                     href="#collapseCardThree">
                     <div class="d-table justify-content-between align-items-center">
                         <div class="d-flex justify-content-between align-items-center">
                             <div class="mr-2">
@@ -718,7 +720,7 @@
                         </div>
                     </div>
                 </div>
-                <div id="collapseCardThree" class="card-body collapse in">
+                <div class="card-body collapse in" id="collapseCardThree">
                     <div class="d-flex justify-content-between align-items-center">
                         <div class="mr-auto">
                             <a class="h4 m-0 font-weight-bold">Donated Money</a>
@@ -765,7 +767,109 @@
 
         </div>
         <div class="container tab-pane fade" id="changeDonation">
-            <p>FUCKFUCK</p>
+            <button class="file-upload-btn mt-3" id="upload-button" type="button">Add Class</button>
+            <form class="form-group card mt-5" method="post" role="form">
+                <div class="card-body justify-content-md-center">
+                    <button class="btn btn-danger delete" name="delete" type="button">Delete</button>
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label" for="class-name">Class name</label>
+                        <div class="input-group">
+                            <input class="form-control" id="class-name" name="class-name" placeholder="Enter Class Name"
+                                   type="text" value="">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label" for="class-level">Class Level</label>
+                        <div class="input-group">
+                            <input class="form-control" id="class-level" name="class-level" placeholder="Enter Class Level"
+                                   type="text" value="">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label" for="content">Description</label>
+                        <div class="input-group">
+                            <textarea class="form-control" id="content" name="content" placeholder="Write your Description..."
+                                      rows="5"></textarea>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-sm-10 col-sm-offset-2">
+                            <! Will be used to display an alert to the user>
+                        </div>
+                    </div>
+                </div>
+                <div class="card-footer">
+                    <button class="file-upload-btn mt-3 ml-2" id="update-button" type="button">Update Class</button>
+                </div>
+            </form>
+            <form class="form-group card mt-5" method="post" role="form">
+                <div class="card-body justify-content-md-center">
+                    <button class="btn btn-danger delete" name="delete" type="button">Delete</button>
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label" for="class-name">Class name</label>
+                        <div class="input-group">
+                            <input class="form-control" id="class-name" name="class-name" placeholder="Enter Class Name"
+                                   type="text" value="">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label" for="class-level">Class Level</label>
+                        <div class="input-group">
+                            <input class="form-control" id="class-level" name="class-level" placeholder="Enter Class Level"
+                                   type="text" value="">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label" for="content">Description</label>
+                        <div class="input-group">
+                            <textarea class="form-control" id="content" name="content" placeholder="Write your Description..."
+                                      rows="5"></textarea>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-sm-10 col-sm-offset-2">
+                            <! Will be used to display an alert to the user>
+                        </div>
+                    </div>
+                </div>
+                <div class="card-footer">
+                    <button class="file-upload-btn mt-3 ml-2" id="update-button" type="button">Update Class</button>
+                </div>
+            </form>
+            <form class="form-group card mt-5" method="post" role="form">
+                <div class="card-body justify-content-md-center">
+                    <button class="btn btn-danger delete" name="delete" type="button">Delete</button>
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label" for="class-name">Class name</label>
+                        <div class="input-group">
+                            <input class="form-control" id="class-name" name="class-name" placeholder="Enter Class Name"
+                                   type="text" value="">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label" for="class-level">Class Level</label>
+                        <div class="input-group">
+                            <input class="form-control" id="class-level" name="class-level" placeholder="Enter Class Level"
+                                   type="text" value="">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label" for="content">Description</label>
+                        <div class="input-group">
+                            <textarea class="form-control" id="content" name="content" placeholder="Write your Description..."
+                                      rows="5"></textarea>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-sm-10 col-sm-offset-2">
+                            <! Will be used to display an alert to the user>
+                        </div>
+                    </div>
+                </div>
+                <div class="card-footer">
+                    <button class="file-upload-btn mt-3 ml-2" id="update-button" type="button">Update Class</button>
+                </div>
+            </form>
         </div>
     </div>
 </div>
