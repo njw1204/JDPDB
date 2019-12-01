@@ -73,7 +73,7 @@
                 </div>
                 <div class="mr-4" style="float: right; text-align: right;">
                     <% if (session.user && !isAdmin && typeof subscribe !== "undefined" && subscribe) { %>
-                        <p class="text-black font-weight-bold">I'm subscriber!</p>
+                        <p class="text-black font-weight-bold">Now Subscribing!</p>
                     <% } else if (session.user && isAdmin) { %>
                         <p class="text-black font-weight-bold">I'm Owner!</p>
                     <% } %>
@@ -97,7 +97,7 @@
 
     <div class="row">
         <!-- Post Content Column -->
-        <div class="col-md-8 gedf-main">
+        <div class="col-md-8 gedf-main" style="padding-left: 29px;">
             <% if (posts.length < 1) { %>
                 <div class="card gedf-card" style="margin-bottom: 40px;">
                     <div class="card-body">
@@ -214,10 +214,10 @@
             <!-- Post /////-->
         </div>
         <!-- Donation Class List Column -->
-        <div class="col-md-4">
+        <div class="col-md-4" style="padding-right: 29px;">
             <div class="toDonate card gedf-card">
                 <div class="card-body">
-                    <h4 class="card-title text-middle">Supporter Level</h4>
+                    <h4 class="card-title text-middle"><i class="fas fa-donate mr-2"></i>Supporter Level</h4>
                     <h6 class="card-subtitle h7 mb-2 text-muted">We need your help!</h6>
                     <h6 class="card-subtitle h7 mb-4 text-muted">Support us and get rewards.</h6>
 
