@@ -357,3 +357,10 @@
         padding: 15px;
     }
 }
+
+
+.delete{
+    position: absolute;
+    top:0;
+    right:0
+}
