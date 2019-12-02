@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+
+    <link href="/css/page.css" rel="stylesheet">
+    <link href="/css/main.css" rel="stylesheet">
+    <link href="/css/menu.css" rel="stylesheet">
+
+    <script defer src="/fontawesome/js/all.js"></script>
+
+    <title>Support Animal</title>
+
+</head>
+
+<body>
+<% include ./header %>
+
+<!-- Insert Body BELOW Here !-->
+<div class="container pb-4 mt-5">
+    <div class="container bootstrap-snippet header-container mb-5">
+        <div style="background-image: url( '/media/fishnets-and-hearts.png' ); background-repeat: repeat;">
+            <div class="container pt-5 pb-3 mt-5">
+                <div class="d-inline-block ml-5">
+                    <% if (profile_picture === null) { %>
+                        <img class="sh-1 d-inline-block" alt="" src="/media/no-image.jpg" style="width: 300px; height: 200px; vertical-align: baseline;">
+                    <% } else { %>
+                        <img class="sh-1 d-inline-block" alt="" src="<%= profile_picture %>" style="width: 300px; height: 200px; vertical-align: baseline;">
+                    <% } %>
+                    <div class="d-inline-block" style="margin-left: 40px;">
+                        <% if (category === "CAT") { %>
+                            <a href="/page/<%= id %>"><h3 class="font-weight-bold mb-4 page-profile-title" id="pageID"><i class="fas fa-cat fa-fw mr-2"></i><%= animal_name %></h3></a>
+                        <% } else if (category == "DOG") { %>
+                            <a href="/page/<%= id %>"><h3 class="font-weight-bold mb-4 page-profile-title" id="pageID"><i class="fas fa-dog fa-fw mr-2"></i><%= animal_name %></h3></a>
+                        <% } else if (category == "FISH") { %>
+                            <a href="/page/<%= id %>"><h3 class="font-weight-bold mb-4 page-profile-title" id="pageID"><i class="fas fa-fish fa-fw mr-2"></i><%= animal_name %></h3></a>
+                        <% } else if (category == "BIRD") { %>
+                            <a href="/page/<%= id %>"><h3 class="font-weight-bold mb-4 page-profile-title" id="pageID"><i class="fas fa-dove fa-fw mr-2"></i><%= animal_name %></h3></a>
+                        <% } else { %>
+                            <a href="/page/<%= id %>"><h3 class="font-weight-bold mb-4 page-profile-title" id="pageID"><i class="fas fa-paw fa-fw mr-2"></i><%= animal_name %></h3></a>
+                        <% } %>
+                        <div class="text-muted mb-4" name="pageDescription" style="max-width: 240px; word-break: break-all;">
+                            <%= description %>
+                        </div>
+                        <div class="text-black mb-4">
+                            <a class="text-black">Owner: </a>
+                            <span class="text-muted" id="pageEmail"><%= nickname %></span>
+                            <br>
+                            <a class="text-black">Category: </a>
+                            <span class="text-muted" id="pageEmail"><%= category %></span>
+                            <br><br>
+                            <a class="d-inline-block text-dark">
+                                <strong id="pageSubscribing"><%= subscribe_count %></strong>
+                                <span class="text-muted">Subscribers</span>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                <div class="mr-4" style="float: right; text-align: right;">
+                    <% if (session.user && !isAdmin && typeof subscribe !== "undefined" && subscribe) { %>
+                        <p class="text-black font-weight-bold">Now Subscribing!</p>
+                    <% } else if (session.user && isAdmin) { %>
+                        <p class="text-black font-weight-bold">I'm Owner!</p>
+                    <% } %>
+
+                    <% if (session.user && !isAdmin) { %>
+                        <% if (typeof subscribe === "undefined" || !subscribe) { %>
+                            <p><a class="btn btn-lg btn-primary" href="/page/subscribe/<%= id %>?next=/page/donate/<%= id %>">Subscribe</a></p>
+                        <% } else { %>
+                            <p><a class="btn btn-lg btn-danger" href="/page/unsubscribe/<%= id %>?next=/page/donate/<%= id %>">Unsubscribe</a></p>
+                        <% } %>
+                    <% } else if (session.user && isAdmin) { %>
+                        <p><a class="btn btn-lg btn-success" href="/page/post/<%= id %>">Write Diary</a></p>
+                    <% } %>
+
+                    <% if (session.user && !isAdmin) { %>
+                        <p><a class="btn btn-lg btn-success" href="/page/support/<%= id %>">Support Animal</a></p>
+                    <% } %>
+                </div>
+                <div style="clear: both;"></div>
+            </div>
+            <hr class="m-0">
+
+        </div>
+    </div>
+
+    <div class="row">
+
+        <div class="col-8" style="padding-left: 29px;">
+            <div class="card mb-4 bg-light">
+                <h4 class="my-3 mx-auto"><i class="fas fa-gift fa-fw mr-2"></i>Required products for animal</h4>
+            </div>
+            <div class="row">
+                <% for (let product of products) { %>
+                    <div class="col-6 mb-5">
+                        <div class="card h-100">
+                            <% if (product.url === null) { %>
+                                <img alt="" class="card-img-top" src="/media/no-image.jpg" style="height: 40%;">
+                            <% } else { %>
+                                <img alt="" class="card-img-top" src="<%= product.url %>" style="height: 40%;">
+                            <% } %>
+                            <div class="card-body">
+                                <h5 class="card-title text-primary font-weight-bold"><%= product.name %></h5>
+                                <h6 class="card-subtitle h7 mb-2 text-muted">(<%= commaNumber(product.cost) %>pts) <%= product.description %></h6>
+                                <h5 class="card-text d-table mx-auto mt-5" style="word-break: break-all;">We need <%= product.product_count %> items.</h5>
+                            </div>
+                            <div class="card-footer" style="text-align: center">
+                                <form method="POST" action="/page/donate-product/<%= page.id %>?next=/page/donate/<%= page.id %>">
+                                    <input type="hidden" name="product_id" value="<%= product.id %>">
+                                    <div class="input-group">
+                                        <input type="number" name="product_count" class="form-control" placeholder="Enter number of items" aria-describedby="button-addon-<%= product.id %>" min="1" max="<%= product.product_count %>" required>
+                                        <div class="input-group-append">
+                                            <button class="btn btn-primary btn-sm" type="submit" id="button-addon-<%= product.id %>">Donate</button>
+                                        </div>
+                                    </div>
+                                    <div class="mt-2">
+                                        <input type="text" name="message" class="form-control" placeholder="Enter donate message (Optional)" maxlength="100">
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                <% } %>
+            </div>
+            <!-- /.row -->
+        </div>
+
+        <div class="col-4" style="padding-right: 29px;">
+            <!-- Money Donation -->
+            <div class="card gedf-card mb-4">
+                <div class="card-body">
+                    <h4 class="card-title text-middle"><i class="fas fa-won-sign mr-2"></i>Cash Donation</h4>
+                    <h6 class="card-subtitle h7 mb-4 text-muted">Cash is also welcome!</h6>
+                    <form method="POST" action="/page/donate-money/<%= page.id %>?next=/page/donate/<%= page.id %>">
+                        <div class="input-group">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text"><i class="fas fa-coins"></i></span>
+                            </div>
+                            <input type="number" name="cost" class="form-control" placeholder="Amount of points" aria-describedby="button-addon-0" min="1" required>
+                            <div class="input-group-append">
+                                <button class="btn btn-primary btn-sm" type="submit" id="button-addon-0">Donate</button>
+                            </div>
+                        </div>
+                        <div class="mt-2">
+                            <input type="text" name="message" class="form-control" placeholder="Enter donate message (Optional)" maxlength="100">
+                        </div>
+                    </form>
+                </div>
+            </div>
+
+            <!-- Donation Class List Column -->
+            <div class="toDonate card gedf-card">
+                <div class="card-body">
+                    <h4 class="card-title text-middle"><i class="fas fa-donate mr-2"></i>Supporter Level</h4>
+                    <h6 class="card-subtitle h7 mb-2 text-muted">We need your help!</h6>
+                    <h6 class="card-subtitle h7 mb-4 text-muted">Support us and get rewards.</h6>
+
+                    <p class="card-text mb-0" style="font-size: 16px;"> Your Level:
+                        <% if (session.user && isAdmin) { %>
+                            <strong class="text-danger" id="yourRank">Owner (Lv.MAX)</strong>
+                        <% } else if (my_class_level) { %>
+                            <strong class="text-danger" id="yourRank"><%= donate_classes[my_class_level - 1].class_name %> (Lv.<%= my_class_level %>)</strong>
+                        <% } else { %>
+                            <strong class="text-danger" id="yourRank">Guest (Lv.0)</strong>
+                        <% } %>
+                    </p>
+                    <p class="card-text mb-3" style="font-size: 16px;"> My Support:
+                        <strong id="yourRank"><%= commaNumber(total_donate_from_me || 0) %>pts</strong>
+                    </p>
+
+                    <hr>
+
+                    <h5>Lv.0. Guest</h5>
+                    <ul>
+                        <li>View public diarys</li>
+                    </ul>
+                    <% if (donate_classes.length > 0) { %>
+                        <% let rewards = []; %>
+                        <% for (let cls of donate_classes) { %>
+                            <hr>
+                            <% rewards.push(cls.reward_description); %>
+
+                            <h5>Lv.<%= cls.class_level %>. <%= cls.class_name %></h5>
+                            <h6 class="card-subtitle h7 mb-2 text-muted">(<%= commaNumber(cls.cost) %>pts ~)</h6>
+                            <ul>
+                            <li>View Lv.<%= cls.class_level %> diarys</li>
+                            <% for (let reward of rewards) { %>
+                                <li><%= reward %></li>
+                            <% } %>
+                            </ul>
+                        <% } %>
+                    <% } %>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- /.row -->
+
+</div>
+</body>
+</html>

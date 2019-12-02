@@ -35,15 +35,15 @@
                     <% } %>
                     <div class="d-inline-block" style="margin-left: 40px;">
                         <% if (category === "CAT") { %>
-                            <h3 class="font-weight-bold mb-4 page-profile-title" id="pageID"><i class="fas fa-cat fa-fw mr-2"></i><%= animal_name %></h3>
+                            <a href="/page/<%= id %>"><h3 class="font-weight-bold mb-4 page-profile-title" id="pageID"><i class="fas fa-cat fa-fw mr-2"></i><%= animal_name %></h3></a>
                         <% } else if (category == "DOG") { %>
-                            <h3 class="font-weight-bold mb-4 page-profile-title" id="pageID"><i class="fas fa-dog fa-fw mr-2"></i><%= animal_name %></h3>
+                            <a href="/page/<%= id %>"><h3 class="font-weight-bold mb-4 page-profile-title" id="pageID"><i class="fas fa-dog fa-fw mr-2"></i><%= animal_name %></h3></a>
                         <% } else if (category == "FISH") { %>
-                            <h3 class="font-weight-bold mb-4 page-profile-title" id="pageID"><i class="fas fa-fish fa-fw mr-2"></i><%= animal_name %></h3>
+                            <a href="/page/<%= id %>"><h3 class="font-weight-bold mb-4 page-profile-title" id="pageID"><i class="fas fa-fish fa-fw mr-2"></i><%= animal_name %></h3></a>
                         <% } else if (category == "BIRD") { %>
-                            <h3 class="font-weight-bold mb-4 page-profile-title" id="pageID"><i class="fas fa-dove fa-fw mr-2"></i><%= animal_name %></h3>
+                            <a href="/page/<%= id %>"><h3 class="font-weight-bold mb-4 page-profile-title" id="pageID"><i class="fas fa-dove fa-fw mr-2"></i><%= animal_name %></h3></a>
                         <% } else { %>
-                            <h3 class="font-weight-bold mb-4 page-profile-title" id="pageID"><i class="fas fa-paw fa-fw mr-2"></i><%= animal_name %></h3>
+                            <a href="/page/<%= id %>"><h3 class="font-weight-bold mb-4 page-profile-title" id="pageID"><i class="fas fa-paw fa-fw mr-2"></i><%= animal_name %></h3></a>
                         <% } %>
                         <div class="text-muted mb-4" name="pageDescription" style="max-width: 240px; word-break: break-all;">
                             <%= description %>
@@ -80,7 +80,7 @@
                     <% } %>
 
                     <% if (session.user && !isAdmin) { %>
-                        <p><a class="btn btn-lg btn-success" href="/page/support/<%= id %>">Support Animal</a></p>
+                        <p><a class="btn btn-lg btn-success" href="/page/donate/<%= id %>">Support Animal</a></p>
                     <% } %>
                 </div>
                 <div style="clear: both;"></div>
@@ -232,11 +232,11 @@
 
                     <p class="card-text mb-0" style="font-size: 16px;"> Your Level:
                         <% if (session.user && isAdmin) { %>
-                            <strong id="yourRank">Owner (Lv.MAX)</strong>
+                            <strong class="text-danger" id="yourRank">Owner (Lv.MAX)</strong>
                         <% } else if (my_class_level) { %>
-                            <strong id="yourRank"><%= donate_classes[my_class_level - 1].class_name %> (Lv.<%= my_class_level %>)</strong>
+                            <strong class="text-danger" id="yourRank"><%= donate_classes[my_class_level - 1].class_name %> (Lv.<%= my_class_level %>)</strong>
                         <% } else { %>
-                            <strong id="yourRank">Guest (Lv.0)</strong>
+                            <strong class="text-danger" id="yourRank">Guest (Lv.0)</strong>
                         <% } %>
                     </p>
                     <p class="card-text mb-3" style="font-size: 16px;"> My Support:

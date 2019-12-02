@@ -54,13 +54,19 @@
             <div class="form-group">
                 <label for="min_class_level" class="col-sm-4 control-label">Supporter Level Limit <span class="text-danger">*</label>
                 <div class="input-group">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text"><i class="fas fa-user-check"></i></span>
+                    </div>
                     <input type="number" class="form-control" id="min_class_level" name="min_class_level" min="0" max="100" value="0" required>
                 </div>
-                <small class="form-text text-muted">Set the minimum supporter level to see this diary. (0 = Public)</small>
+                <small class="form-text text-muted">Set the minimum supporter level to see this diary. (0 = Public Diary)</small>
             </div>
             <div class="form-group">
                 <label for="youtube" class="col-sm-4 control-label">YouTube Video Link</label>
                 <div class="input-group">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text"><i class="fab fa-youtube"></i></span>
+                    </div>
                     <input type="url" class="form-control" id="youtube" name="youtube">
                 </div>
                 <small class="form-text text-muted">Optional. Copy your YouTube video link to attach to this post.</small>

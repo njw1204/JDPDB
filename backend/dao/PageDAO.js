@@ -160,7 +160,7 @@ class PageDAO {
                  FROM animals_required_products AS required
                  INNER JOIN animals_product AS product ON required.product_id = product.id
                  LEFT OUTER JOIN animals_file AS file ON product.picture_file_id = file.id
-                 WHERE required.page_id = ?
+                 WHERE required.page_id = ? AND required.product_count > 0
                 `,
                 [id],
                 function(err, results, fields) {

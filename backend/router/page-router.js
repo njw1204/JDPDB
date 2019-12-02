@@ -14,6 +14,11 @@ const postDAO = require("../dao/PostDAO");
 const donateDAO = require("../dao/DonateDAO");
 
 
+let commaNumber = (num) => {
+    return num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+};
+
+
 // url example : http://127.0.0.1:3000/page/1
 router.get("/:id", asyncHandler(async (req, res, next) => {
     let pageId = Number(req.params.id);
@@ -37,9 +42,7 @@ router.get("/:id", asyncHandler(async (req, res, next) => {
         pageInfo.required = await pageDAO.getPageRequiredProducts(pageId);
         pageInfo.donate_classes = await donateDAO.getDonateClassesOfPage(pageId);
         pageInfo.posts = await postDAO.getPostsFromPage(pageId);
-        pageInfo.commaNumber = (num) => {
-            return num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
-        }
+        pageInfo.commaNumber = commaNumber;
         pageInfo.crypto = crypto;
 
         res.render("page-view", pageInfo);
@@ -48,8 +51,34 @@ router.get("/:id", asyncHandler(async (req, res, next) => {
 }));
 
 
+// 후원 페이지
+router.get("/donate/:pageId", asyncHandler(async (req, res) => {
+    let data = await pageDAO.getPageBasicInfo(req.params.pageId);
+    data.page = data;
+    data.products = await pageDAO.getPageRequiredProducts(req.params.pageId);
+    data.donate_classes = await donateDAO.getDonateClassesOfPage(req.params.pageId);
+    data.subscribe_count = (await pageDAO.getPageSubscribers(req.params.pageId)).length;
+    data.isAdmin = (req.session.user && req.session.user.nickname === data.page.nickname);
+    data.commaNumber = commaNumber;
+
+    if (req.session.user) {
+        let donated = await pageDAO.getUserToPageBasicInfo(req.session.user.id, req.params.pageId);
+        data.total_donate_from_me = donated.total_donate || 0;
+        data.my_class_level = donated.class_level || 0;
+        data.subscribe = donated.subscribe ? true : false;
+    }
+    else {
+        data.total_donate_from_me = 0;
+        data.my_class_level = 0;
+        data.subscribe = false;
+    }
+
+    res.render("donate", data);
+}));
+
+
 // 현금 후원
-router.post("/donate-money", asyncHandler(async (req, res) => {
+router.post("/donate-money/:pageId", asyncHandler(async (req, res) => {
     if (req.session.user) {
         let user = await userDAO.getUser(req.session.user.id);
 
@@ -60,7 +89,9 @@ router.post("/donate-money", asyncHandler(async (req, res) => {
             req.session.message = "포인트가 부족합니다.";
         }
         else {
-            await donateDAO.donateMoney(req.session.user.id, req.body.page_id, req.body.cost, req.body.message);
+            await donateDAO.donateMoney(req.session.user.id, req.params.pageId, req.body.cost, req.body.message);
+            req.session.user.point = (await userDAO.getUser(req.session.user.id)).point;
+            req.session.message = "정상적으로 후원되었습니다.";
         }
     }
 
@@ -68,7 +99,7 @@ router.post("/donate-money", asyncHandler(async (req, res) => {
 }));
 
 // 상품 후원
-router.post("/donate-product", asyncHandler(async (req, res) => {
+router.post("/donate-product/:pageId", asyncHandler(async (req, res) => {
     if (req.session.user) {
         let user = await userDAO.getUser(req.session.user.id);
         let product = await donateDAO.getProduct(req.body.product_id);
@@ -77,7 +108,9 @@ router.post("/donate-product", asyncHandler(async (req, res) => {
             req.session.message = "포인트가 부족합니다.";
         }
         else {
-            await donateDAO.donateProduct(req.session.user.id, req.body.page_id, req.body.product_id, req.body.product_count, req.body.message);
+            await donateDAO.donateProduct(req.session.user.id, req.params.pageId, req.body.product_id, req.body.product_count, req.body.message);
+            req.session.user.point = (await userDAO.getUser(req.session.user.id)).point;
+            req.session.message = "정상적으로 후원되었습니다.";
         }
     }
 
