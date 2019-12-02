@@ -43,8 +43,9 @@ class DonateDAO {
     getDonateMoneysOfPage(pageId) {
         return new Promise((resolve, reject) => {
             sqlHelper.query(
-                `SELECT id, from_user_id AS user_id, to_page_id AS page_id, cost, message
-                 FROM animals_donate_money
+                `SELECT money.id, nickname, from_user_id AS user_id, to_page_id AS page_id, cost, message
+                 FROM animals_donate_money AS money
+                 INNER JOIN animals_user AS user ON user.id = money.from_user_id
                  WHERE to_page_id = ?
                  ORDER BY id DESC`,
                 [pageId],
@@ -62,8 +63,9 @@ class DonateDAO {
     getDonateProductsOfPage(pageId) {
         return new Promise((resolve, reject) => {
             sqlHelper.query(
-                `SELECT donate.id, from_user_id AS user_id, to_page_id AS page_id, product_id, product.name, product.description, product_count, (product_count * product.cost) AS cost, message, file.url
+                `SELECT donate.id, nickname, from_user_id AS user_id, to_page_id AS page_id, product_id, product.name, product.description, product_count, (product_count * product.cost) AS cost, message, file.url
                  FROM animals_donate_product AS donate
+                 INNER JOIN animals_user AS user ON user.id = donate.from_user_id
                  INNER JOIN animals_product AS product ON product.id = donate.product_id
                  LEFT OUTER JOIN animals_file AS file ON file.id = product.picture_file_id
                  WHERE donate.to_page_id = ?

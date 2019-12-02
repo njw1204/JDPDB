@@ -44,6 +44,7 @@ router.get("/:id", asyncHandler(async (req, res, next) => {
         pageInfo.posts = await postDAO.getPostsFromPage(pageId);
         pageInfo.commaNumber = commaNumber;
         pageInfo.crypto = crypto;
+        pageInfo.url = req.originalUrl;
 
         res.render("page-view", pageInfo);
     }
@@ -60,6 +61,7 @@ router.get("/donate/:pageId", asyncHandler(async (req, res) => {
     data.subscribe_count = (await pageDAO.getPageSubscribers(req.params.pageId)).length;
     data.isAdmin = (req.session.user && req.session.user.nickname === data.page.nickname);
     data.commaNumber = commaNumber;
+    data.url = req.originalUrl;
 
     if (req.session.user) {
         let donated = await pageDAO.getUserToPageBasicInfo(req.session.user.id, req.params.pageId);
@@ -119,10 +121,28 @@ router.post("/donate-product/:pageId", asyncHandler(async (req, res) => {
 
 
 // 도네 받은 목록 보기
-router.get("/donate-log/:pageid", asyncHandler(async (req, res) => {
-    let logMoneys = await donateDAO.getDonateMoneysOfPage(req.params.pageid);
-    let logProducts = await donateDAO.getDonateProductsOfPage(req.params.pageid);
-    res.render("donate-log", {logMoneys, logProducts});
+router.get("/donate-log/:pageId", asyncHandler(async (req, res) => {
+    let data = await pageDAO.getPageBasicInfo(req.params.pageId);
+    data.subscribe_count = (await pageDAO.getPageSubscribers(req.params.pageId)).length;
+    data.isAdmin = (req.session.user && req.session.user.nickname === data.nickname);
+    data.url = req.originalUrl;
+    data.logMoneys = await donateDAO.getDonateMoneysOfPage(req.params.pageId);
+    data.logProducts = await donateDAO.getDonateProductsOfPage(req.params.pageId);
+    data.commaNumber = commaNumber;
+
+    if (req.session.user) {
+        let donated = await pageDAO.getUserToPageBasicInfo(req.session.user.id, req.params.pageId);
+        data.total_donate_from_me = donated.total_donate || 0;
+        data.my_class_level = donated.class_level || 0;
+        data.subscribe = donated.subscribe ? true : false;
+    }
+    else {
+        data.total_donate_from_me = 0;
+        data.my_class_level = 0;
+        data.subscribe = false;
+    }
+
+    res.render("donate-log", data);
 }));
 
 

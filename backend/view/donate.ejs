@@ -24,71 +24,7 @@
 
 <!-- Insert Body BELOW Here !-->
 <div class="container pb-4 mt-5">
-    <div class="container bootstrap-snippet header-container mb-5">
-        <div style="background-image: url( '/media/fishnets-and-hearts.png' ); background-repeat: repeat;">
-            <div class="container pt-5 pb-3 mt-5">
-                <div class="d-inline-block ml-5">
-                    <% if (profile_picture === null) { %>
-                        <img class="sh-1 d-inline-block" alt="" src="/media/no-image.jpg" style="width: 300px; height: 200px; vertical-align: baseline;">
-                    <% } else { %>
-                        <img class="sh-1 d-inline-block" alt="" src="<%= profile_picture %>" style="width: 300px; height: 200px; vertical-align: baseline;">
-                    <% } %>
-                    <div class="d-inline-block" style="margin-left: 40px;">
-                        <% if (category === "CAT") { %>
-                            <a href="/page/<%= id %>"><h3 class="font-weight-bold mb-4 page-profile-title" id="pageID"><i class="fas fa-cat fa-fw mr-2"></i><%= animal_name %></h3></a>
-                        <% } else if (category == "DOG") { %>
-                            <a href="/page/<%= id %>"><h3 class="font-weight-bold mb-4 page-profile-title" id="pageID"><i class="fas fa-dog fa-fw mr-2"></i><%= animal_name %></h3></a>
-                        <% } else if (category == "FISH") { %>
-                            <a href="/page/<%= id %>"><h3 class="font-weight-bold mb-4 page-profile-title" id="pageID"><i class="fas fa-fish fa-fw mr-2"></i><%= animal_name %></h3></a>
-                        <% } else if (category == "BIRD") { %>
-                            <a href="/page/<%= id %>"><h3 class="font-weight-bold mb-4 page-profile-title" id="pageID"><i class="fas fa-dove fa-fw mr-2"></i><%= animal_name %></h3></a>
-                        <% } else { %>
-                            <a href="/page/<%= id %>"><h3 class="font-weight-bold mb-4 page-profile-title" id="pageID"><i class="fas fa-paw fa-fw mr-2"></i><%= animal_name %></h3></a>
-                        <% } %>
-                        <div class="text-muted mb-4" name="pageDescription" style="max-width: 240px; word-break: break-all;">
-                            <%= description %>
-                        </div>
-                        <div class="text-black mb-4">
-                            <a class="text-black">Owner: </a>
-                            <span class="text-muted" id="pageEmail"><%= nickname %></span>
-                            <br>
-                            <a class="text-black">Category: </a>
-                            <span class="text-muted" id="pageEmail"><%= category %></span>
-                            <br><br>
-                            <a class="d-inline-block text-dark">
-                                <strong id="pageSubscribing"><%= subscribe_count %></strong>
-                                <span class="text-muted">Subscribers</span>
-                            </a>
-                        </div>
-                    </div>
-                </div>
-                <div class="mr-4" style="float: right; text-align: right;">
-                    <% if (session.user && !isAdmin && typeof subscribe !== "undefined" && subscribe) { %>
-                        <p class="text-black font-weight-bold">Now Subscribing!</p>
-                    <% } else if (session.user && isAdmin) { %>
-                        <p class="text-black font-weight-bold">I'm Owner!</p>
-                    <% } %>
-
-                    <% if (session.user && !isAdmin) { %>
-                        <% if (typeof subscribe === "undefined" || !subscribe) { %>
-                            <p><a class="btn btn-lg btn-primary" href="/page/subscribe/<%= id %>?next=/page/donate/<%= id %>">Subscribe</a></p>
-                        <% } else { %>
-                            <p><a class="btn btn-lg btn-danger" href="/page/unsubscribe/<%= id %>?next=/page/donate/<%= id %>">Unsubscribe</a></p>
-                        <% } %>
-                    <% } else if (session.user && isAdmin) { %>
-                        <p><a class="btn btn-lg btn-success" href="/page/post/<%= id %>">Write Diary</a></p>
-                    <% } %>
-
-                    <% if (session.user && !isAdmin) { %>
-                        <p><a class="btn btn-lg btn-success" href="/page/support/<%= id %>">Support Animal</a></p>
-                    <% } %>
-                </div>
-                <div style="clear: both;"></div>
-            </div>
-            <hr class="m-0">
-
-        </div>
-    </div>
+    <% include ./page-header %>
 
     <div class="row">
 
@@ -96,6 +32,15 @@
             <div class="card mb-4 bg-light">
                 <h4 class="my-3 mx-auto"><i class="fas fa-gift fa-fw mr-2"></i>Required products for animal</h4>
             </div>
+
+            <% if (products.length < 1) { %>
+                <div class="card gedf-card" style="margin-bottom: 40px;">
+                    <div class="card-body">
+                        <h5 class="p-3">We don't need any products &nbsp;:)</h5>
+                    </div>
+                </div>
+            <% } %>
+
             <div class="row">
                 <% for (let product of products) { %>
                     <div class="col-6 mb-5">
