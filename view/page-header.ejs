@@ -20,9 +20,7 @@
                             <% } else { %>
                                 <a href="/page/<%= id %>"><h3 class="font-weight-bold mb-4 page-profile-title" id="pageID"><i class="fas fa-paw fa-fw mr-2"></i><%= animal_name %></h3></a>
                             <% } %>
-                            <div class="text-muted mb-4" name="pageDescription" style="max-width: 240px; word-break: break-all;">
-                                <%= description %>
-                            </div>
+                            <div class="text-muted mb-4" name="pageDescription" style="max-width: 240px; word-break: break-all; white-space: pre-wrap;"><%= description %></div>
                             <div class="text-black mb-4">
                                 <a class="text-black">Owner: </a>
                                 <span class="text-muted" id="pageEmail"><%= nickname %></span>
