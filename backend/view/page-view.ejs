@@ -186,15 +186,16 @@
                         <li>View public diarys</li>
                     </ul>
                     <% if (donate_classes.length > 0) { %>
-                        <% let rewards = []; %>
+                        <% let rewards = []; let lv = 0; %>
                         <% for (let cls of donate_classes) { %>
                             <hr>
+                            <% lv++; %>
                             <% rewards.push(cls.reward_description); %>
 
-                            <h5>Lv.<%= cls.class_level %>. <%= cls.class_name %></h5>
+                            <h5>Lv.<%= lv %>. <%= cls.class_name %></h5>
                             <h6 class="card-subtitle h7 mb-2 text-muted">(<%= commaNumber(cls.cost) %>pts ~)</h6>
                             <ul>
-                            <li>View Lv.<%= cls.class_level %> diarys</li>
+                            <li>View Lv.<%= lv %> diarys</li>
                             <% for (let reward of rewards) { %>
                                 <li><%= reward %></li>
                             <% } %>

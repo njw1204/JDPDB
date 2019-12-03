@@ -85,10 +85,10 @@ class DonateDAO {
     getDonateClassesOfPage(pageId) {
         return new Promise((resolve, reject) => {
             sqlHelper.query(
-                `SELECT class_level, class_name, cost, reward_description
+                `SELECT id, class_name, cost, reward_description
                  FROM animals_page_donate_class
                  WHERE page_id = ?
-                 ORDER BY class_level
+                 ORDER BY cost
                 `,
                 [pageId],
                 function(err, results, fields) {
@@ -99,6 +99,94 @@ class DonateDAO {
                     resolve(results);
                 }
             );
+        });
+    }
+
+    addDonateClass(name, cost, reward, pageId) {
+        return new Promise((resolve, reject) => {
+            sqlHelper.query(
+                `INSERT INTO animals_page_donate_class(class_name, cost, reward_description, page_id)
+                 VALUES(?, ?, ?, ?)
+                `,
+                [name, cost, reward, pageId],
+                function(err, results, fields) {
+                    console.log("\n<addDonateClass>");
+                    console.log(results);
+
+                    if (err) return reject(err);
+                    resolve(true);
+                }
+            );
+        });
+    }
+
+    deleteDonateClass(classId) {
+        return new Promise((resolve, reject) => {
+            sqlHelper.query(
+                `DELETE FROM animals_page_donate_class WHERE id = ?`,
+                [classId],
+                function(err, results, fields) {
+                    console.log("\n<deleteDonateClass>");
+                    console.log(results);
+
+                    if (err) return reject(err);
+                    resolve(true);
+                }
+            );
+        });
+    }
+
+    revalidateDonateClass(pageId) {
+        return new Promise((resolve, reject) => {
+            pool.getConnection((err, conn) => {
+                if (err) return reject(err);
+                conn.query(
+                    `START TRANSACTION;
+
+                     SELECT user_id FROM animals_user_to_page_info WHERE page_id = ?
+                    `,
+                    [pageId],
+                    function(err, results, fields) {
+                        if (err) {
+                            reject(err);
+                            return sqlHelper.rollback(conn);
+                        }
+
+                        let calls = [];
+                        for (let user of results[1]) {
+                            let userId = user.user_id;
+                            calls.push(new Promise((resolve, reject) => {
+                                conn.query(
+                                    `UPDATE animals_user_to_page_info
+                                     SET class_level =
+                                     COALESCE((SELECT * FROM (SELECT COUNT(*)
+                                     FROM animals_user_to_page_info AS l
+                                     INNER JOIN animals_page_donate_class AS r
+                                     ON l.page_id = r.page_id
+                                     WHERE user_id = ? AND r.page_id = ? AND total_donate >= cost) AS t), 0)
+                                     WHERE user_id = ? AND page_id = ?
+                                    `,
+                                    [userId, pageId, userId, pageId],
+                                    function(err, results, fields) {
+                                        if (err) return reject(err);
+                                        resolve(true);
+                                    }
+                                );
+                            }));
+                        }
+
+                        Promise.all(calls).then((values) => {
+                            console.log("\n<revalidateDonateClass>");
+                            console.log(values);
+                            resolve(true);
+                            sqlHelper.commit(conn);
+                        }).catch((err) => {
+                            reject(err);
+                            sqlHelper.rollback(conn);
+                        });
+                    }
+                );
+            });
         });
     }
 
@@ -118,7 +206,7 @@ class DonateDAO {
 
                      UPDATE animals_user_to_page_info
                      SET class_level =
-                     COALESCE((SELECT * FROM (SELECT MAX(r.class_level)
+                     COALESCE((SELECT * FROM (SELECT COUNT(*)
                      FROM animals_user_to_page_info AS l
                      INNER JOIN animals_page_donate_class AS r
                      ON l.page_id = r.page_id
@@ -188,7 +276,7 @@ class DonateDAO {
 
                              UPDATE animals_user_to_page_info
                              SET class_level =
-                             COALESCE((SELECT * FROM (SELECT MAX(r.class_level)
+                             COALESCE((SELECT * FROM (SELECT COUNT(*)
                              FROM animals_user_to_page_info AS l
                              INNER JOIN animals_page_donate_class AS r
                              ON l.page_id = r.page_id

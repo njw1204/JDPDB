@@ -51,12 +51,10 @@
                                 <p><a class="btn btn-danger" href="/page/unsubscribe/<%= id %>?next=<%= url %>">Unsubscribe</a></p>
                             <% } %>
                         <% } else if (session.user && isAdmin) { %>
-                            <p><a class="btn btn-success" href="/page/post/<%= id %>">Write Diary</a></p>
+                            <p><a class="btn btn-info" href="/page/post/<%= id %>">Write Diary</a></p>
                         <% } %>
 
-                        <% if (session.user && !isAdmin) { %>
-                            <p><a class="btn btn-success" href="/page/donate/<%= id %>">Support Animal</a></p>
-                        <% } %>
+                        <p><a class="btn btn-success" href="/page/donate/<%= id %>">Support Animal</a></p>
                         <p><a class="btn btn-secondary" href="/page/donate-log/<%= id %>">Support Logs</a></p>
                     </div>
                     <div style="clear: both;"></div>

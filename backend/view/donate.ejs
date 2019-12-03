@@ -45,6 +45,12 @@
                 <% for (let product of products) { %>
                     <div class="col-6 mb-5">
                         <div class="card h-100">
+                            <% if (session.user && isAdmin) { %>
+                                <form method="POST" action="/page/delete-required-product/<%= page.id %>?next=/page/donate/<%= page.id %>">
+                                    <input type="hidden" name="product_id" value="<%= product.id %>">
+                                    <button class="btn btn-sm btn-danger" type="submit" style="position: absolute; top: 0; right: 0;"><i class="fas fa-times"></i></button>
+                                </form>
+                            <% } %>
                             <% if (product.url === null) { %>
                                 <img alt="" class="card-img-top" src="/media/no-image.jpg" style="height: 40%;">
                             <% } else { %>
@@ -52,8 +58,9 @@
                             <% } %>
                             <div class="card-body">
                                 <h5 class="card-title text-primary font-weight-bold"><%= product.name %></h5>
-                                <h6 class="card-subtitle h7 mb-2 text-muted">(<%= commaNumber(product.cost) %>pts) <%= product.description %></h6>
-                                <h5 class="card-text d-table mx-auto mt-5" style="word-break: break-all;">We need <%= product.product_count %> items.</h5>
+                                <h6 class="card-subtitle d-inline">(<%= commaNumber(product.cost) %>pts)</h6>
+                                <h6 class="card-subtitle d-inline h7 mb-2 text-muted"><%= product.description %></h6>
+                                <h5 class="card-text d-table mx-auto mt-4" style="word-break: break-all;">We need <%= product.product_count %> items.</h5>
                             </div>
                             <div class="card-footer" style="text-align: center">
                                 <form method="POST" action="/page/donate-product/<%= page.id %>?next=/page/donate/<%= page.id %>">
@@ -77,27 +84,79 @@
         </div>
 
         <div class="col-4" style="padding-right: 29px;">
-            <!-- Money Donation -->
-            <div class="card gedf-card mb-4">
-                <div class="card-body">
-                    <h4 class="card-title text-middle"><i class="fas fa-won-sign mr-2"></i>Cash Donation</h4>
-                    <h6 class="card-subtitle h7 mb-4 text-muted">Cash is also welcome!</h6>
-                    <form method="POST" action="/page/donate-money/<%= page.id %>?next=/page/donate/<%= page.id %>">
-                        <div class="input-group">
-                            <div class="input-group-prepend">
-                                <span class="input-group-text"><i class="fas fa-coins"></i></span>
-                            </div>
-                            <input type="number" name="cost" class="form-control" placeholder="Amount of points" aria-describedby="button-addon-0" min="1" required>
+                
+            <% if (session.user && isAdmin) { %>
+                <div class="card mb-4">
+                    <div class="card-body">
+                        <h5 class="card-title text-primary font-weight-bold"><i class="fas fa-plus fa-fw mr-2"></i>Add required products</h5>
+                    </div>
+                    <form class="mx-3" method="POST" action="/page/add-required-product/<%= page.id %>?next=/page/donate/<%= page.id %>">          
+                        <label for="product" class="control-label" style="padding: 0;">Product <span class="text-danger">*</span></label>
+                        <select class="form-control" id="product" name="product_id" size="1">
+                            <% for (let product of all_products) { %>
+                                <option value="<%= product.id %>"><%= product.name %></option>
+                            <% } %>
+                        </select>
+                        <small class="form-text text-muted">Select the kind of required products</small>
+                        <div class="input-group my-4">
+                            <input type="number" name="product_count" class="form-control" placeholder="Enter number of items" aria-describedby="button-addreq" min="1" required>
                             <div class="input-group-append">
-                                <button class="btn btn-primary btn-sm" type="submit" id="button-addon-0">Donate</button>
+                                <button class="btn btn-success btn-sm" type="submit" id="button-addreq">Submit</button>
                             </div>
-                        </div>
-                        <div class="mt-2">
-                            <input type="text" name="message" class="form-control" placeholder="Enter donate message (Optional)" maxlength="100">
                         </div>
                     </form>
                 </div>
-            </div>
+            <% } %>
+
+            <!-- Money Donation -->
+            <% if (!session.user || !isAdmin) { %>
+                <div class="card gedf-card mb-4">
+                    <div class="card-body">
+                        <h4 class="card-title text-middle"><i class="fas fa-won-sign mr-2"></i>Cash Donation</h4>
+                        <h6 class="card-subtitle h7 mb-4 text-muted">Cash is also welcome!</h6>
+                        <form method="POST" action="/page/donate-money/<%= page.id %>?next=/page/donate/<%= page.id %>">
+                            <div class="input-group">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text"><i class="fas fa-coins"></i></span>
+                                </div>
+                                <input type="number" name="cost" class="form-control" placeholder="Amount of points" aria-describedby="button-addon-0" min="1" required>
+                                <div class="input-group-append">
+                                    <button class="btn btn-primary btn-sm" type="submit" id="button-addon-0">Donate</button>
+                                </div>
+                            </div>
+                            <div class="mt-2">
+                                <input type="text" name="message" class="form-control" placeholder="Enter donate message (Optional)" maxlength="100">
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            <% } %>
+                
+            <% if (session.user && isAdmin) { %>
+                <div class="card mb-4">
+                    <div class="card-body">
+                        <h5 class="card-title text-primary font-weight-bold"><i class="fas fa-plus fa-fw mr-2"></i>Add supporter class</h5>
+                    </div>
+                    <form class="mx-3" method="POST" action="/page/add-class/<%= page.id %>?next=/page/donate/<%= page.id %>">
+                        <div class="form-group">
+                            <label for="cname" class="control-label" style="padding: 0;">Name <span class="text-danger">*</span></label>
+                            <input class="form-control" type="text" id="cname" name="name" maxlength="100" placeholder="Enter class name" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="cost" class="control-label" style="padding: 0;">Needed Points <span class="text-danger">*</span></label>
+                            <input class="form-control" type="number" id="cost" name="cost" min="1" placeholder="Enter minimum point to be this class" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="reward" class="control-label" style="padding: 0;">Class Rewards <span class="text-danger">*</span></label>
+                            <input class="form-control" type="text" id="reward" name="reward" maxlength="100" placeholder="Describe the rewards.." required>
+                            <small class="form-text text-muted">You have to give this reward to supporters.</small>
+                        </div>
+                        <div class="form-group">
+                            <button class="btn btn-primary w-100" type="submit">Submit</button>
+                        </div>
+                    </form>
+                </div>
+            <% } %>
 
             <!-- Donation Class List Column -->
             <div class="toDonate card gedf-card">
@@ -126,15 +185,26 @@
                         <li>View public diarys</li>
                     </ul>
                     <% if (donate_classes.length > 0) { %>
-                        <% let rewards = []; %>
+                        <% let rewards = []; let lv = 0; %>
                         <% for (let cls of donate_classes) { %>
                             <hr>
+                            <% lv++; %>
                             <% rewards.push(cls.reward_description); %>
 
-                            <h5>Lv.<%= cls.class_level %>. <%= cls.class_name %></h5>
+                            <h5 class="d-inline-block">Lv.<%= lv %>. <%= cls.class_name %></h5>
+                            
+                            <% if (session.user && isAdmin) { %>
+                                <form class="d-inline ml-2" method="POST" action="/page/delete-class/<%= page.id %>?next=/page/donate/<%= page.id %>" style="display: inline-block;">
+                                    <input type="hidden" name="class_id" value="<%= cls.id %>">
+                                    <button class="btn btn-link text-danger px-0" type="submit" style="vertical-align: baseline;"><i class="fas fa-times"></i></button>
+                                </form>
+                            <% } %>
+
                             <h6 class="card-subtitle h7 mb-2 text-muted">(<%= commaNumber(cls.cost) %>pts ~)</h6>
+
+
                             <ul>
-                            <li>View Lv.<%= cls.class_level %> diarys</li>
+                            <li>View Lv.<%= lv %> diarys</li>
                             <% for (let reward of rewards) { %>
                                 <li><%= reward %></li>
                             <% } %>

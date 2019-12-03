@@ -68,6 +68,10 @@ router.get("/donate/:pageId", asyncHandler(async (req, res) => {
         data.total_donate_from_me = donated.total_donate || 0;
         data.my_class_level = donated.class_level || 0;
         data.subscribe = donated.subscribe ? true : false;
+
+        if (data.isAdmin) {
+            data.all_products = await donateDAO.getAllProducts();
+        }
     }
     else {
         data.total_donate_from_me = 0;
@@ -147,21 +151,12 @@ router.get("/donate-log/:pageId", asyncHandler(async (req, res) => {
 
 
 // 필요 물품 관리
-router.get("/required-product/:pageid", asyncHandler(async (req, res) => {
-    let data = {};
-
-    data.pageId = req.params.pageid;
-    data.products = await donateDAO.getAllProducts();
-    data.requiredProducts = await pageDAO.getPageRequiredProducts(req.params.pageid);
-
-    res.render("required", data);
-}));
-
 router.post("/add-required-product/:pageid", asyncHandler(async (req, res) => {
     let page = await pageDAO.getPageBasicInfo(req.params.pageid);
 
     if (req.session.user && req.session.user.id === page.creator_id) {
         await pageDAO.addPageRequiredProduct(req.params.pageid, req.body.product_id, req.body.product_count);
+        req.session.message = "정상적으로 추가되었습니다.";
     }
     res.redirect(req.query.next || "/");
 }));
@@ -171,6 +166,31 @@ router.post("/delete-required-product/:pageid", asyncHandler(async (req, res) =>
 
     if (req.session.user && req.session.user.id === page.creator_id) {
         await pageDAO.deletePageRequiredProduct(req.params.pageid, req.body.product_id);
+        req.session.message = "정상적으로 삭제되었습니다.";
+    }
+    res.redirect(req.query.next || "/");
+}));
+
+
+// 후원 계급 관리
+router.post("/add-class/:pageId", asyncHandler(async (req, res) => {
+    let page = await pageDAO.getPageBasicInfo(req.params.pageId);
+
+    if (req.session.user && req.session.user.id === page.creator_id) {
+        await donateDAO.addDonateClass(req.body.name, req.body.cost, req.body.reward, req.params.pageId);
+        await donateDAO.revalidateDonateClass(req.params.pageId);
+        req.session.message = "정상적으로 추가되었습니다.";
+    }
+    res.redirect(req.query.next || "/");
+}));
+
+router.post("/delete-class/:pageId", asyncHandler(async (req, res) => {
+    let page = await pageDAO.getPageBasicInfo(req.params.pageId);
+
+    if (req.session.user && req.session.user.id === page.creator_id) {
+        await donateDAO.deleteDonateClass(req.body.class_id);
+        await donateDAO.revalidateDonateClass(req.params.pageId);
+        req.session.message = "정상적으로 삭제되었습니다.";
     }
     res.redirect(req.query.next || "/");
 }));
