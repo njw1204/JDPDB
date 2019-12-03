@@ -121,7 +121,8 @@ class PostDAO {
                                      SELECT file.url
                                      FROM animals_post_files AS post_files
                                      INNER JOIN animals_file AS file ON post_files.file_id = file.id
-                                     WHERE post_files.post_id = ?;
+                                     WHERE post_files.post_id = ?
+                                     ORDER BY file.id ASC;
 
                                      SELECT comment.id, user_id, nickname, content, created_time
                                      FROM animals_comment AS comment
@@ -169,7 +170,7 @@ class PostDAO {
                      FROM animals_post AS post
                      INNER JOIN animals_post_tags AS post_tags ON post.id = post_tags.post_id
                      INNER JOIN animals_tag AS tag ON tag.id = post_tags.tag_id
-                     WHERE tag.name = ?
+                     WHERE tag.name = ? AND min_class_level = 0
                      ORDER BY id DESC
                     `,
                     [tagName],
@@ -191,21 +192,30 @@ class PostDAO {
                                      SELECT file.url
                                      FROM animals_post_files AS post_files
                                      INNER JOIN animals_file AS file ON post_files.file_id = file.id
-                                     WHERE post_files.post_id = ?;
+                                     WHERE post_files.post_id = ?
+                                     ORDER BY file.id ASC;
 
                                      SELECT comment.id, user_id, nickname, content, created_time
                                      FROM animals_comment AS comment
                                      INNER JOIN animals_user AS user ON user.id = comment.user_id
                                      WHERE comment.post_id = ?
-                                     ORDER BY comment.id DESC
+                                     ORDER BY comment.id DESC;
+
+                                     SELECT page.id, page.creator_id, user.nickname, page.animal_name, page.description, category.name AS category, file.url AS profile_picture
+                                     FROM animals_page AS page
+                                     INNER JOIN animals_user AS user ON page.creator_id = user.id
+                                     INNER JOIN animals_category AS category ON page.category = category.id
+                                     LEFT OUTER JOIN animals_file AS file ON page.profile_picture = file.id
+                                     WHERE page.id = ?
                                     `,
-                                    [post.id, post.id, post.id],
+                                    [post.id, post.id, post.id, post.page_id],
                                     (err, results, fields) => {
                                         if (err) return reject(err);
 
                                         post.tags = results[0];
                                         post.files = results[1];
                                         post.comments = results[2];
+                                        post.page = results[3][0];
                                         resolve(post);
                                     }
                                 );
@@ -224,6 +234,22 @@ class PostDAO {
                     }
                 );
             });
+        });
+    }
+
+    removePost(id) {
+        return new Promise((resolve, reject) => {
+            sqlHelper.query(
+                `DELETE FROM animals_post WHERE id = ?`,
+                [id],
+                function(err, results, fields) {
+                    console.log("\n<removePost>");
+                    console.log(results);
+
+                    if (err) reject(err);
+                    resolve(true);
+                }
+            );
         });
     }
 }

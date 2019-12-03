@@ -3,13 +3,13 @@ const pool = require("./helper/pool");
 const sqlHelper = require("./helper/sql-helper");
 
 class PageDAO {
-    createPage(userId, animalName, description, categoryId) {
+    createPage(userId, animalName, description, categoryId, profilePictureId) {
         return new Promise((resolve, reject) => {
             sqlHelper.query(
-                `INSERT INTO animals_page(creator_id, animal_name, description, category)
-                 VALUES(?,?,?,?)
+                `INSERT INTO animals_page(creator_id, animal_name, description, category, profile_picture)
+                 VALUES(?,?,?,?,?)
                 `,
-                [userId, animalName, description, categoryId],
+                [userId, animalName, description, categoryId, profilePictureId],
                 function(err, results, fields) {
                     console.log("\n<createPage>");
                     console.log(results);
@@ -44,7 +44,7 @@ class PageDAO {
     getPageIdListSearchByName(name) {
         return new Promise((resolve, reject) => {
             sqlHelper.query(
-                `SELECT page.id 
+                `SELECT page.id
                  FROM animals_page AS page
                  WHERE page.animal_name LIKE ?
                  ORDER BY page.id ASC
@@ -78,6 +78,27 @@ class PageDAO {
                 [userId],
                 function(err, results, fields) {
                     console.log("\n<getPageIdListSubscribedByUser>");
+                    console.log(results);
+
+                    if (err) return reject(err);
+
+                    let ret = [];
+                    for (let i of results) {
+                        ret.push(i.id);
+                    }
+                    resolve(ret);
+                }
+            );
+        });
+    }
+
+    getPageIdListByCategoryId(categoryId) {
+        return new Promise((resolve, reject) => {
+            sqlHelper.query(
+                `SELECT id FROM animals_page WHERE category = ? ORDER BY id ASC`,
+                [categoryId],
+                function(err, results, fields) {
+                    console.log("\n<getPageIdListByCategoryId>");
                     console.log(results);
 
                     if (err) return reject(err);
@@ -139,7 +160,7 @@ class PageDAO {
                  FROM animals_required_products AS required
                  INNER JOIN animals_product AS product ON required.product_id = product.id
                  LEFT OUTER JOIN animals_file AS file ON product.picture_file_id = file.id
-                 WHERE required.page_id = ?
+                 WHERE required.page_id = ? AND required.product_count > 0
                 `,
                 [id],
                 function(err, results, fields) {

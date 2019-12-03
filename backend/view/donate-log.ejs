@@ -1,46 +1,94 @@
 <!DOCTYPE html>
 <html>
+
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta http-equiv="X-UA-Compatible" content="ie=edge">
-  <title>도네 받은 리스트</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+
+    <link href="/css/page.css" rel="stylesheet">
+    <link href="/css/main.css" rel="stylesheet">
+    <link href="/css/menu.css" rel="stylesheet">
+
+    <script defer src="/fontawesome/js/all.js"></script>
+
+    <title>Support Logs</title>
+
+    <style>
+        .donate-li {
+            margin-bottom: 2rem;
+        }
+
+        .donate-li:last-child {
+            margin-bottom: 0;
+        }
+    </style>
+
 </head>
+
 <body>
-  <a href="/">index</a>
-  <h1>도네 받은 리스트</h1>
+<% include ./header %>
 
-  <hr>
+<!-- Insert Body BELOW Here !-->
+<div class="container pb-4 mt-5">
+    <% include ./page-header %>
+    <div class="row">
+        <div class="col-6">
+            <div class="card" style="margin-left: 15px;">
+                <div class="card-header">
+                    <h4 class="p-0 m-0"><i class="fas fa-gift fa-fw mr-2"></i>Product Donation Logs</h4>
+                </div>
+                <div class="card-body px-2">
+                    <% if (logProducts.length > 0) { %>
+                        <ul class="mb-1">
+                            <% for (let donate of logProducts) { %>
+                                <li class="donate-li">
+                                    User <strong>&quot;<%= donate.nickname %>&quot;</strong> has donated <strong><%= donate.product_count %></strong> items of <strong>&quot;<%= donate.name %>&quot;</strong>
+                                    <ul class="list-unstyled mt-1" style="margin-left: 6px;">
+                                        <li class="blockquote-footer"><%= commaNumber(donate.cost) %>pts</li>
+                                        <% if (donate.message) { %>
+                                            <li class="blockquote-footer">Message: <em>&ldquo;<%= donate.message %>&rdquo;</em></li>
+                                        <% } else { %>
+                                            <li class="blockquote-footer">Message: <em>&ldquo;No Donation Message&rdquo;</em></li>
+                                        <% } %>
+                                    </ul>
+                                </li>
+                            <% } %>
+                        </ul>
+                    <% } %>
+                </div>
+            </div>
+        </div>
 
-  <h3>현금 후원</h3>
-  <% if (logMoneys.length > 0) { %>
-    <ol>
-      <% for (let donate of logMoneys) { %>
-        <li><%= JSON.stringify(donate) %></li>
-      <% } %>
-    </ol>
-  <% } else { %>
-    그런 거 없다.
-  <% } %>
-
-  <hr>
-
-  <h3>물품 후원</h3>
-  <% if (logProducts.length > 0) { %>
-    <ol>
-      <% for (let donate of logProducts) { %>
-        <li><%= JSON.stringify(donate) %></li>
-      <% } %>
-    </ol>
-  <% } else { %>
-    그런 거 없다.
-  <% } %>
-
-  <% if (typeof session.message != "undefined" && session.message) { %>
-    <script>
-      alert("<%= session.message %>");
-    </script>
-    <% session.message = null; %>
-  <% } %>
+        <div class="col-6">
+            <div class="card" style="margin-right: 15px;">
+                <div class="card-header">
+                    <h4 class="p-0 m-0"><i class="fas fa-won-sign fa-fw mr-2"></i>Cash Donation Logs</h4>
+                </div>
+                <div class="card-body px-2">
+                    <% if (logMoneys.length > 0) { %>
+                        <ul class="mb-1">
+                            <% for (let donate of logMoneys) { %>
+                                <li class="donate-li">
+                                    User <strong>&quot;<%= donate.nickname %>&quot;</strong> has donated <strong><%= commaNumber(donate.cost) %>pts</strong>
+                                    <ul class="list-unstyled mt-1" style="margin-left: 6px;">
+                                        <% if (donate.message) { %>
+                                            <li class="blockquote-footer">Message: <em>&ldquo;<%= donate.message %>&rdquo;</em></li>
+                                        <% } else { %>
+                                            <li class="blockquote-footer">Message: <em>&ldquo;No Donation Message&rdquo;</em></li>
+                                        <% } %>
+                                    </ul>
+                                </li>
+                            <% } %>
+                        </ul>
+                    <% } %>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 </body>
 </html>

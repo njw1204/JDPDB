@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+
+    <link rel="stylesheet" href="/css/page.css">
+    <link rel="stylesheet" href="/css/main.css">
+    <link rel="stylesheet" href="/css/menu.css">
+    <link rel="stylesheet" href="/css/post.css">
+
+    <script defer src="/fontawesome/js/all.js"></script>
+
+    <title>Write Diary</title>
+</head>
+
+<body>
+<% include ./header %>
+
+<!-- Insert Body BELOW Here !-->
+
+
+<div class="container bg-white pt-5 pb-3 mt-5">
+    <h3 class="mb-4" style="display: table; margin-left: auto; margin-right: auto;"><i class="fas fa-book fa-fw mr-2"></i>Write Your Diary</h3>
+    <div class="file-upload">
+        <form class="form-horizontal" role="form" method="POST" action="/page/post/<%= id %>?next=/page/<%= id %>" enctype="multipart/form-data">
+            <div class="form-group">
+                <!--suppress XmlInvalidId -->
+                <label for="postName" class="col-sm-2 control-label">Title <span class="text-danger">*</span></label>
+                <div class="input-group">
+                    <input type="text" class="form-control" id="postName" name="title" placeholder="Enter Title" maxlength="200" required autofocus>
+                </div>
+            </div>
+            <div class="form-group">
+                <!--suppress XmlInvalidId -->
+                <label for="content" class="col-sm-2 control-label">Content <span class="text-danger">*</span></label>
+                <div class="input-group">
+                    <textarea class="form-control" rows="10" name="content" maxlength="1000" placeholder="Write your content..." required></textarea>
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="tags" class="col-sm-2 control-label">Tags</label>
+                <div class="input-group">
+                    <input type="text" class="form-control" id="tags" name="tags"
+                           placeholder="Enter Tags (Space between tags to seperate)" maxlength="200">
+                </div>
+                <small class="form-text text-muted">Optional. One tag can be up to 50 characters long.</small>
+            </div>
+            <div class="form-group">
+                <label for="min_class_level" class="col-sm-4 control-label">Supporter Level Limit <span class="text-danger">*</label>
+                <div class="input-group">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text"><i class="fas fa-user-check"></i></span>
+                    </div>
+                    <input type="number" class="form-control" id="min_class_level" name="min_class_level" min="0" max="100" value="0" required>
+                </div>
+                <small class="form-text text-muted">Set the minimum supporter level to see this diary. (0 = Public Diary)</small>
+            </div>
+            <div class="form-group">
+                <label for="youtube" class="col-sm-4 control-label">YouTube Video Link</label>
+                <div class="input-group">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text"><i class="fab fa-youtube"></i></span>
+                    </div>
+                    <input type="url" class="form-control" id="youtube" name="youtube">
+                </div>
+                <small class="form-text text-muted">Optional. Copy your YouTube video link to attach to this post.</small>
+            </div>
+
+            <label class="col-sm-4 control-label">Images (Support multiple files)</label>
+            <div class="image-upload-wrap">
+                <div id="fileUploadForm">
+                    <input class="file-upload-input" type='file' name="file" onchange="readURL(this);" accept="image/*" multiple>
+                </div>
+                <div class="drag-text">
+                    <h3>Drag &amp; drop or click here to upload images</h3>
+                </div>
+            </div>
+            <div id="uploads">
+
+            </div>
+            <button type="button" onclick="removeUpload()" id="remove-btn" class="remove-image" style="visibility: hidden; display: block; margin: 0 auto; width: 100%;" >
+                Remove Uploaded Images
+            </button>
+            <button id="upload-button" class="file-upload-btn mt-3" type="submit">Submit</button>
+        </form>
+    </div>
+
+</div>
+<script src="/js/post.js"></script>
+</body>
+</html>

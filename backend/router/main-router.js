@@ -1,26 +1,25 @@
 "use strict";
 const express = require("express");
 const asyncHandler = require("express-async-handler");
+const crypto = require("crypto");
+const request = require("request");
 const router = express.Router();
 
 const userDAO = require("../dao/UserDAO");
-const pageDAO = require("../dao/PageDAO");
 const postDAO = require("../dao/PostDAO");
+const pageDAO = require("../dao/PageDAO");
+const tagDAO = require("../dao/TagDAO");
 const categoryDAO = require("../dao/CategoryDAO");
+const apiConfig = require("../config").api;
 
 
-
-router.get("/", asyncHandler(async (req, res) => {
+async function sideBarData(req) {
     let data = {};
 
     if (req.session.user) {
         let user = await userDAO.getUser(req.session.user.id);
         if (user) {
             data.user = user;
-
-            let pageId = await pageDAO.getPageIdOfUser(user.id);
-            data.user.my_page_id = pageId;
-
             data.my_subscribe_pages = [];
             for (let id of await pageDAO.getPageIdListSubscribedByUser(user.id)) {
                 data.my_subscribe_pages.push(await pageDAO.getPageBasicInfo(id));
@@ -30,6 +29,20 @@ router.get("/", asyncHandler(async (req, res) => {
             req.session.user = null;
         }
     }
+
+    data.categories = await categoryDAO.getCategoryList();
+    data.tags = await tagDAO.getTagList();
+
+    return data;
+}
+
+
+router.get("/favicon.ico", function(req, res) {
+    res.status(404).end();
+});
+
+router.get("/", asyncHandler(async (req, res) => {
+    let data = await sideBarData(req);
 
     let pagesBySubscribe = await pageDAO.getPagesOrderBySubscribe(3);
     let pagesByNewPost = await pageDAO.getPagesOrderByNewPost(3);
@@ -42,34 +55,51 @@ router.get("/", asyncHandler(async (req, res) => {
         data.pagesByNewPost.push(await pageDAO.getPageBasicInfo(page.id));
     }
 
-    data.pages = [];
-    for (let id of await pageDAO.getPageIdList()) {
-        data.pages.push(await pageDAO.getPageBasicInfo(id));
-    }
+    res.render("main", data);
+}));
 
-    res.render("index", data);
+
+// 카테고리별 보기
+router.get("/category/:categoryId", asyncHandler(async (req, res) => {
+    let data = await sideBarData(req);
+
+    let pagesByCategory = await pageDAO.getPageIdListByCategoryId(req.params.categoryId);
+    data.pagesByCategory = [];
+    for (let page of pagesByCategory) {
+        data.pagesByCategory.push(await pageDAO.getPageBasicInfo(page));
+    }
+    data.category = await categoryDAO.getCategory(req.params.categoryId);
+
+    res.render("category-view", data);
 }));
 
 
 // 검색
 router.get("/search", asyncHandler(async (req, res) => {
-    let data = {
-        pagesSearchedByName: [],
-        postsSearchedByTag: [],
-    };
+    let data = await sideBarData(req);
 
+    data.pagesSearchedByName = [];
     for (let pageId of await pageDAO.getPageIdListSearchByName(req.query.keyword)) {
         data.pagesSearchedByName.push(await pageDAO.getPageBasicInfo(pageId));
     }
+    data.keyword = req.query.keyword;
 
-    data.postsSearchedByTag = await postDAO.getPostsByTagName(req.query.keyword);
-
-    res.render("search", data);
+    res.render("search-view", data);
 }));
 
-router.get("/favicon.ico", function(req, res) {
-    res.status(404).end();
-});
+
+// 태그별 보기
+router.get("/tag/:tagId", asyncHandler(async (req, res, next) => {
+    let data = await sideBarData(req);
+    data.tag = await tagDAO.getTag(req.params.tagId);
+
+    if (data.tag === null)
+        return next();
+
+    data.postsByTag = await postDAO.getPostsByTagName(data.tag.name);
+    data.crypto = crypto;
+    res.render("tag", data);
+}));
 
 
 // 페이지 만들기
@@ -85,8 +115,11 @@ router.get("/create-page", asyncHandler(async (req, res) => {
 }));
 
 router.post("/create-page", asyncHandler(async (req, res) => {
-    await pageDAO.createPage(req.session.user.id, req.body.animal_name, req.body.description, req.body.category);
+    await pageDAO.createPage(req.session.user.id, req.body.animal_name, req.body.description, req.body.category, req.body.profile || null);
     let pageId = await pageDAO.getPageIdOfUser(req.session.user.id);
+    if (pageId) {
+        req.session.user.my_page_id = pageId;
+    }
     res.redirect("/page/" + pageId);
 }));
 
@@ -94,20 +127,112 @@ router.post("/create-page", asyncHandler(async (req, res) => {
 // 포인트 충전
 router.get("/point", asyncHandler(async (req, res) => {
     if (req.session.user) {
-        let user = await userDAO.getUser(req.session.user.id);
-        res.render("point", {user: user});
+        res.render("payment");
     }
     else {
-        res.redirect("/");
+        res.redirect("/login");
     }
 }));
 
 router.post("/point", asyncHandler(async (req, res) => {
     if (req.session.user) {
         await userDAO.addPointToUser(req.session.user.id, req.body.amount);
+        req.session.user.point = (await userDAO.getUser(req.session.user.id)).point;
+        req.session.message = "포인트가 충전되었습니다.";
+        res.redirect("/");
     }
+    else {
+        res.redirect("/point");
+    }
+}));
 
-    res.redirect("/");
+router.post("/point-kakaopay", asyncHandler(async (req, res) => {
+    if (req.session.user && req.body.amount && req.body.amount > 0) {
+        request({
+            url: "https://kapi.kakao.com/v1/payment/ready",
+            method: "POST",
+            headers: {
+                Authorization: "KakaoAK " + apiConfig.kakaoAdminKey
+            },
+            form: {
+                cid: "TC0ONETIME",
+                partner_order_id: "partner_order_id",
+                partner_user_id: "partner_user_id",
+                item_name: "Animal Point",
+                quantity: req.body.amount,
+                total_amount: req.body.amount,
+                tax_free_amount: req.body.amount,
+                approval_url: "http://" + apiConfig.host + "/point-kakaopay-approve",
+                cancel_url: "http://" + apiConfig.host + "/point",
+                fail_url: "http://" + apiConfig.host + "/point",
+            }
+        }, function(err, response, body) {
+            let json = JSON.parse(body);
+            console.log(json);
+            if (json.next_redirect_pc_url && json.tid) {
+                req.session.tid = json.tid;
+                req.session.ready_to_buy = req.body.amount;
+                res.redirect(json.next_redirect_pc_url);
+            }
+            else {
+                req.session.message = "결제 요청 실패";
+                res.redirect("/point");
+            }
+        });
+    }
+    else {
+        req.session.message = "결제 요청 실패";
+        res.redirect("/point");
+    }
+}));
+
+router.get("/point-kakaopay-approve", asyncHandler(async (req, res) => {
+    if (req.session.user && req.session.user.id && req.session.tid && req.session.ready_to_buy) {
+        let tid = req.session.tid;
+        let ready_to_buy = req.session.ready_to_buy;
+
+        request({
+           url: "https://kapi.kakao.com/v1/payment/approve",
+           method: "POST",
+           headers: {
+               Authorization: "KakaoAK " + apiConfig.kakaoAdminKey
+           },
+           form: {
+               cid: "TC0ONETIME",
+               tid: tid,
+               partner_order_id: "partner_order_id",
+               partner_user_id: "partner_user_id",
+               pg_token: req.query.pg_token,
+           }
+        }, function(err, response, body) {
+            if (response && response.statusCode === 200) {
+                userDAO.addPointToUser(req.session.user.id, ready_to_buy)
+                    .then((value) => {
+                        return userDAO.getUser(req.session.user.id);
+                    })
+                    .then((value) => {
+                        req.session.user.point = value.point;
+                        req.session.message = "포인트가 충전되었습니다.";
+                        res.redirect("/");
+                    })
+                    .catch((err) => {
+                        req.session.message = "결제 승인 실패";
+                        res.redirect("/point");
+                    });
+            }
+            else {
+                req.session.message = "결제 승인 실패";
+                res.redirect("/point");
+            }
+        });
+
+        req.session.tid = null;
+        req.session.ready_to_buy = null;
+    }
+    else {
+        req.session.message = "결제 승인 실패";
+        res.redirect("/point");
+    }
 }));
 
 
@@ -125,7 +250,19 @@ router.post("/login", asyncHandler(async (req, res) => {
 
     let acceptedUser = await userDAO.authUser(user);
     req.session.user = acceptedUser || null;
-    res.render("login", {success: (acceptedUser ? true : false), email: user.email});
+
+    if (acceptedUser) {
+        let pageId = await pageDAO.getPageIdOfUser(acceptedUser.id);
+        req.session.user.my_page_id = pageId;
+    }
+
+    if (!acceptedUser) {
+        req.session.message = "아이디 또는 비밀번호를 틀렸습니다.";
+        res.render("login");
+    }
+    else {
+        res.redirect("/");
+    }
 }));
 
 
@@ -176,7 +313,8 @@ router.post("/signup", asyncHandler(async (req, res) => {
 
     if (await userDAO.createUser(user)) {
         req.session.user = (await userDAO.authUser(user)) || null;
-        res.redirect("/login");
+        req.session.user.my_page_id = null;
+        res.redirect("/");
     }
 
     req.session.message = "가입 실패";

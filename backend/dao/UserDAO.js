@@ -24,7 +24,7 @@ class UserDAO {
     authUser(user) {
         return new Promise(function(resolve, reject) {
             sqlHelper.query(
-                "SELECT id,nickname,email FROM animals_user WHERE email=? AND password=SHA2(?, 256)",
+                "SELECT id,nickname,email,point FROM animals_user WHERE email=? AND password=SHA2(?, 256)",
                 [user.email, user.password],
                 function(err, results, fields) {
                     console.log("\n<authUser>");

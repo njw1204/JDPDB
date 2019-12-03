@@ -1,0 +1,359 @@
+
+.shoppingCard {
+    border-radius: 12px;
+    box-shadow: 0 6px 10px -4px rgba(0, 0, 0, 0.15);
+    background-color: #FFFFFF;
+    color: #252422;
+    margin-bottom: 20px;
+    position: relative;
+    border: 0 none;
+    -webkit-transition: transform 300ms cubic-bezier(0.34, 2, 0.6, 1), box-shadow 200ms ease;
+    -moz-transition: transform 300ms cubic-bezier(0.34, 2, 0.6, 1), box-shadow 200ms ease;
+    -o-transition: transform 300ms cubic-bezier(0.34, 2, 0.6, 1), box-shadow 200ms ease;
+    -ms-transition: transform 300ms cubic-bezier(0.34, 2, 0.6, 1), box-shadow 200ms ease;
+    transition: transform 300ms cubic-bezier(0.34, 2, 0.6, 1), box-shadow 200ms ease;
+}
+
+.shoppingCard .shoppingCard-body {
+    padding: 15px 15px 10px 15px;
+}
+
+.shoppingCard .shoppingCard-body.table-full-width {
+    padding-left: 0;
+    padding-right: 0;
+}
+
+.shoppingCard .shoppingCard-header {
+    padding: 15px 15px 0;
+    border: 0;
+}
+
+.shoppingCard .shoppingCard-header:not([data-background-color]) {
+    background-color: transparent;
+}
+
+.shoppingCard .shoppingCard-header .shoppingCard-title {
+    margin-top: 10px;
+}
+
+.shoppingCard .map {
+    border-radius: 3px;
+}
+
+.shoppingCard .map.map-big {
+    height: 400px;
+}
+
+.shoppingCard[data-background-color="orange"] {
+    background-color: #51cbce;
+}
+
+.shoppingCard[data-background-color="orange"] .shoppingCard-header {
+    background-color: #51cbce;
+}
+
+.shoppingCard[data-background-color="orange"] .shoppingCard-footer .stats {
+    color: #FFFFFF;
+}
+
+.shoppingCard[data-background-color="red"] {
+    background-color: #ef8157;
+}
+
+.shoppingCard[data-background-color="yellow"] {
+    background-color: #fbc658;
+}
+
+.shoppingCard[data-background-color="blue"] {
+    background-color: #51bcda;
+}
+
+.shoppingCard[data-background-color="green"] {
+    background-color: #6bd098;
+}
+
+.shoppingCard .image {
+    overflow: hidden;
+    height: 200px;
+    position: relative;
+}
+
+.shoppingCard .avatar {
+    width: 30px;
+    height: 30px;
+    overflow: hidden;
+    border-radius: 50%;
+    margin-bottom: 15px;
+}
+
+.shoppingCard .numbers {
+    font-size: 2em;
+}
+
+.shoppingCard .big-title {
+    font-size: 12px;
+    text-align: center;
+    font-weight: 500;
+    padding-bottom: 15px;
+}
+
+.shoppingCard label {
+    font-size: 0.8571em;
+    margin-bottom: 5px;
+    color: #9A9A9A;
+}
+
+.shoppingCard .shoppingCard-footer {
+    background-color: transparent;
+    border: 0;
+}
+
+.shoppingCard .shoppingCard-footer .stats i {
+    margin-right: 5px;
+    position: relative;
+    top: 0px;
+    color: #66615B;
+}
+
+.shoppingCard .shoppingCard-footer .btn {
+    margin: 0;
+}
+
+.shoppingCard.shoppingCard-plain {
+    background-color: transparent;
+    box-shadow: none;
+    border-radius: 0;
+}
+
+.shoppingCard.shoppingCard-plain .shoppingCard-body {
+    padding-left: 5px;
+    padding-right: 5px;
+}
+
+.shoppingCard.shoppingCard-plain img {
+    border-radius: 12px;
+}
+
+.shoppingCard-plain {
+    background: transparent;
+    box-shadow: none;
+}
+
+.shoppingCard-plain .shoppingCard-header,
+.shoppingCard-plain .shoppingCard-footer {
+    margin-left: 0;
+    margin-right: 0;
+    background-color: transparent;
+}
+
+.shoppingCard-plain:not(.shoppingCard-subcategories).shoppingCard-body {
+    padding-left: 0;
+    padding-right: 0;
+}
+
+.shoppingCard-tasks .shoppingCard-body .table {
+    margin-bottom: 0;
+}
+.shoppingCard-description,
+.shoppingCard .footer .stats {
+    color: #9A9A9A;
+    font-weight: 300;
+}
+.shoppingCard-category {
+    text-transform: capitalize;
+    font-weight: 400;
+    color: #9A9A9A;
+    font-size: 0.7142em;
+}
+
+.shoppingCard-category {
+    font-size: 1em;
+}
+.shoppingCard-collapse .shoppingCard a[data-toggle="collapse"][aria-expanded="true"] i,
+.shoppingCard-collapse .shoppingCard a[data-toggle="collapse"].expanded i {
+    filter: progid:DXImageTransform.Microsoft.BasicImage(rotation=2);
+    -webkit-transform: rotate(180deg);
+    -ms-transform: rotate(180deg);
+    transform: rotate(180deg);
+}
+.shoppingCard-user form .form-group {
+    margin-bottom: 20px;
+}
+.shoppingCard.shoppingCard-just-text .dropdown .dropdown-menu:before,
+.shoppingCard-just-text .dropdown .dropdown-menu:before,
+.shoppingCard.shoppingCard-just-text .dropdown .dropdown-menu:after,
+.shoppingCard-just-text .dropdown .dropdown-menu:after,
+.shoppingCard-tasks .shoppingCard-body .table > thead > tr > th,
+.shoppingCard-tasks .shoppingCard-body .table > tbody > tr > th,
+.shoppingCard-tasks .shoppingCard-body .table > tfoot > tr > th,
+.shoppingCard-tasks .shoppingCard-body .table > thead > tr > td,
+.shoppingCard-tasks .shoppingCard-body .table > tbody > tr > td,
+.shoppingCard-tasks .shoppingCard-body .table > tfoot > tr > td {
+    padding-top: 0;
+    padding-bottom: 0;
+}
+
+.shoppingCard-chart .shoppingCard-header .shoppingCard-title {
+    margin-top: 10px;
+    margin-bottom: 0;
+}
+
+.shoppingCard-chart .shoppingCard-header .shoppingCard-category {
+    margin-bottom: 5px;
+}
+
+.shoppingCard-chart .table {
+    margin-bottom: 0;
+}
+
+.shoppingCard-chart .table td {
+    border-top: none;
+    border-bottom: 1px solid #e9ecef;
+}
+
+.shoppingCard-chart .shoppingCard-progress {
+    margin-top: 30px;
+}
+
+.shoppingCard-chart .chart-area {
+    height: 190px;
+    width: calc(100% + 30px);
+    margin-left: -15px;
+    margin-right: -15px;
+}
+
+.shoppingCard-chart .shoppingCard-footer {
+    margin-top: 15px;
+}
+
+.shoppingCard-chart .shoppingCard-footer .stats {
+    color: #9A9A9A;
+}
+
+.shoppingCard-chart .dropdown {
+    position: absolute;
+    right: 20px;
+    top: 20px;
+}
+
+.shoppingCard-chart .dropdown .btn {
+    margin: 0;
+}
+
+.shoppingCard-user .image {
+    height: 130px;
+}
+
+.shoppingCard-user .image img {
+    border-radius: 12px;
+}
+
+.shoppingCard-user .author {
+    text-align: center;
+    text-transform: none;
+    margin-top: -77px;
+}
+
+.shoppingCard-user .author a + p.description {
+    margin-top: -7px;
+}
+
+.shoppingCard-user .avatar {
+    width: 124px;
+    height: 124px;
+    border: 1px solid #FFFFFF;
+    position: relative;
+}
+
+.shoppingCard-user .shoppingCard-body {
+    min-height: 240px;
+}
+
+.shoppingCard-user hr {
+    margin: 5px 15px 15px;
+}
+
+.shoppingCard-user .shoppingCard-body + .shoppingCard-footer {
+    padding-top: 0;
+}
+
+.shoppingCard-user .shoppingCard-footer h5 {
+    font-size: 1.25em;
+    margin-bottom: 0;
+}
+
+.shoppingCard-user .button-container {
+    margin-bottom: 6px;
+    text-align: center;
+}
+
+.map {
+    height: 500px;
+}
+
+.shoppingCard-stats .shoppingCard-body {
+    padding: 15px 15px 0px;
+}
+
+.shoppingCard-stats .shoppingCard-body .numbers {
+    text-align: right;
+    font-size: 2em;
+}
+
+.shoppingCard-stats .shoppingCard-body .numbers p {
+    margin-bottom: 0;
+}
+
+.shoppingCard-stats .shoppingCard-body .numbers .shoppingCard-category {
+    color: #9A9A9A;
+    font-size: 16px;
+    line-height: 1.4em;
+}
+
+.shoppingCard-stats .shoppingCard-footer {
+    padding: 0px 15px 15px;
+}
+
+.shoppingCard-stats .shoppingCard-footer .stats {
+    color: #9A9A9A;
+}
+
+.shoppingCard-stats .shoppingCard-footer hr {
+    margin-top: 10px;
+    margin-bottom: 15px;
+}
+
+.shoppingCard-stats .icon-big {
+    font-size: 3em;
+    min-height: 64px;
+}
+
+.shoppingCard-stats .icon-big i {
+    line-height: 59px;
+}
+
+@media screen and (max-width: 768px) {
+    .shoppingCard-stats [class*="col-"] .statistics::after {
+        display: none;
+    }
+
+    .shoppingCard .form-horizontal .col-md-3.col-form-label {
+        text-align: left;
+    }
+}
+
+@media screen and (max-width: 576px) {
+
+    .shoppingCard-contributions .shoppingCard-stats {
+        flex-direction: column;
+    }
+
+    .shoppingCard-contributions .shoppingCard-stats .bootstrap-switch {
+        margin-bottom: 15px;
+    }
+
+    .shoppingCard-timeline .timeline .timeline-panel {
+        width: 38%;
+        padding: 15px;
+    }
+}
