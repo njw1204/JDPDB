@@ -1,9 +1,4 @@
-CREATE DATABASE IF NOT EXISTS `animals`;
-USE `animals`;
-
---
--- Table structure for table `animals_category`
---
+SET FOREIGN_KEY_CHECKS=0;
 
 DROP TABLE IF EXISTS `animals_category`;
 CREATE TABLE `animals_category` (
@@ -13,9 +8,6 @@ CREATE TABLE `animals_category` (
   UNIQUE KEY `UC_name` (`name`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
---
--- Table structure for table `animals_comment`
---
 
 DROP TABLE IF EXISTS `animals_comment`;
 CREATE TABLE `animals_comment` (
@@ -31,16 +23,13 @@ CREATE TABLE `animals_comment` (
   CONSTRAINT `FK_animals_comment_user_id_animals_user_id` FOREIGN KEY (`user_id`) REFERENCES `animals_user` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
---
--- Table structure for table `animals_donate_money`
---
 
 DROP TABLE IF EXISTS `animals_donate_money`;
 CREATE TABLE `animals_donate_money` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `from_user_id` int(11) NOT NULL,
   `to_page_id` int(11) NOT NULL,
-  `cost` int(11) NOT NULL,
+  `cost` bigint(20) unsigned NOT NULL,
   `message` text COLLATE utf8mb4_unicode_ci NOT NULL,
   PRIMARY KEY (`id`),
   KEY `FK_animals_donate_money_from_user_id_animals_user_id` (`from_user_id`),
@@ -50,17 +39,13 @@ CREATE TABLE `animals_donate_money` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 
---
--- Table structure for table `animals_donate_product`
---
-
 DROP TABLE IF EXISTS `animals_donate_product`;
 CREATE TABLE `animals_donate_product` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `from_user_id` int(11) NOT NULL,
   `to_page_id` int(11) NOT NULL,
   `product_id` int(11) NOT NULL,
-  `product_count` int(11) NOT NULL,
+  `product_count` bigint(20) unsigned NOT NULL,
   `message` text COLLATE utf8mb4_unicode_ci NOT NULL,
   PRIMARY KEY (`id`),
   KEY `FK_animals_donate_product_from_user_id_animals_user_id` (`from_user_id`),
@@ -72,10 +57,6 @@ CREATE TABLE `animals_donate_product` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 
---
--- Table structure for table `animals_file`
---
-
 DROP TABLE IF EXISTS `animals_file`;
 CREATE TABLE `animals_file` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
@@ -83,10 +64,6 @@ CREATE TABLE `animals_file` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
-
---
--- Table structure for table `animals_page`
---
 
 DROP TABLE IF EXISTS `animals_page`;
 CREATE TABLE `animals_page` (
@@ -106,27 +83,19 @@ CREATE TABLE `animals_page` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 
---
--- Table structure for table `animals_page_donate_class`
---
-
 DROP TABLE IF EXISTS `animals_page_donate_class`;
 CREATE TABLE `animals_page_donate_class` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `page_id` int(11) NOT NULL,
-  `cost` int(11) NOT NULL,
+  `cost` bigint(20) unsigned NOT NULL,
   `class_name` varchar(100) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `class_level` int(11) NOT NULL,
   `reward_description` text COLLATE utf8mb4_unicode_ci NOT NULL,
   PRIMARY KEY (`id`),
-  UNIQUE KEY `page_id_class_level_UNIQUE` (`page_id`,`class_level`),
-  CONSTRAINT `FK_animals_page_donate_class_page_id_animals_page_id` FOREIGN KEY (`page_id`) REFERENCES `animals_page` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
+  UNIQUE KEY `page_id_cost_UNIQUE` (`page_id`,`cost`),
+  KEY `class_page_id_idx` (`page_id`),
+  CONSTRAINT `class_page_id` FOREIGN KEY (`page_id`) REFERENCES `animals_page` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
-
---
--- Table structure for table `animals_post`
---
 
 DROP TABLE IF EXISTS `animals_post`;
 CREATE TABLE `animals_post` (
@@ -135,16 +104,12 @@ CREATE TABLE `animals_post` (
   `title` varchar(200) COLLATE utf8mb4_unicode_ci NOT NULL,
   `content` varchar(1000) COLLATE utf8mb4_unicode_ci NOT NULL,
   `created_time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  `min_class_level` int(11) NOT NULL,
+  `min_class_level` int(11) unsigned NOT NULL,
   PRIMARY KEY (`id`),
   KEY `FK_animals_post_page_id_animals_page_id` (`page_id`),
   CONSTRAINT `FK_animals_post_page_id_animals_page_id` FOREIGN KEY (`page_id`) REFERENCES `animals_page` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
-
---
--- Table structure for table `animals_post_files`
---
 
 DROP TABLE IF EXISTS `animals_post_files`;
 CREATE TABLE `animals_post_files` (
@@ -159,10 +124,6 @@ CREATE TABLE `animals_post_files` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 
---
--- Table structure for table `animals_post_tags`
---
-
 DROP TABLE IF EXISTS `animals_post_tags`;
 CREATE TABLE `animals_post_tags` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
@@ -176,16 +137,12 @@ CREATE TABLE `animals_post_tags` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 
---
--- Table structure for table `animals_product`
---
-
 DROP TABLE IF EXISTS `animals_product`;
 CREATE TABLE `animals_product` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `name` varchar(100) COLLATE utf8mb4_unicode_ci NOT NULL,
   `description` text COLLATE utf8mb4_unicode_ci NOT NULL,
-  `cost` int(11) NOT NULL,
+  `cost` bigint(20) unsigned NOT NULL,
   `picture_file_id` int(11) DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `FK_animals_product_pictures_file_id_animals_file_id_idx` (`picture_file_id`),
@@ -193,16 +150,12 @@ CREATE TABLE `animals_product` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 
---
--- Table structure for table `animals_required_products`
---
-
 DROP TABLE IF EXISTS `animals_required_products`;
 CREATE TABLE `animals_required_products` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `page_id` int(11) NOT NULL,
   `product_id` int(11) NOT NULL,
-  `product_count` int(11) NOT NULL,
+  `product_count` bigint(20) unsigned NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `page_id_product_id_UNIQUE` (`page_id`,`product_id`),
   KEY `FK_animals_required_products_product_id_animals_product_id` (`product_id`),
@@ -211,21 +164,14 @@ CREATE TABLE `animals_required_products` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 
---
--- Table structure for table `animals_tag`
---
-
 DROP TABLE IF EXISTS `animals_tag`;
 CREATE TABLE `animals_tag` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `name` varchar(50) COLLATE utf8mb4_unicode_ci NOT NULL,
-  PRIMARY KEY (`id`)
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `name_UNIQUE` (`name`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
-
---
--- Table structure for table `animals_user`
---
 
 DROP TABLE IF EXISTS `animals_user`;
 CREATE TABLE `animals_user` (
@@ -233,28 +179,26 @@ CREATE TABLE `animals_user` (
   `nickname` varchar(100) COLLATE utf8mb4_unicode_ci NOT NULL,
   `password` varchar(100) COLLATE utf8mb4_unicode_ci NOT NULL,
   `email` varchar(500) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `point` int(11) NOT NULL,
+  `point` bigint(20) unsigned NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `UC_nickname` (`nickname`),
   UNIQUE KEY `UC_email` (`email`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 
---
--- Table structure for table `animals_user_to_page_info`
---
-
 DROP TABLE IF EXISTS `animals_user_to_page_info`;
 CREATE TABLE `animals_user_to_page_info` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `user_id` int(11) NOT NULL,
   `page_id` int(11) NOT NULL,
-  `total_donate` int(11) NOT NULL,
-  `subscribe` tinyint(1) NOT NULL,
-  `class_level` int(11) NOT NULL,
+  `total_donate` bigint(20) unsigned NOT NULL,
+  `subscribe` tinyint(1) unsigned NOT NULL,
+  `class_level` int(11) unsigned NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `user_id_page_id_UNIQUE` (`user_id`,`page_id`),
   KEY `FK_animals_user_to_page_info_page_id_animals_page_id` (`page_id`),
   CONSTRAINT `FK_animals_user_to_page_info_page_id_animals_page_id` FOREIGN KEY (`page_id`) REFERENCES `animals_page` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `FK_animals_user_to_page_info_user_id_animals_user_id` FOREIGN KEY (`user_id`) REFERENCES `animals_user` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+SET FOREIGN_KEY_CHECKS=1;
