@@ -115,7 +115,19 @@ router.get("/create-page", asyncHandler(async (req, res) => {
 }));
 
 router.post("/create-page", asyncHandler(async (req, res) => {
-    await pageDAO.createPage(req.session.user.id, req.body.animal_name, req.body.description, req.body.category, req.body.profile || null);
+    try {
+        await pageDAO.createPage(req.session.user.id, req.body.animal_name, req.body.description, req.body.category, req.body.profile || null);
+    }
+    catch (e) {
+        if (e.code === "ER_DATA_TOO_LONG") {
+            req.session.message = "내용이 너무 깁니다.";
+            return res.redirect("/create-page");
+        }
+        else {
+            throw e;
+        }
+    }
+
     let pageId = await pageDAO.getPageIdOfUser(req.session.user.id);
     if (pageId) {
         req.session.user.my_page_id = pageId;

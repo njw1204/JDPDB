@@ -102,6 +102,24 @@ class DonateDAO {
         });
     }
 
+    checkDonateClassOfPageByCost(pageId, cost) {
+        return new Promise((resolve, reject) => {
+            sqlHelper.query(
+                `SELECT COUNT(*) AS cnt FROM animals_page_donate_class
+                 WHERE page_id = ? AND cost = ?
+                `,
+                [pageId, cost],
+                function(err, results, fields) {
+                    console.log("\n<checkDonateClassOfPageByCost>");
+                    console.log(results);
+
+                    if (err) return reject(err);
+                    resolve(results[0].cnt);
+                }
+            );
+        });
+    }
+
     addDonateClass(name, cost, reward, pageId) {
         return new Promise((resolve, reject) => {
             sqlHelper.query(

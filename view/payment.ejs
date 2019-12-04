@@ -47,7 +47,7 @@
                 <form role="form" method="POST">
                     <div class="form-group">
                         <label for="username">Amount of points</label>
-                        <input type="number" class="form-control" name="amount" placeholder="Enter amount to buy" required autofocus>
+                        <input type="number" class="form-control" name="amount" placeholder="Enter amount to buy" min="1" max="1000000000" required autofocus>
                     </div> <!-- form-group.// -->
 
                     <div class="form-group">
@@ -100,7 +100,7 @@
                 <form role="form" method="POST" action="/point-kakaopay">
                     <div class="form-group">
                         <label for="username">Amount of points</label>
-                        <input type="number" class="form-control" name="amount" placeholder="Enter amount to buy" required autofocus>
+                        <input type="number" class="form-control" name="amount" placeholder="Enter amount to buy" min="1" max="1000000" required autofocus>
                     </div> <!-- form-group.// -->
                     <p><strong>Note:</strong> You need to have a mobile phone to use KakaoPay.</p>
                     <button class="subscribe btn btn-primary btn-block" type="submit">Confirm</button>

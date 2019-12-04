@@ -177,9 +177,14 @@ router.post("/add-class/:pageId", asyncHandler(async (req, res) => {
     let page = await pageDAO.getPageBasicInfo(req.params.pageId);
 
     if (req.session.user && req.session.user.id === page.creator_id) {
-        await donateDAO.addDonateClass(req.body.name, req.body.cost, req.body.reward, req.params.pageId);
-        await donateDAO.revalidateDonateClass(req.params.pageId);
-        req.session.message = "정상적으로 추가되었습니다.";
+        if (await donateDAO.checkDonateClassOfPageByCost(req.params.pageId, req.body.cost)) {
+            req.session.message = "동일한 후원 요구치를 가지는 레벨이 이미 존재합니다.";
+        }
+        else {
+            await donateDAO.addDonateClass(req.body.name, req.body.cost, req.body.reward, req.params.pageId);
+            await donateDAO.revalidateDonateClass(req.params.pageId);
+            req.session.message = "정상적으로 추가되었습니다.";
+        }
     }
     res.redirect(req.query.next || "/");
 }));
@@ -244,6 +249,11 @@ router.post("/post/:id", upload.array("file"), asyncHandler(async (req, res) => 
             }
         }
 
+        if (e.code === "ER_DATA_TOO_LONG") {
+            req.session.message = "내용이 너무 깁니다.";
+            return res.redirect("/page/post/" + req.params.id);
+        }
+
         throw e;
     }
 }));
@@ -264,7 +274,17 @@ router.post("/unpost/:id", asyncHandler(async (req, res) => {
 // 댓글 작성
 router.post("/comment", asyncHandler(async (req, res) => {
     if (req.session.user) {
-        await commentDAO.addComment(req.session.user.id, req.body.post_id, req.body.content);
+        try {
+            await commentDAO.addComment(req.session.user.id, req.body.post_id, req.body.content);
+        }
+        catch (e) {
+            if (e.code === "ER_DATA_TOO_LONG") {
+                req.session.message = "내용이 너무 깁니다.";
+            }
+            else {
+                throw e;
+            }
+        }
     }
 
     res.redirect(req.query.next || "/");
