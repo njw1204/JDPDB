@@ -6,14 +6,6 @@
   "scripts": {
     "start": "node app.js"
   },
-  "author": {
-    "name": "Jongwoo Na",
-    "email": "njw1204@naver.com"
-  },
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/njw1204/JDPDB.git"
-  },
   "license": "MIT",
   "dependencies": {
     "compression": "^1.7.4",
